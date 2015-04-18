@@ -1,6 +1,6 @@
 # pylint: disable=c0111
 
-from netshowlib import get_version
+from netshowlib._version import get_version
 import os
 import sys
 try:
@@ -29,6 +29,7 @@ setup(
     packages=find_packages(),
     zip_safe=False,
     license='GPLv2',
+    namespace_packages=['netshowlib', 'netshowlib.linux'],
     classifiers=[
         'Topic :: System :: Networking',
         'Intended Audience :: Developers',

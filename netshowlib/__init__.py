@@ -1,4 +1,2 @@
-__version__ = '0.9'
-
-def get_version():
-    return __version__
+import pkg_resources
+pkg_resources.declare_namespace(__name__)
