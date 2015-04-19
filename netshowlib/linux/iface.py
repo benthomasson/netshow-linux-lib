@@ -1,3 +1,6 @@
+# Due to namespace issues pylint fails to find netshowlib.netshowlib
+# pylint: disable=E0611
+
 """ Linux.iface module
 This module contains the `linux.iface.Iface` class that is responsible for
 collecting various information about a linux interface.

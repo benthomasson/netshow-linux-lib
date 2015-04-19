@@ -1,3 +1,4 @@
+# pylint: disable-msg=E0611
 """
 This module produces the cache info for Linux
 """
