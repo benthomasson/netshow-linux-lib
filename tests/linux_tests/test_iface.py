@@ -16,6 +16,19 @@ from asserts import assert_equals, mod_args_generator, \
 from nose.tools import set_trace
 
 
+@mock.patch('netshowlib.linux.iface.os.path.islink')
+@mock.patch('netshowlib.linux.iface.os.listdir')
+def test_port_list(mock_list_dir, mock_islink):
+    values = {'/sys/class/net/bonding_masters': False,
+              '/sys/class/net/eth1': True,
+              '/sys/class/net/eth2': True,
+              '/sys/class/net/tap1': True}
+    mock_islink.side_effect = mod_args_generator(values)
+    mock_list_dir.return_value = ['bonding_masters', 'eth1', 'eth2', 'tap1']
+    assert_equals(linux_iface.portname_list(),
+                  ['eth1', 'eth2', 'tap1'])
+
+
 @mock.patch('netshowlib.linux.iface.Iface.is_bond')
 @mock.patch('netshowlib.linux.iface.Iface.is_bridge')
 @mock.patch('netshowlib.linux.iface.Iface.is_bridgemem')
