@@ -1,6 +1,6 @@
 # pylint: disable=c0111
 
-from netshowlib._version import get_version
+from netshowlib.linux._version import get_version
 import os
 import sys
 try:
@@ -20,7 +20,7 @@ VAR_DIR = os.path.join(VAR_PATH, 'lib', 'netshow-lib')
 
 from setuptools import setup, find_packages
 setup(
-    name='linux-netshow-lib',
+    name='netshow-linux-lib',
     version=get_version(),
     url="http://github.com/CumulusNetworks/netshow-lib",
     description="Python Library to Abstract Linux Networking Data",
