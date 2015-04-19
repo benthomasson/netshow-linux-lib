@@ -11,7 +11,7 @@ except ImportError:
 
 USR_SHARE_PATH = '/usr/share'
 VAR_PATH = '/var'
-if hasattr(sys, 'real_prefix'):
+if hasattr(sys, 'real_prefix') or os.environ.get('VIRTUAL_ENV'):
     USR_SHARE_PATH = os.path.abspath(os.path.join(sys.prefix, 'share'))
     VAR_PATH = os.path.abspath(os.path.join(sys.prefix, 'var'))
 
