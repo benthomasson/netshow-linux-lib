@@ -1,5 +1,8 @@
 # Due to namespace issues pylint fails to find netshowlib.netshowlib
 # pylint: disable=E0611
+# disable too many attributes message
+# pylint: disable=R0902
+# pylint: disable=R0904
 
 """ Linux.iface module
 This module contains the `linux.iface.Iface` class that is responsible for
@@ -32,6 +35,17 @@ SUB_INT = 10
 SVI_INT = 11
 VXLAN_INT = 12
 
+
+def portname_list():
+    """
+    :return: list of interface names from /sys/class/net
+    """
+    ifacenames = os.listdir(common.SYS_PATH_ROOT)
+    for ifacename in ifacenames:
+        if not os.path.islink(os.path.join(common.SYS_PATH_ROOT,
+                                           ifacename)):
+            ifacenames.remove(ifacename)
+    return ifacenames
 
 def iface_type(name, cache=None):
     """
@@ -73,7 +87,8 @@ class Iface(object):
     * **ip_address**: pointer to  \
         :class:`linux.ip_address<netshowlib.linux.ip_address.Ipaddr>` \
         class instance
-    * **ip_neighbor**: pointer to _address:class:`linux.ip_neighbor<netshowlib.linux.ip_neighbor.IpNeighbor>` class instance
+    * **ip_neighbor**: pointer to _address:class:`linux.ip_neighbor\
+        <netshowlib.linux.ip_neighbor.IpNeighbor>` class instance
     """
     def __init__(self, name, cache=None):
         self._mac = None
