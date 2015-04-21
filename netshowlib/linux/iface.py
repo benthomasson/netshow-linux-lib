@@ -47,7 +47,8 @@ def portname_list():
             ifacenames.remove(ifacename)
     return ifacenames
 
-def iface_type(name, cache=None):
+
+def iface(name, cache=None):
     """
     calls on checks to determine best interface type match for the named interface
 
