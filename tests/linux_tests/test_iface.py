@@ -38,24 +38,24 @@ def test_iface_type(mock_bridgemem,
     mock_bond.return_value = False
     mock_bridgemem.return_value = False
     mock_bridge.return_value = True
-    eth1 = linux_iface.iface_type('eth1')
+    eth1 = linux_iface.iface('eth1')
     assert_equals(isinstance(eth1, linux_bridge.Bridge), True)
     # port is bond
     mock_bridgemem.return_value = False
     mock_bridge.return_value = False
     mock_bond.return_value = True
-    bond0 = linux_iface.iface_type('bond0')
+    bond0 = linux_iface.iface('bond0')
     assert_equals(isinstance(bond0, linux_bond.Bond), True)
     # port is bridgemem
     mock_bridgemem.return_value = True
     mock_bridge.return_value = False
     mock_bond.return_value = False
-    bridgemem = linux_iface.iface_type('eth2')
+    bridgemem = linux_iface.iface('eth2')
     assert_equals(isinstance(bridgemem, linux_bridge.BridgeMember), True)
     # regular port
     mock_bridge.return_value = False
     mock_bond.return_value = False
-    eth2 = linux_iface.iface_type('eth2')
+    eth2 = linux_iface.iface('eth2')
     assert_equals(isinstance(eth2, linux_iface.Iface), True)
     assert_equals(isinstance(eth2, linux_bond.Bond), False)
     assert_equals(isinstance(eth2, linux_bridge.Bridge), False)
