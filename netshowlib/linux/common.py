@@ -11,6 +11,13 @@ from operator import itemgetter
 from collections import OrderedDict
 import os
 
+
+class ExecCommandException(Exception):
+    """
+    Exception when a  exec command fails
+    """
+    pass
+
 # Load lsb_release from system modules if it exists
 if sys.modules.get('lsb_release'):
     import lsb_release
@@ -174,11 +181,11 @@ def exec_commandl(cmdl, cmdenv=None):
         cmdout = _ch.communicate()[0]
         cmd_returncode = _ch.wait()
     except OSError as _err:
-        raise Exception('failed to execute cmd \'%s\' (%s)'
-                        % (' '.join(cmdl), str(_err)))
+        raise ExecCommandException('failed to execute cmd \'%s\' (%s)'
+                                   % (' '.join(cmdl), str(_err)))
     if cmd_returncode != 0:
-        raise Exception('failed to execute cmd \'%s\''
-                        % ' '.join(cmdl) + '(' + cmdout.strip('\n ') + ')')
+        raise ExecCommandException('failed to execute cmd \'%s\''
+                                   % ' '.join(cmdl) + '(' + cmdout.strip('\n ') + ')')
     return cmdout
 
 

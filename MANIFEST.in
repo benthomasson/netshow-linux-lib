@@ -1,2 +1,2 @@
-graft data/discovery
+graft data/provider
 include requirement_tests.txt
