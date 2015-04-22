@@ -16,9 +16,9 @@ from netshowlib.linux import ip_neighbor
 def test_cacheinfo(mock_arp_exec):
     values = {
         '/sbin/ip -4 neighbor show':
-        str.encode(open('tests/linux_tests/arp_ipv4.txt').read()),
+        str.encode(open('tests/test_netshowlib/arp_ipv4.txt').read()),
         '/sbin/ip -6 neighbor show':
-        str.encode(open('tests/linux_tests/arp_ipv6.txt').read())
+        str.encode(open('tests/test_netshowlib/arp_ipv6.txt').read())
     }
 
     mock_arp_exec.side_effect = mod_args_generator(values)

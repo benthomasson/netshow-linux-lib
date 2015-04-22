@@ -70,7 +70,7 @@ class TestLinuxIface(object):
 
     @mock.patch('netshowlib.linux.lldp._exec_lldp')
     def test_lldp(self, mock_lldp):
-        lldp_out = open('tests/linux_tests/lldp_output.txt').read()
+        lldp_out = open('tests/test_netshowlib/lldp_output.txt').read()
         mock_lldp.return_value = ET.fromstring(lldp_out)
         lldp_output = self.iface.lldp
         # confirm correct number of lldp enabled ports
@@ -251,7 +251,7 @@ class TestLinuxIface(object):
             assert_equals(self.iface.ip_addr_assign, None)
 
     def test_checking_if_dhcp_is_used(self):
-        dhcpfile = open('tests/linux_tests/dhclient.eth0.leases')
+        dhcpfile = open('tests/test_netshowlib/dhclient.eth0.leases')
         # some fancy mocking to bypass ip address checking
         self.iface._ip_address = mock.MagicMock()
         self.iface.ip_address.allentries = ['192.168.122.64/24']

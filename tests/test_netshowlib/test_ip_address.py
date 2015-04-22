@@ -36,7 +36,7 @@ class TestLinuxIpAddress(object):
     def test_run_ip_address(self, mock_ip_cache):
         """ get ipv6 and ipv4 info """
         # using feature cache
-        _output = open('tests/linux_tests/ip_addr_show.txt').read()
+        _output = open('tests/test_netshowlib/ip_addr_show.txt').read()
         output = StringIO(_output)
         mock_ip_cache.return_value = ip_address_mod.parse_ip_cache(output)
         _feature_cache = feature_cache.Cache()
@@ -52,7 +52,7 @@ class TestLinuxIpAddress(object):
 
     def test_parse_ip_cache(self):
         """ testing parsing ip cache info """
-        _output = open('tests/linux_tests/ip_addr_show.txt').read()
+        _output = open('tests/test_netshowlib/ip_addr_show.txt').read()
         output = StringIO(_output)
         result = ip_address_mod.parse_ip_cache(output)
         assert_equals(
