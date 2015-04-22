@@ -7,6 +7,7 @@
 # pylint: disable=W0212
 # pylint: disable=W0201
 # pylint: disable=F0401
+from netshowlib import netshowlib
 from netshowlib.linux.common import ExecCommandException
 from netshowlib.linux import provider_discovery
 import mock
@@ -14,7 +15,6 @@ import os
 import sys
 from asserts import assert_equals
 from nose.tools import set_trace
-
 
 def test_provider_check_file_exists():
     # disable this check if not running tests from tox
