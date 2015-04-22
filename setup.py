@@ -9,11 +9,11 @@ try:
 except ImportError:
     pass
 
-USR_SHARE_PATH = '/usr/share'
-if hasattr(sys, 'real_prefix') or os.environ.get('VIRTUAL_ENV'):
-    USR_SHARE_PATH = os.path.abspath(os.path.join(sys.prefix, 'share'))
 
-DATA_DIR = os.path.join(USR_SHARE_PATH, 'netshow-lib')
+def data_dir():
+    _usr_share_path = os.path.abspath(os.path.join(sys.prefix, 'share'))
+    _data_dir = os.path.join(_usr_share_path, 'netshow-lib')
+    return _data_dir
 
 from setuptools import setup, find_packages
 setup(
@@ -33,6 +33,6 @@ setup(
         'Intended Audience :: System Administrators',
         'Operating System :: POSIX :: Linux'
     ],
-    data_files=[((os.path.join(DATA_DIR, 'providers')),
+    data_files=[((os.path.join(data_dir(), 'providers')),
                  ['data/provider/linux'])]
 )
