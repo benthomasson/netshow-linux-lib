@@ -22,7 +22,7 @@ def test_provider_check_file_exists():
         sys.prefix + '/share/netshow-lib/providers/linux'), True)
 
 
-@mock.patch('netshowlib.linux.provider_discovery.common.exec_command')
+@mock.patch('netshowlib.linux.provider_discovery.common_mod.exec_command')
 def test_check(mock_command):
     # Found linux OS
     # test with encoded string like in Python3 to ensure it gets decoded
