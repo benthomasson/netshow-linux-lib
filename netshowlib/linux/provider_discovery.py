@@ -10,9 +10,13 @@ try:
         Linux OS check.
         :return: name of OS found if check is true
         """
-        uname_output = common.exec_command('/bin/uname')
+        try:
+            uname_output = common.exec_command('/bin/uname')
+        except common.ExecCommandException:
+            return None
         os_name = uname_output.decode('utf-8').strip()
-        if os_name == 'Linux':
+        os_name = os_name.lower()
+        if os_name == 'linux':
             return os_name
         return None
 
@@ -27,7 +31,7 @@ try:
             return {os_name: '0'}
         return None
 
-except ImportError:
+except:
     def check():
         """ returns false if this checker is run """
-        return False
+        return None
