@@ -1,3 +1,6 @@
+# print() is required for py3 not py2. so need to disable C0325
+# pylint: disable=C0325
+
 """
 Usage:
     netshow neighbors [--json | -j ]
@@ -32,6 +35,9 @@ Options:
 
 from docopt import docopt, printable_usage
 from netshow.linux._version import get_version
+from netshow.linux.show_interfaces import ShowInterfaces
+from netshow.linux.show_neighbors import ShowNeighbors
+from netshow.linux.show_system import ShowSystem
 
 
 def _interface_related(results):
@@ -57,15 +63,15 @@ def _interface_related(results):
 def run():
     """ run linux netshow version """
     _results = docopt(__doc__)
-    print(_results)
     if _interface_related(_results):
-        pass
+        _showint = ShowInterfaces(**_results)
+        print(_showint.run())
     elif _results.get('system'):
-        pass
+        _showsys = ShowSystem(**_results)
+        print(_showsys.run())
     elif _results.get('neighbors'):
-        pass
-    elif _results.get('counters'):
-        pass
+        _shownei = ShowNeighbors(**_results)
+        print(_shownei.run())
     elif _results.get('--version') or _results.get('-v'):
         print(get_version())
     else:
