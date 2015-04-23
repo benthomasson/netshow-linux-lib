@@ -295,6 +295,14 @@ class Iface(object):
         self.is_bridgemem_initial_test()
         return common.check_bit(self._port_type, L2_INT)
 
+    def is_l3(self):
+        """
+        :return: True if iface has IP address
+        """
+        if self.ip_address.allentries:
+            return True
+        return False
+
     def is_trunk(self):
         """
         :return: true if port is a trunk. A trunk carries multiple LANs

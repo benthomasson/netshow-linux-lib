@@ -252,6 +252,13 @@ class TestLinuxIface(object):
         self.iface._name = 'lo'
         assert_equals(self.iface.is_loopback(), True)
 
+    def test_is_l3(self):
+        self.iface._ip_address = mock.MagicMock()
+        self.iface.ip_address.allentries = []
+        assert_equals(self.iface.is_l3(), False)
+        self.iface.ip_address.allentries = ['192.168.1.1/24']
+        assert_equals(self.iface.is_l3(), True)
+
     def test_if_dhcp_file_is_empty(self):
         touch('/tmp/empty_file')
         dhcpfile = open('/tmp/empty_file')

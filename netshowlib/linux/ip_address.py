@@ -100,5 +100,6 @@ class IpAddress(object):
             self._cache = cacheinfo()
 
         ip_cache = self._cache.get(self.name)
-        self.ipv4 = ip_cache.get('ipv4')
-        self.ipv6 = ip_cache.get('ipv6')
+        if ip_cache:
+            self.ipv4 = ip_cache.get('ipv4')
+            self.ipv6 = ip_cache.get('ipv6')
