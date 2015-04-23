@@ -85,7 +85,7 @@ class ShowInterfaces(object):
         feature_cache = linux_cache.Cache()
         feature_cache.run()
         for _portname in list_of_ports:
-            test_iface = PrintIface(_portname, cache=feature_cache)
+            test_iface = PrintIface(_portname, feature_cache)
 
             # if iface is a l2 subint bridgemem, then ignore
             if test_iface.is_subint() and test_iface.is_bridgemem():
@@ -110,7 +110,7 @@ class ShowInterfaces(object):
 
     def print_many_ifaces(self):
         """
-        :return: the output of 'netshow interfaces'
+        :return: the output of 'netshow interfaces' for many interfaces
         """
         _port_type = None
         # determine wants port subtype or just all interfaces
@@ -124,7 +124,11 @@ class ShowInterfaces(object):
         if not _port_type:
             _port_type = 'all'
 
-        return self.print_port_summary(_port_type)
+        if self.use_json:
+            self.print_json_many_ifaces(_port_type)
+
+        return self.print_cli_many_ifaces(_port_type)
+
 
     @property
     def summary_header(self):
@@ -138,16 +142,17 @@ class ShowInterfaces(object):
             return ['', _('name'), _('speed'),
                     _('mtu'), _('mode'), _('summary')]
 
-    def print_port_summary(self, port_type):
-        """
-        :params port_type: port category type. can be 'l3','l2','bond','bondmem','bridge'
-        :return: output of 'netshow' interfaces depending on the port type
-        """
-        return self.print_summary_cli_many_lines(port_type)
 
-    def print_summary_cli_many_lines(self, port_type):
+    def print_json_many_ifaces(self, port_type):
         """
-        :return: 'netshow interface' when --oneline is not activated
+        :return: 'netshow interface' of many interfaces in JSON output
+        """
+        pass
+
+
+    def print_cli_many_ifaces(self, port_type):
+        """
+        :return: 'netshow interface' of many interfaces in terminal output
         """
         _headers = self.summary_header
         _table = []

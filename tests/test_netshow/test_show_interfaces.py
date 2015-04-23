@@ -36,7 +36,6 @@ class TestShowInterfaces(object):
         self.showint.run()
         assert_equals(mock_single.call_count, 1)
 
-
     @mock.patch('netshow.linux.show_interfaces.ShowInterfaces.print_single_iface')
     @mock.patch('netshow.linux.show_interfaces.ShowInterfaces.print_many_ifaces')
     def test_run_many_iface(self, mock_many, mock_single):
@@ -45,3 +44,18 @@ class TestShowInterfaces(object):
         self.showint.run()
         assert_equals(mock_many.call_count, 1)
         assert_equals(mock_single.call_count, 0)
+
+    @mock.patch('netshow.linux.show_interfaces.ShowInterfaces.print_json_many_ifaces')
+    @mock.patch('netshow.linux.show_interfaces.ShowInterfaces.print_cli_many_ifaces')
+    def test_many_ifaces_cli_output(self, mock_cli_ifaces, mock_json_ifaces):
+        # if json is false get cli output
+        self.showint.print_many_ifaces()
+        mock_cli_ifaces.assert_called_with('l2')
+
+    @mock.patch('netshow.linux.show_interfaces.ShowInterfaces.print_json_many_ifaces')
+    @mock.patch('netshow.linux.show_interfaces.ShowInterfaces.print_cli_many_ifaces')
+    def test_many_ifaces_json_output(self, mock_cli_ifaces, mock_json_ifaces):
+        # if json is false get cli output
+        self.showint.use_json = True
+        self.showint.print_many_ifaces()
+        mock_json_ifaces.assert_called_with('l2')
