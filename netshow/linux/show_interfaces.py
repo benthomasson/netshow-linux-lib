@@ -46,6 +46,7 @@ class ShowInterfaces(object):
         self.iface_categories = ['bond', 'bondmem',
                                  'bridge', 'trunk', 'access', 'l3',
                                  'l2']
+        self._initialize_ifacelist()
 
     def run(self):
         """
@@ -80,6 +81,12 @@ class ShowInterfaces(object):
             iface pointers to interfaces that belong in that category. For example
            ifacelist['bridge'] points to a list of bridge Ifaces.
         """
+
+        # ifacelist is already populated..
+        # to reset set ``self._ifacelist = None``
+        if len(self._ifacelist.get('all')) > 0:
+            return self._ifacelist
+
         self._initialize_ifacelist()
         list_of_ports = linux_iface.portname_list()
         feature_cache = linux_cache.Cache()
@@ -93,20 +100,26 @@ class ShowInterfaces(object):
 
             # mutual exclusive bond/bridge/bondmem
             if test_iface.is_bridge():
-                self._ifacelist['bridge'].append(test_iface)
-                self._ifacelist['l2'].append(test_iface)
+                self._ifacelist['bridge'][_portname] = test_iface
+                self._ifacelist['l2'][_portname] = test_iface
             elif test_iface.is_bond():
-                self._ifacelist['bond'].append(test_iface)
+                self._ifacelist['bond'][_portname] = test_iface
             elif test_iface.is_bondmem():
-                self._ifacelist['bondmem'].append(test_iface)
+                self._ifacelist['bondmem'][_portname] = test_iface
 
             # mutual exclusive - l3/trunk/access
             if test_iface.is_l3():
-                self._ifacelist['l3'].append(test_iface)
+                self._ifacelist['l3'][_portname] = test_iface
             elif test_iface.is_trunk():
-                self._ifacelist['trunk'].append(test_iface)
+                self._ifacelist['trunk'][_portname] = test_iface
+                self._ifacelist['l2'][_portname] = test_iface
             elif test_iface.is_access():
-                self._ifacelist['access'].append(test_iface)
+                self._ifacelist['access'][_portname] = test_iface
+                self._ifacelist['l2'][_portname] = test_iface
+
+            self._ifacelist['all'] = test_iface
+
+        return self._ifacelist
 
     def print_many_ifaces(self):
         """

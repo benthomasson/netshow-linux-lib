@@ -12,8 +12,8 @@ class PrintIface(linux_iface.Iface):
     """
     Linux Iface class with print functions
     """
-    def __init__(self, cache=None):
-        linux_iface.Iface.__init__(self, cache)
+    def __init__(self, name, cache=None):
+        linux_iface.Iface.__init__(self, name, cache)
 
     @property
     def linkstate(self):

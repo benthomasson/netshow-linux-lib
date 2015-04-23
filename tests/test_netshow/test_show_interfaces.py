@@ -15,8 +15,10 @@
 # pylint: disable=E0611
 # pylint: disable=W0611
 
+from collections import OrderedDict
 from asserts import assert_equals, mod_args_generator
 import netshow.linux.show_interfaces as showint
+import netshow.linux.print_iface as print_iface
 from nose.tools import set_trace
 import mock
 from mock import MagicMock
@@ -59,3 +61,11 @@ class TestShowInterfaces(object):
         self.showint.use_json = True
         self.showint.print_many_ifaces()
         mock_json_ifaces.assert_called_with('l2')
+
+    @mock.patch('netshow.linux.show_interfaces.linux_iface.portname_list')
+    @mock.patch('netshow.linux.print_iface.PrintIface.is_trunk')
+    def test_many_cli_ifaces(self, mock_is_trunk, mock_portlist):
+        mock_portlist.return_value = ['eth1', 'eth2']
+        mock_is_trunk.return_value = True
+        set_trace()
+        _table = self.showint.print_cli_many_ifaces('l2')
