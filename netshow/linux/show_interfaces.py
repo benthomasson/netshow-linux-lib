@@ -8,7 +8,7 @@ from collections import OrderedDict
 from tabulate import tabulate
 import netshowlib.linux.cache as linux_cache
 from netshowlib.linux import iface as linux_iface
-from netshow.print_iface import PrintIface
+from netshow.linux.print_iface import PrintIface
 
 from flufl.i18n import initialize
 
