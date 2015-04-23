@@ -29,11 +29,13 @@ def test_port_list(mock_list_dir, mock_islink):
                   ['eth1', 'eth2', 'tap1'])
 
 
+@mock.patch('netshowlib.linux.iface.Iface.is_bondmem')
 @mock.patch('netshowlib.linux.iface.Iface.is_bond')
 @mock.patch('netshowlib.linux.iface.Iface.is_bridge')
 @mock.patch('netshowlib.linux.iface.Iface.is_bridgemem')
 def test_iface_type(mock_bridgemem,
-                    mock_bridge, mock_bond):
+                    mock_bridge, mock_bond,
+                    mock_bondmem):
     # port is a bridge
     mock_bond.return_value = False
     mock_bridgemem.return_value = False
@@ -52,6 +54,13 @@ def test_iface_type(mock_bridgemem,
     mock_bond.return_value = False
     bridgemem = linux_iface.iface('eth2')
     assert_equals(isinstance(bridgemem, linux_bridge.BridgeMember), True)
+    # port is bondmem
+    mock_bondmem.return_value = True
+    mock_bridgemem.return_value = False
+    mock_bridge.return_value = False
+    mock_bond.return_value = False
+    bridgemem = linux_iface.iface('eth2')
+    assert_equals(isinstance(bridgemem, linux_bond.BondMember), True)
     # regular port
     mock_bridge.return_value = False
     mock_bond.return_value = False

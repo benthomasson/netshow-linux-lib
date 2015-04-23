@@ -67,6 +67,10 @@ def iface(name, cache=None):
     elif test_iface.is_bond():
         bond = nn.import_module('netshowlib.linux.bond')
         return bond.Bond(name, cache=cache)
+    elif test_iface.is_bondmem():
+        bondmem = nn.import_module('netshowlib.linux.bond')
+        return bondmem.BondMember(name, cache=cache)
+
     return test_iface
 
 
