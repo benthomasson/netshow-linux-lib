@@ -31,7 +31,7 @@ Options:
 """
 
 from docopt import docopt, printable_usage
-from netshow import get_version
+from netshow.linux._version import get_version
 
 
 def _interface_related(results):
