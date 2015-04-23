@@ -24,3 +24,36 @@ class PrintIface(linux_iface.Iface):
             return _('dn')
         elif _linkstate_value == '2':
             return _('up')
+
+    @property
+    def mode(self):
+        """
+        :return: port type. Via interface discovery determine classify port \
+        type
+        """
+        if self.is_l3():
+            if self.is_subint():
+                return _('subint/l3')
+            else:
+                return _('access/l3')
+        elif self.is_access():
+            return _('access/L2')
+        elif self.is_trunk():
+            return _('trunk/l2')
+        else:
+            return _('unknown')
+
+    @property
+    def summary(self):
+        """
+        :return: summary information regarding the interface
+        """
+        if self.is_l3():
+            _str2 = ""
+            if self.ip_addr_assign == 'dhcp':
+                _str2 = "(%s)" % _('dhcp')
+
+            _str = ', '.join(self.ip_address.allentries) + _str2
+            return [_str]
+
+        return ['']

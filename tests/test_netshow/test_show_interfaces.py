@@ -67,5 +67,4 @@ class TestShowInterfaces(object):
     def test_many_cli_ifaces(self, mock_is_trunk, mock_portlist):
         mock_portlist.return_value = ['eth1', 'eth2']
         mock_is_trunk.return_value = True
-        set_trace()
         _table = self.showint.print_cli_many_ifaces('l2')
