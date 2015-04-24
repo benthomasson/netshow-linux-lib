@@ -5,7 +5,7 @@ Linux Iface module with print functions
 from netshowlib.linux import iface as linux_iface
 from flufl.i18n import initialize
 
-_ = initialize('netshow')
+_ = initialize('netshow-linux')
 
 
 class PrintIface(linux_iface.Iface):
@@ -42,6 +42,10 @@ class PrintIface(linux_iface.Iface):
             return _('trunk/l2')
         else:
             return _('unknown')
+
+    @property
+    def speed(self):
+        return _('myspeed')
 
     @property
     def summary(self):

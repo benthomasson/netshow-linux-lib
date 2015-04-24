@@ -12,7 +12,7 @@ from netshow.linux.print_iface import PrintIface
 
 from flufl.i18n import initialize
 
-_ = initialize('netshow')
+_ = initialize('netshow-linux')
 
 
 class ShowInterfaces(object):
