@@ -1,90 +1,87 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: netshow-linux-lib\n"
+"Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-04-24 17:13+0000\n"
-"PO-Revision-Date: \n"
-"Last-Translator: Stanley Karunditu <stanleyk@cumulusnetworks.com>\n"
-"Language-Team: Customer Engineering <ce-ceng@cumulusnetworks.com>\n"
-"Language: English\n"
+"POT-Creation-Date: 2015-04-25 00:48+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.5.4\n"
-"X-Poedit-SourceCharset: UTF-8\n"
 
-# Translation file for netshow-linux-lib translations found in
-# netshow.linux modules.
-# Copyright (C) 2015 Cumulus Networks
-# This file is distributed under the same license as the netshow-linux-lib package.
-# Customer Engineering <ce-ceng@cumulusnetworks.com>, 2015.
-#
 #: ../netshow/linux/print_iface.py:22
 msgid "admdn"
-msgstr "ADMDN"
+msgstr ""
 
 #: ../netshow/linux/print_iface.py:24
 msgid "dn"
-msgstr "DN"
+msgstr ""
 
 #: ../netshow/linux/print_iface.py:26
 msgid "up"
-msgstr "UP"
+msgstr ""
 
 #: ../netshow/linux/print_iface.py:36
 msgid "subint/l3"
-msgstr "SubInt/L3"
+msgstr ""
 
 #: ../netshow/linux/print_iface.py:38
 msgid "access/l3"
-msgstr "Access/L3"
+msgstr ""
 
 #: ../netshow/linux/print_iface.py:40
 msgid "access/L2"
-msgstr "Access/L2"
+msgstr ""
 
 #: ../netshow/linux/print_iface.py:42
 msgid "trunk/l2"
-msgstr "Trunk/L2"
+msgstr ""
 
 #: ../netshow/linux/print_iface.py:44
 msgid "unknown"
-msgstr "Unknown"
+msgstr ""
 
 #: ../netshow/linux/print_iface.py:48
-#, fuzzy
 msgid "myspeed"
-msgstr "Speed"
+msgstr ""
 
 #: ../netshow/linux/print_iface.py:58
 msgid "dhcp"
-msgstr "DHCP"
+msgstr ""
 
 #: ../netshow/linux/show_interfaces.py:152
 #: ../netshow/linux/show_interfaces.py:155
 msgid "name"
-msgstr "Name"
+msgstr ""
 
 #: ../netshow/linux/show_interfaces.py:152
 msgid "mac"
-msgstr "Mac"
+msgstr ""
 
 #: ../netshow/linux/show_interfaces.py:152
 #: ../netshow/linux/show_interfaces.py:155
 msgid "speed"
-msgstr "Speed"
+msgstr ""
 
 #: ../netshow/linux/show_interfaces.py:153
 #: ../netshow/linux/show_interfaces.py:156
 msgid "mtu"
-msgstr "MTU"
+msgstr ""
 
 #: ../netshow/linux/show_interfaces.py:153
 #: ../netshow/linux/show_interfaces.py:156
 msgid "mode"
-msgstr "Mode"
+msgstr ""
 
 #: ../netshow/linux/show_interfaces.py:153
 #: ../netshow/linux/show_interfaces.py:156
 msgid "summary"
-msgstr "Summary"
+msgstr ""
