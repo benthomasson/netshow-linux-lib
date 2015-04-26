@@ -24,7 +24,7 @@ class PostInstall(install_data):
         install_data.run(self)
         # for some reason self.root sometimes returns None in a tox env
         # not sure why..this takes care of it.
-        if isinstance(self.root, str) and os.path.exists('build/mo'):
+        if isinstance(self.root, str):
             _install_dir = change_root(self.root, sys.prefix)
             _dest = os.path.join(_install_dir, 'mo')
             _src = 'build/mo'
@@ -62,7 +62,6 @@ setup(
         'Intended Audience :: System Administrators',
         'Operating System :: POSIX :: Linux'
     ],
-#    data_files=[((os.path.join(data_dir(), 'providers')),
-#                 ['providers/linux'])]
-    include_package_data=True
+    data_files=[((os.path.join(data_dir(), 'providers')),
+                 ['data/provider/linux'])]
 )
