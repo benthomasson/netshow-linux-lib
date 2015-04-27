@@ -117,7 +117,7 @@ class ShowInterfaces(object):
                 self._ifacelist['access'][_portname] = test_iface
                 self._ifacelist['l2'][_portname] = test_iface
 
-            self._ifacelist['all'] = test_iface
+            self._ifacelist['all'][_portname] = test_iface
 
         return self._ifacelist
 
