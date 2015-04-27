@@ -1,4 +1,3 @@
-netshow/linux/__init__.py
 netshow/linux/print_iface.py
 netshow/linux/show_interfaces.py
 netshow/linux/show_neighbors.py
