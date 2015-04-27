@@ -2,7 +2,6 @@
 
 from netshowlib.linux._version import get_version
 import os
-import sys
 import shutil
 try:
     import ez_setup
@@ -11,8 +10,6 @@ except ImportError:
     pass
 from distutils.command.install_data import install_data
 from distutils import log
-from distutils.util import change_root, convert_path
-import re
 
 
 class PostInstall(install_data):
@@ -25,8 +22,7 @@ class PostInstall(install_data):
         # for some reason self.root sometimes returns None in a tox env
         # not sure why..this takes care of it.
         if isinstance(self.root, str):
-            _install_dir = change_root(self.root, sys.prefix)
-            _dest = os.path.join(_install_dir, 'mo')
+            _dest = os.path.join(self.install_dir, 'share', 'locale')
             _src = 'build/mo'
             try:
                 log.info("copying files from %s to %s" % (_src, _dest))
@@ -36,12 +32,6 @@ class PostInstall(install_data):
             except OSError as _exception:
                 log.info("Directory failed to copy. Error: %s" % _exception)
 
-
-
-def data_dir():
-    _usr_share_path = os.path.abspath(os.path.join(sys.prefix, 'share'))
-    _data_dir = os.path.join(_usr_share_path, 'netshow-lib')
-    return _data_dir
 
 from setuptools import setup, find_packages
 setup(
@@ -62,6 +52,5 @@ setup(
         'Intended Audience :: System Administrators',
         'Operating System :: POSIX :: Linux'
     ],
-    data_files=[((os.path.join(data_dir(), 'providers')),
-                 ['data/provider/linux'])]
+    data_files=[('share/netshow-lib/providers', ['data/provider/linux'])]
 )
