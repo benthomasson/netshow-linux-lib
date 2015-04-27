@@ -5,7 +5,7 @@ Linux Iface module with print functions
 from netshowlib.linux import iface as linux_iface
 from flufl.i18n import initialize
 
-_ = initialize('netshow-linux')
+_ = initialize('netshow-linux-lib')
 
 
 class PrintIface(linux_iface.Iface):

@@ -12,7 +12,7 @@ from netshow.linux.print_iface import PrintIface
 
 from flufl.i18n import initialize
 
-_ = initialize('netshow-linux')
+_ = initialize('netshow-linux-lib')
 
 
 class ShowInterfaces(object):
@@ -142,7 +142,6 @@ class ShowInterfaces(object):
 
         return self.print_cli_many_ifaces(_port_type)
 
-
     @property
     def summary_header(self):
         """
@@ -155,13 +154,11 @@ class ShowInterfaces(object):
             return ['', _('name'), _('speed'),
                     _('mtu'), _('mode'), _('summary')]
 
-
     def print_json_many_ifaces(self, port_type):
         """
         :return: 'netshow interface' of many interfaces in JSON output
         """
         pass
-
 
     def print_cli_many_ifaces(self, port_type):
         """
