@@ -29,11 +29,13 @@ def test_port_list(mock_list_dir, mock_islink):
                   ['eth1', 'eth2', 'tap1'])
 
 
+@mock.patch('netshowlib.linux.iface.Iface.is_bondmem')
 @mock.patch('netshowlib.linux.iface.Iface.is_bond')
 @mock.patch('netshowlib.linux.iface.Iface.is_bridge')
 @mock.patch('netshowlib.linux.iface.Iface.is_bridgemem')
 def test_iface_type(mock_bridgemem,
-                    mock_bridge, mock_bond):
+                    mock_bridge, mock_bond,
+                    mock_bondmem):
     # port is a bridge
     mock_bond.return_value = False
     mock_bridgemem.return_value = False
@@ -52,6 +54,13 @@ def test_iface_type(mock_bridgemem,
     mock_bond.return_value = False
     bridgemem = linux_iface.iface('eth2')
     assert_equals(isinstance(bridgemem, linux_bridge.BridgeMember), True)
+    # port is bondmem
+    mock_bondmem.return_value = True
+    mock_bridgemem.return_value = False
+    mock_bridge.return_value = False
+    mock_bond.return_value = False
+    bridgemem = linux_iface.iface('eth2')
+    assert_equals(isinstance(bridgemem, linux_bond.BondMember), True)
     # regular port
     mock_bridge.return_value = False
     mock_bond.return_value = False
@@ -70,7 +79,7 @@ class TestLinuxIface(object):
 
     @mock.patch('netshowlib.linux.lldp._exec_lldp')
     def test_lldp(self, mock_lldp):
-        lldp_out = open('tests/linux_tests/lldp_output.txt').read()
+        lldp_out = open('tests/test_netshowlib/lldp_output.txt').read()
         mock_lldp.return_value = ET.fromstring(lldp_out)
         lldp_output = self.iface.lldp
         # confirm correct number of lldp enabled ports
@@ -243,6 +252,13 @@ class TestLinuxIface(object):
         self.iface._name = 'lo'
         assert_equals(self.iface.is_loopback(), True)
 
+    def test_is_l3(self):
+        self.iface._ip_address = mock.MagicMock()
+        self.iface.ip_address.allentries = []
+        assert_equals(self.iface.is_l3(), False)
+        self.iface.ip_address.allentries = ['192.168.1.1/24']
+        assert_equals(self.iface.is_l3(), True)
+
     def test_if_dhcp_file_is_empty(self):
         touch('/tmp/empty_file')
         dhcpfile = open('/tmp/empty_file')
@@ -251,7 +267,7 @@ class TestLinuxIface(object):
             assert_equals(self.iface.ip_addr_assign, None)
 
     def test_checking_if_dhcp_is_used(self):
-        dhcpfile = open('tests/linux_tests/dhclient.eth0.leases')
+        dhcpfile = open('tests/test_netshowlib/dhclient.eth0.leases')
         # some fancy mocking to bypass ip address checking
         self.iface._ip_address = mock.MagicMock()
         self.iface.ip_address.allentries = ['192.168.122.64/24']

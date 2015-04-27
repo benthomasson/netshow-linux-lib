@@ -67,6 +67,10 @@ def iface(name, cache=None):
     elif test_iface.is_bond():
         bond = nn.import_module('netshowlib.linux.bond')
         return bond.Bond(name, cache=cache)
+    elif test_iface.is_bondmem():
+        bondmem = nn.import_module('netshowlib.linux.bond')
+        return bondmem.BondMember(name, cache=cache)
+
     return test_iface
 
 
@@ -290,6 +294,14 @@ class Iface(object):
         self.is_bridge_initial_test()
         self.is_bridgemem_initial_test()
         return common.check_bit(self._port_type, L2_INT)
+
+    def is_l3(self):
+        """
+        :return: True if iface has IP address
+        """
+        if self.ip_address.allentries:
+            return True
+        return False
 
     def is_trunk(self):
         """

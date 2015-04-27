@@ -36,19 +36,19 @@ class TestLinuxBondMember(object):
 
         # if lacp is set and agg_id is same
         mock_read_from_sys.return_value = '802.3ad 4'
-        bondingfile = open('tests/linux_tests/proc_net_bonding_agg_id_match.txt')
+        bondingfile = open('tests/test_netshowlib/proc_net_bonding_agg_id_match.txt')
         with mock.patch(mock_open_str()) as mock_open:
             mock_open.return_value = bondingfile
             assert_equals(self.iface.bondstate, 1)
 
         # if lacp is set and agg_id is different
-        bondingfile = open('tests/linux_tests/proc_net_bonding_agg_id_no_match.txt')
+        bondingfile = open('tests/test_netshowlib/proc_net_bonding_agg_id_no_match.txt')
         with mock.patch(mock_open_str()) as mock_open:
             mock_open.return_value = bondingfile
             assert_equals(self.iface.bondstate, 0)
 
     def test_link_failures(self):
-        bondingfile = open('tests/linux_tests/proc_net_bonding_agg_id_match.txt')
+        bondingfile = open('tests/test_netshowlib/proc_net_bonding_agg_id_match.txt')
         with mock.patch(mock_open_str()) as mock_open:
             mock_open.return_value = bondingfile
             assert_equals(self.iface.linkfailures, 12)
@@ -117,7 +117,7 @@ class TestLinuxBond(object):
         assert_equals(self.iface.lacp, None)
 
     def test_getting_system_mac(self):
-        bondingfile = open('tests/linux_tests/proc_net_bonding.txt')
+        bondingfile = open('tests/test_netshowlib/proc_net_bonding.txt')
         with mock.patch(mock_open_str()) as mock_open:
             mock_open.return_value = bondingfile
             assert_equals(self.iface.system_mac, '00:02:00:22:11:33')
