@@ -9,7 +9,15 @@ try:
 except ImportError:
     pass
 from distutils.command.install_data import install_data
+from distutils.command.build import build
 from distutils import log
+
+
+class BuildWithI18n(build):
+    sub_commands = build.sub_commands + [('build_i18n', None)]
+
+    def run(self):
+        build.run(self)
 
 
 class PostInstall(install_data):
@@ -19,11 +27,12 @@ class PostInstall(install_data):
         # run "setup.py build_i18n -m" first first before executing
 
         install_data.run(self)
-        # for some reason self.root sometimes returns None in a tox env
-        # not sure why..this takes care of it.
-        if isinstance(self.root, str):
+        # not sure why this is only required for stdeb..
+        # when doing python setup.py bdist_wheel it just grabs the mo files
+        # from build with no issues.
+        if isinstance(self.root, str) and os.environ.get('DEB_BUILD_GNU_SYSTEM'):
             _dest = os.path.join(self.install_dir, 'share', 'locale')
-            _src = 'build/mo'
+            _src = '../../build/mo'
             try:
                 log.info("copying files from %s to %s" % (_src, _dest))
                 shutil.copytree(_src, _dest)
@@ -31,7 +40,6 @@ class PostInstall(install_data):
                 log.info("Directory failed to copy. Error: %s" % _exception)
             except OSError as _exception:
                 log.info("Directory failed to copy. Error: %s" % _exception)
-
 
 from setuptools import setup, find_packages
 setup(
@@ -44,7 +52,8 @@ setup(
     packages=find_packages(),
     zip_safe=False,
     license='GPLv2',
-    cmdclass={"install_data": PostInstall},
+    cmdclass={"install_data": PostInstall,
+              "build": BuildWithI18n},
     namespace_packages=['netshowlib', 'netshowlib.linux'],
     classifiers=[
         'Topic :: System :: Networking',
