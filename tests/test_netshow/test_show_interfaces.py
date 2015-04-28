@@ -18,6 +18,7 @@
 from collections import OrderedDict
 from asserts import assert_equals
 import netshow.linux.show_interfaces as showint
+import netshowlib.linux.bond as linux_bond
 from nose.tools import set_trace
 import mock
 
@@ -30,13 +31,14 @@ class TestShowInterfaces(object):
 
     @mock.patch('netshow.linux.show_interfaces.linux_iface.portname_list')
     @mock.patch('netshow.linux.show_interfaces.linux_cache.Cache')
-    @mock.patch('netshow.linux.show_interfaces.PrintIface.is_bridgemem')
+    @mock.patch('netshow.linux.show_interfaces.linux_print_iface.PrintIface.is_bridgemem')
     def test_ifacelist_l2_subints(self, mock_bridgemem_test,
                                   mock_cache, mock_portname_list):
         # make sure L2 subints don't get into the list
         mock_bridgemem_test.return_value = True
         mock_portname_list.return_value = ['eth1.1', 'eth2.1']
         assert_equals(self.showint.ifacelist.get('all'), OrderedDict())
+
 
     @mock.patch('netshow.linux.show_interfaces.ShowInterfaces.print_single_iface')
     @mock.patch('netshow.linux.show_interfaces.ShowInterfaces.print_many_ifaces')

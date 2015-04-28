@@ -2,10 +2,32 @@
 Linux Iface module with print functions
 """
 
+import netshowlib.netshowlib as nn
 from netshowlib.linux import iface as linux_iface
 from flufl.i18n import initialize
 
 _ = initialize('netshow-linux-lib')
+
+
+def iface(name, cache=None):
+    """
+    :return: print class object that matches correct iface type of the named interface
+    """
+    # create test iface.
+    test_iface = PrintIface(name, cache=cache)
+    if test_iface.is_bridge():
+        bridge = nn.import_module('netshow.linux.print_bridge')
+        return bridge.PrintBridge(name, cache=cache)
+    elif test_iface.is_bridgemem():
+        bridge = nn.import_module('netshow.linux.print_bridge')
+        return bridge.PrintBridgeMember(name, cache=cache)
+    elif test_iface.is_bond():
+        bond = nn.import_module('netshow.linux.print_bond')
+        return bond.PrintBond(name, cache=cache)
+    elif test_iface.is_bondmem():
+        bondmem = nn.import_module('netshow.linux.print_bond')
+        return bondmem.PrintBondMember(name, cache=cache)
+    return test_iface
 
 
 class PrintIface(linux_iface.Iface):

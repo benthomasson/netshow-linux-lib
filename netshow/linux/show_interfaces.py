@@ -6,9 +6,10 @@ Module for printout of 'netshow interfaces'
 
 from collections import OrderedDict
 from tabulate import tabulate
+import netshow.linux.print_bridge as print_bridge
 import netshowlib.linux.cache as linux_cache
 from netshowlib.linux import iface as linux_iface
-from netshow.linux.print_iface import PrintIface
+import netshow.linux.print_iface as linux_print_iface
 
 from flufl.i18n import initialize
 
@@ -92,10 +93,11 @@ class ShowInterfaces(object):
         feature_cache = linux_cache.Cache()
         feature_cache.run()
         for _portname in list_of_ports:
-            test_iface = PrintIface(_portname, feature_cache)
+            test_iface = linux_print_iface.iface(_portname, feature_cache)
 
             # if iface is a l2 subint bridgemem, then ignore
-            if test_iface.is_subint() and test_iface.is_bridgemem():
+            if test_iface.is_subint() and \
+                    isinstance(test_iface, print_bridge.PrintBridgeMember):
                 continue
 
             # mutual exclusive bond/bridge/bondmem
