@@ -53,8 +53,9 @@ def iface(name, cache=None):
     calls on checks to determine best interface type match for the named interface
 
     :return: regular :class:`linux.iface <netshowlib.linux.iface.Iface>` or \
-    :class:`linux.bond<netshowlib.linux.bond.Bond>`  or  \
-    :class:`linux.bridge<netshowlib.linux.bridge.Bridge>` interface
+    :class:`linux bond or bond member<netshowlib.linux.bond.Bond>`  or  \
+    :class:`linux bridge or bridge member <netshowlib.linux.bridge.Bridge>` \
+    interface
     """
     # create test iface.
     test_iface = Iface(name, cache=cache)
