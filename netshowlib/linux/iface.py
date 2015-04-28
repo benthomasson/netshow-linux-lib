@@ -62,7 +62,7 @@ def iface(name, cache=None):
     if test_iface.is_bridge():
         bridge = nn.import_module('netshowlib.linux.bridge')
         return bridge.Bridge(name, cache=cache)
-    if test_iface.is_bridgemem():
+    elif test_iface.is_bridgemem():
         bridge = nn.import_module('netshowlib.linux.bridge')
         return bridge.BridgeMember(name, cache=cache)
     elif test_iface.is_bond():
