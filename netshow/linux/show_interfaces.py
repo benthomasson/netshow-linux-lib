@@ -101,7 +101,7 @@ class ShowInterfaces(object):
                 continue
 
             # mutual exclusive bond/bridge/bondmem
-            if test_iface.is_bridge():
+            if isinstance(test_iface, print_bridge.PrintBridge):
                 self._ifacelist['bridge'][_portname] = test_iface
                 self._ifacelist['l2'][_portname] = test_iface
             elif test_iface.is_bond():

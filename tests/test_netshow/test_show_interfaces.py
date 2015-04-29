@@ -19,6 +19,7 @@ from collections import OrderedDict
 from asserts import assert_equals
 import netshow.linux.show_interfaces as showint
 import netshowlib.linux.bond as linux_bond
+import netshow.linux.print_bridge as print_bridge
 from nose.tools import set_trace
 import mock
 
@@ -39,6 +40,24 @@ class TestShowInterfaces(object):
         mock_portname_list.return_value = ['eth1.1', 'eth2.1']
         assert_equals(self.showint.ifacelist.get('all'), OrderedDict())
 
+
+    @mock.patch('netshow.linux.show_interfaces.linux_print_iface.PrintIface.is_bridge')
+    @mock.patch('netshow.linux.show_interfaces.linux_cache.Cache')
+    @mock.patch('netshow.linux.show_interfaces.linux_iface.portname_list')
+    def test_ifacelist_is_bridge(self, mock_portname_list,
+                                 mock_cache, mock_is_bridge):
+        # test to see if bridge is probably placed
+        mock_is_bridge.return_value = True
+        mock_portname_list.return_value = ['br0']
+        assert_equals(isinstance(
+            self.showint.ifacelist.get('all').get('br0'),
+            print_bridge.PrintBridge), True)
+        assert_equals(
+            self.showint.ifacelist.get('bridge').get('br0'),
+            self.showint.ifacelist.get('l2').get('br0'))
+        assert_equals(
+            self.showint.ifacelist.get('bridge').get('br0'),
+            self.showint.ifacelist.get('all').get('br0'))
 
     @mock.patch('netshow.linux.show_interfaces.ShowInterfaces.print_single_iface')
     @mock.patch('netshow.linux.show_interfaces.ShowInterfaces.print_many_ifaces')
