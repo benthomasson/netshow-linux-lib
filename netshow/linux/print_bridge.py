@@ -1,22 +1,24 @@
 """
 Print and Analysis Module for Linux bridge interfaces
 """
+from netshow.linux.print_iface import PrintIface
 
-import netshowlib.linux.bridge as linux_bridge
 from flufl.i18n import initialize
 
 _ = initialize('netshow-linux-lib')
 
 
-class PrintBridgeMember(linux_bridge.BridgeMember):
+class PrintBridgeMember(PrintIface):
     """
     Print and Analysis Class for Linux bridge member interfaces
     """
-    pass
+    def mode(self):
+        pass
 
 
-class PrintBridge(linux_bridge.Bridge):
+class PrintBridge(PrintIface):
     """
     Print and Analysis Class for Linux bridge interfaces
     """
-    pass
+    def mode(self):
+        pass

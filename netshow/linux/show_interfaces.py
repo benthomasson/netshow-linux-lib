@@ -10,7 +10,7 @@ import netshow.linux.print_bridge as print_bridge
 import netshow.linux.print_bond as print_bond
 import netshowlib.linux.cache as linux_cache
 from netshowlib.linux import iface as linux_iface
-import netshow.linux.print_iface as linux_print_iface
+import netshow.linux.print_iface as print_iface
 
 from flufl.i18n import initialize
 
@@ -94,35 +94,35 @@ class ShowInterfaces(object):
         feature_cache = linux_cache.Cache()
         feature_cache.run()
         for _portname in list_of_ports:
-            test_iface = linux_print_iface.iface(_portname, feature_cache)
+            _printiface = print_iface.iface(_portname, feature_cache)
 
             # if iface is a l2 subint bridgemem, then ignore
-            if test_iface.is_subint() and \
-                    isinstance(test_iface, print_bridge.PrintBridgeMember):
+            if _printiface.iface.is_subint() and \
+                    isinstance(_printiface, print_bridge.PrintBridgeMember):
                 continue
 
-            self._ifacelist['all'][_portname] = test_iface
+            self._ifacelist['all'][_portname] = _printiface
 
             # mutual exclusive bond/bridge/bondmem/bridgemem
-            if isinstance(test_iface, print_bridge.PrintBridge):
-                self._ifacelist['bridge'][_portname] = test_iface
-                self._ifacelist['l2'][_portname] = test_iface
-            elif isinstance(test_iface, print_bond.PrintBond):
-                self._ifacelist['bond'][_portname] = test_iface
-            elif isinstance(test_iface, print_bridge.PrintBridgeMember):
-                self._ifacelist['l2'][_portname] = test_iface
-            elif isinstance(test_iface, print_bond.PrintBondMember):
-                self._ifacelist['bondmem'][_portname] = test_iface
+            if isinstance(_printiface, print_bridge.PrintBridge):
+                self._ifacelist['bridge'][_portname] = _printiface
+                self._ifacelist['l2'][_portname] = _printiface
+            elif isinstance(_printiface, print_bond.PrintBond):
+                self._ifacelist['bond'][_portname] = _printiface
+            elif isinstance(_printiface, print_bridge.PrintBridgeMember):
+                self._ifacelist['l2'][_portname] = _printiface
+            elif isinstance(_printiface, print_bond.PrintBondMember):
+                self._ifacelist['bondmem'][_portname] = _printiface
                 continue
 
 
             # mutual exclusive - l3/trunk/access
-            if test_iface.is_l3():
-                self._ifacelist['l3'][_portname] = test_iface
-            elif test_iface.is_trunk():
-                self._ifacelist['trunk'][_portname] = test_iface
-            elif test_iface.is_access():
-                self._ifacelist['access'][_portname] = test_iface
+            if _printiface.iface.is_l3():
+                self._ifacelist['l3'][_portname] = _printiface
+            elif _printiface.iface.is_trunk():
+                self._ifacelist['trunk'][_portname] = _printiface
+            elif _printiface.iface.is_access():
+                self._ifacelist['access'][_portname] = _printiface
 
 
         return self._ifacelist

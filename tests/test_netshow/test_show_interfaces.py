@@ -34,7 +34,7 @@ class TestShowInterfaces(object):
 
     @mock.patch('netshow.linux.show_interfaces.linux_iface.portname_list')
     @mock.patch('netshow.linux.show_interfaces.linux_cache.Cache')
-    @mock.patch('netshow.linux.show_interfaces.linux_print_iface.PrintIface.is_bridgemem')
+    @mock.patch('netshow.linux.print_iface.linux_iface.Iface.is_bridgemem')
     def test_ifacelist_l2_subints(self, mock_bridgemem_test,
                                   mock_cache, mock_portname_list):
         # make sure L2 subints don't get into the list
@@ -43,7 +43,7 @@ class TestShowInterfaces(object):
         assert_equals(self.showint.ifacelist.get('all'), OrderedDict())
 
 
-    @mock.patch('netshow.linux.show_interfaces.linux_print_iface.PrintIface.is_bridge')
+    @mock.patch('netshow.linux.print_iface.linux_iface.Iface.is_bridge')
     @mock.patch('netshow.linux.show_interfaces.linux_cache.Cache')
     @mock.patch('netshow.linux.show_interfaces.linux_iface.portname_list')
     def test_ifacelist_is_bridge(self, mock_portname_list,
@@ -61,8 +61,8 @@ class TestShowInterfaces(object):
             self.showint.ifacelist.get('bridge').get('br0'),
             self.showint.ifacelist.get('all').get('br0'))
 
-    @mock.patch('netshow.linux.show_interfaces.print_bond.PrintBond.is_l3')
-    @mock.patch('netshow.linux.show_interfaces.linux_print_iface.PrintIface.is_bond')
+    @mock.patch('netshow.linux.print_iface.linux_iface.Iface.is_l3')
+    @mock.patch('netshow.linux.print_iface.linux_iface.Iface.is_bond')
     @mock.patch('netshow.linux.show_interfaces.linux_cache.Cache')
     @mock.patch('netshow.linux.show_interfaces.linux_iface.portname_list')
     def test_ifacelist_is_bond_l3(self, mock_portname_list,
@@ -82,9 +82,9 @@ class TestShowInterfaces(object):
             self.showint.ifacelist.get('all').get('bond0'))
 
 
-    @mock.patch('netshow.linux.show_interfaces.print_bridge.PrintBridgeMember.is_l3')
-    @mock.patch('netshow.linux.show_interfaces.print_bridge.PrintBridgeMember.is_trunk')
-    @mock.patch('netshow.linux.show_interfaces.linux_print_iface.PrintIface.is_bridgemem')
+    @mock.patch('netshow.linux.print_iface.linux_iface.Iface.is_l3')
+    @mock.patch('netshow.linux.print_iface.linux_iface.Iface.is_trunk')
+    @mock.patch('netshow.linux.print_iface.linux_iface.Iface.is_bridgemem')
     @mock.patch('netshow.linux.show_interfaces.linux_cache.Cache')
     @mock.patch('netshow.linux.show_interfaces.linux_iface.portname_list')
 
@@ -104,10 +104,10 @@ class TestShowInterfaces(object):
             self.showint.ifacelist.get('trunk').get('eth1'),
             self.showint.ifacelist.get('all').get('eth1'))
 
-    @mock.patch('netshow.linux.show_interfaces.print_bridge.PrintBridgeMember.is_l3')
-    @mock.patch('netshow.linux.show_interfaces.print_bridge.PrintBridgeMember.is_access')
-    @mock.patch('netshow.linux.show_interfaces.print_bridge.PrintBridgeMember.is_trunk')
-    @mock.patch('netshow.linux.show_interfaces.linux_print_iface.PrintIface.is_bridgemem')
+    @mock.patch('netshow.linux.print_iface.linux_iface.Iface.is_l3')
+    @mock.patch('netshow.linux.print_iface.linux_iface.Iface.is_access')
+    @mock.patch('netshow.linux.print_iface.linux_iface.Iface.is_trunk')
+    @mock.patch('netshow.linux.print_iface.linux_iface.Iface.is_bridgemem')
     @mock.patch('netshow.linux.show_interfaces.linux_cache.Cache')
     @mock.patch('netshow.linux.show_interfaces.linux_iface.portname_list')
     def test_ifacelist_is_bridgemem_access(self, mock_portname_list,
@@ -128,7 +128,7 @@ class TestShowInterfaces(object):
         assert_equals(self.showint.ifacelist.get('all').get('eth1'),
                       self.showint.ifacelist.get('l2').get('eth1'))
 
-    @mock.patch('netshow.linux.show_interfaces.linux_print_iface.PrintIface.is_bondmem')
+    @mock.patch('netshow.linux.print_iface.linux_iface.Iface.is_bondmem')
     @mock.patch('netshow.linux.show_interfaces.linux_cache.Cache')
     @mock.patch('netshow.linux.show_interfaces.linux_iface.portname_list')
     def test_ifacelist_is_bondmem(self, mock_portname_list,
@@ -175,9 +175,12 @@ class TestShowInterfaces(object):
         self.showint.print_many_ifaces()
         mock_json_ifaces.assert_called_with('l2')
 
+    @mock.patch('netshow.linux.show_interfaces.print_iface.PrintIface')
     @mock.patch('netshow.linux.show_interfaces.linux_iface.portname_list')
-    @mock.patch('netshow.linux.print_iface.PrintIface.is_trunk')
-    def test_many_cli_ifaces(self, mock_is_trunk, mock_portlist):
-        mock_portlist.return_value = ['eth1', 'eth2']
-        mock_is_trunk.return_value = True
-        _table = self.showint.print_cli_many_ifaces('l2')
+    def test_many_cli_ifaces(self, mock_portlist, mock_printiface):
+        mock_portlist.return_value = ['eth10', 'eth11']
+        instance = mock_printiface.return_value
+        instance.is_bridge.return_value = False
+        instance.is_bond.return_value = False
+        instance.is_trunk.return_value = True
+        _table = self.showint.print_cli_many_ifaces('all')
