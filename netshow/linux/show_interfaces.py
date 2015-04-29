@@ -7,6 +7,7 @@ Module for printout of 'netshow interfaces'
 from collections import OrderedDict
 from tabulate import tabulate
 import netshow.linux.print_bridge as print_bridge
+import netshow.linux.print_bond as print_bond
 import netshowlib.linux.cache as linux_cache
 from netshowlib.linux import iface as linux_iface
 import netshow.linux.print_iface as linux_print_iface
@@ -104,7 +105,7 @@ class ShowInterfaces(object):
             if isinstance(test_iface, print_bridge.PrintBridge):
                 self._ifacelist['bridge'][_portname] = test_iface
                 self._ifacelist['l2'][_portname] = test_iface
-            elif test_iface.is_bond():
+            elif isinstance(test_iface, print_bond.PrintBond):
                 self._ifacelist['bond'][_portname] = test_iface
             elif test_iface.is_bondmem():
                 self._ifacelist['bondmem'][_portname] = test_iface

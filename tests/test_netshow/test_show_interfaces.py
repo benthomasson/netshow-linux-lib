@@ -20,6 +20,7 @@ from asserts import assert_equals
 import netshow.linux.show_interfaces as showint
 import netshowlib.linux.bond as linux_bond
 import netshow.linux.print_bridge as print_bridge
+import netshow.linux.print_bond as print_bond
 from nose.tools import set_trace
 import mock
 
@@ -58,6 +59,27 @@ class TestShowInterfaces(object):
         assert_equals(
             self.showint.ifacelist.get('bridge').get('br0'),
             self.showint.ifacelist.get('all').get('br0'))
+
+    @mock.patch('netshow.linux.show_interfaces.print_bond.PrintBond.is_l3')
+    @mock.patch('netshow.linux.show_interfaces.linux_print_iface.PrintIface.is_bond')
+    @mock.patch('netshow.linux.show_interfaces.linux_cache.Cache')
+    @mock.patch('netshow.linux.show_interfaces.linux_iface.portname_list')
+    def test_ifacelist_is_bond_l3(self, mock_portname_list,
+                                  mock_cache, mock_is_bond, mock_is_l3):
+        # test to see if bridge is probably placed
+        mock_is_bond.return_value = True
+        mock_is_l3.return_value = True
+        mock_portname_list.return_value = ['bond0']
+        assert_equals(isinstance(
+            self.showint.ifacelist.get('all').get('bond0'),
+            print_bond.PrintBond), True)
+        assert_equals(
+            self.showint.ifacelist.get('bond').get('bond0'),
+            self.showint.ifacelist.get('l3').get('bond0'))
+        assert_equals(
+            self.showint.ifacelist.get('bond').get('bond0'),
+            self.showint.ifacelist.get('all').get('bond0'))
+
 
     @mock.patch('netshow.linux.show_interfaces.ShowInterfaces.print_single_iface')
     @mock.patch('netshow.linux.show_interfaces.ShowInterfaces.print_many_ifaces')
