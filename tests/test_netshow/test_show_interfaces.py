@@ -128,6 +128,20 @@ class TestShowInterfaces(object):
         assert_equals(self.showint.ifacelist.get('all').get('eth1'),
                       self.showint.ifacelist.get('l2').get('eth1'))
 
+    @mock.patch('netshow.linux.show_interfaces.linux_print_iface.PrintIface.is_bondmem')
+    @mock.patch('netshow.linux.show_interfaces.linux_cache.Cache')
+    @mock.patch('netshow.linux.show_interfaces.linux_iface.portname_list')
+    def test_ifacelist_is_bondmem(self, mock_portname_list,
+                                  mock_cache, mock_is_bondmem):
+        mock_is_bondmem.return_value = True
+        mock_portname_list.return_value = ['eth1']
+        assert_equals(isinstance(
+            self.showint.ifacelist.get('all').get('eth1'),
+            print_bond.PrintBondMember), True)
+        assert_equals(
+            self.showint.ifacelist.get('bondmem').get('eth1'),
+            self.showint.ifacelist.get('all').get('eth1'))
+
 
     @mock.patch('netshow.linux.show_interfaces.ShowInterfaces.print_single_iface')
     @mock.patch('netshow.linux.show_interfaces.ShowInterfaces.print_many_ifaces')

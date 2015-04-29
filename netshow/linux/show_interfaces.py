@@ -101,6 +101,8 @@ class ShowInterfaces(object):
                     isinstance(test_iface, print_bridge.PrintBridgeMember):
                 continue
 
+            self._ifacelist['all'][_portname] = test_iface
+
             # mutual exclusive bond/bridge/bondmem/bridgemem
             if isinstance(test_iface, print_bridge.PrintBridge):
                 self._ifacelist['bridge'][_portname] = test_iface
@@ -109,8 +111,10 @@ class ShowInterfaces(object):
                 self._ifacelist['bond'][_portname] = test_iface
             elif isinstance(test_iface, print_bridge.PrintBridgeMember):
                 self._ifacelist['l2'][_portname] = test_iface
-            elif test_iface.is_bondmem():
+            elif isinstance(test_iface, print_bond.PrintBondMember):
                 self._ifacelist['bondmem'][_portname] = test_iface
+                continue
+
 
             # mutual exclusive - l3/trunk/access
             if test_iface.is_l3():
@@ -120,7 +124,6 @@ class ShowInterfaces(object):
             elif test_iface.is_access():
                 self._ifacelist['access'][_portname] = test_iface
 
-            self._ifacelist['all'][_portname] = test_iface
 
         return self._ifacelist
 
