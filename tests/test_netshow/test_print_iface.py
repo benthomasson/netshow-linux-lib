@@ -44,5 +44,17 @@ class TestPrintIface(object):
         assert_equals(self.piface.linkstate, 'up')
 
 
-
-
+    @mock.patch('netshow.linux.print_iface.linux_iface.Iface.is_l3')
+    @mock.patch('netshow.linux.print_iface.linux_iface.Iface.is_subint')
+    def test_port_category(self, mock_is_subint, mock_is_l3):
+        # if l3 is true
+        mock_is_l3.return_value = True
+        mock_is_subint.return_value = False
+        assert_equals(self.piface.port_category, 'access/l3')
+        # if l3/subint is true
+        mock_is_l3.return_value = True
+        mock_is_subint.return_value = True
+        assert_equals(self.piface.port_category, 'subint/l3')
+        # if l3 is not true
+        mock_is_l3.return_value = False
+        assert_equals(self.piface.port_category, 'unknown')
