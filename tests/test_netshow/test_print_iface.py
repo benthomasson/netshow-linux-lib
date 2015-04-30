@@ -58,3 +58,20 @@ class TestPrintIface(object):
         # if l3 is not true
         mock_is_l3.return_value = False
         assert_equals(self.piface.port_category, 'unknown')
+
+
+    @mock.patch('netshow.linux.print_iface.linux_iface.Iface.read_from_sys')
+    def test_speed(self, mock_read_from_sys):
+        # 100M
+        mock_read_from_sys.return_value = '100'
+        assert_equals(self.piface.speed, '100M')
+
+        # 1G
+        self.piface.iface._speed = None
+        mock_read_from_sys.return_value = '1000'
+        assert_equals(self.piface.speed, '1G')
+
+        # 40G
+        self.piface.iface._speed = None
+        mock_read_from_sys.return_value = '40000'
+        assert_equals(self.piface.speed, '40G')
