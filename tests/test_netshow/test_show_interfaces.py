@@ -16,7 +16,7 @@
 # pylint: disable=W0611
 
 from collections import OrderedDict
-from asserts import assert_equals
+from asserts import assert_equals, mod_args_generator
 import netshow.linux.show_interfaces as showint
 import netshowlib.linux.bond as linux_bond
 import netshow.linux.print_bridge as print_bridge
@@ -24,7 +24,7 @@ import netshow.linux.print_bond as print_bond
 import netshow.linux.print_iface as print_iface
 from nose.tools import set_trace
 import mock
-
+import re
 
 class TestShowInterfaces(object):
 
@@ -175,12 +175,22 @@ class TestShowInterfaces(object):
         self.showint.print_many_ifaces()
         mock_json_ifaces.assert_called_with('l2')
 
-    @mock.patch('netshow.linux.show_interfaces.print_iface.PrintIface')
+
+    @mock.patch('netshow.linux.show_interfaces.print_iface.linux_iface.Iface.read_from_sys')
+    @mock.patch('netshow.linux.show_interfaces.print_iface.linux_iface.Iface.is_trunk')
+    @mock.patch('netshow.linux.show_interfaces.print_iface.linux_iface.Iface.is_bridgemem')
     @mock.patch('netshow.linux.show_interfaces.linux_iface.portname_list')
-    def test_many_cli_ifaces(self, mock_portlist, mock_printiface):
+    def test_many_cli_ifaces(self, mock_portlist, mock_bridgemem,
+                             mock_trunk, mock_read_from_sys):
         mock_portlist.return_value = ['eth10', 'eth11']
-        instance = mock_printiface.return_value
-        instance.is_bridge.return_value = False
-        instance.is_bond.return_value = False
-        instance.is_trunk.return_value = True
+        mock_bridgemem.return_value = True
+        mock_trunk.return_value = True
+        values = {'mtu': '1500',
+                  'carrier': '0',
+                  'speed': '1000'}
+        mock_read_from_sys.side_effect = mod_args_generator(values)
         _table = self.showint.print_cli_many_ifaces('all')
+        assert_equals(re.split(r'\s+', _table.split('\n')[0]),
+                      ['', 'name', 'speed', 'mtu', 'mode', 'summary'])
+        assert_equals(re.split(r'\s+', _table.split('\n')[2]),
+                      ['dn', 'eth10', '1G', '1500', 'unknown'])

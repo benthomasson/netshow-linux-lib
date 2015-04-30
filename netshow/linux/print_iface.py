@@ -36,6 +36,8 @@ class PrintIface(object):
     """
     def __init__(self, _iface):
         self.iface = _iface
+        self.name = self.iface.name
+        self.mtu = self.iface.mtu
 
     @property
     def linkstate(self):
@@ -43,15 +45,15 @@ class PrintIface(object):
         :return string that prints out link state. admin down or down or up
         """
         _linkstate_value = self.iface.linkstate
-        if _linkstate_value == '0':
+        if _linkstate_value == 0:
             return _('admdn')
-        elif _linkstate_value == '1':
+        elif _linkstate_value == 1:
             return _('dn')
-        elif _linkstate_value == '2':
+        elif _linkstate_value == 2:
             return _('up')
 
     @property
-    def mode(self):
+    def port_category(self):
         """
         :return: port type. Via interface discovery determine classify port \
         type
@@ -70,14 +72,15 @@ class PrintIface(object):
         :return: print out current speed
         """
         _str = _('n/a')
-        if self.iface.speed is None or int(self.speed) > 4294967200:
+        _speed_value = self.iface.speed
+        if _speed_value is None or int(_speed_value) > 4294967200:
             return _str
-        elif int(self.iface.speed) < 1000:
-            _str = self.speed + 'M'
+        elif int(_speed_value) < 1000:
+            _str = _speed_value + 'M'
         else:
             # Python3 supports this true division thing so 40/10 gives you 4.0
             # To not have the .0, have to do double _'/'_
-            _str = str(int(self.speed) // 1000) + 'G'
+            _str = str(int(_speed_value) // 1000) + 'G'
         return _str
 
     @property

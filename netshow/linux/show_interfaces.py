@@ -177,7 +177,7 @@ class ShowInterfaces(object):
                            _p_iface.name,
                            _p_iface.speed,
                            _p_iface.mtu,
-                           _p_iface.mode,
+                           _p_iface.port_category,
                            _p_iface.summary[0]])
 
             if len(_p_iface.summary) > 1:
