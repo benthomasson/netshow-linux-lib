@@ -264,7 +264,7 @@ class TestLinuxIface(object):
         dhcpfile = open('/tmp/empty_file')
         with mock.patch(mock_open_str()) as mock_open:
             mock_open.return_value = dhcpfile
-            assert_equals(self.iface.ip_addr_assign, None)
+            assert_equals(self.iface.ip_addr_assign, 0)
 
     def test_checking_if_dhcp_is_used(self):
         dhcpfile = open('tests/test_netshowlib/dhclient.eth0.leases')
@@ -274,4 +274,4 @@ class TestLinuxIface(object):
         # -----
         with mock.patch(mock_open_str()) as mock_open:
             mock_open.return_value = dhcpfile
-            assert_equals(self.iface.ip_addr_assign, 'dhcp')
+            assert_equals(self.iface.ip_addr_assign, 1)
