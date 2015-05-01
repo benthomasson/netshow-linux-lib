@@ -98,6 +98,22 @@ class TestPrintIface(object):
         self.piface.iface._ip_addr_assign = 1
         assert_equals(self.piface.summary, ['10.1.1.1/24(dhcp)'])
 
+    @mock.patch('netshow.linux.print_iface.linux_iface.Iface.read_from_sys')
+    def test_single_iface_cli_header(self, mock_read_from_sys):
+        values = {'carrier': '1',
+                  'address': '11:22:33:44:55:66',
+                  'speed': '1000',
+                  'mtu': '9000'}
+        mock_read_from_sys.side_effect = mod_args_generator(values)
+        _output = self.piface.single_iface_cli_header()
+        assert_equals(_output.split('\n')[0].split(),
+                      ['name', 'mac', 'speed', 'mtu', 'mode'])
+        assert_equals(_output.split('\n')[2].split(),
+                      ['up', 'eth22', '11:22:33:44:55:66', '1G',
+                       '9000', 'access'])
+
+
+
 
 
 

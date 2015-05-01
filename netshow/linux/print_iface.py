@@ -5,6 +5,7 @@ Linux Iface module with print functions
 import netshowlib.netshowlib as nn
 from netshowlib.linux import iface as linux_iface
 from flufl.i18n import initialize
+from tabulate import tabulate
 
 _ = initialize('netshow-linux-lib')
 
@@ -98,3 +99,20 @@ class PrintIface(object):
             return [_str]
 
         return ['']
+
+    def single_iface_cli_header(self):
+        """
+        :return common cli header when printing single iface info
+        """
+        _header = [
+            '',
+            _('name'), _('mac'),
+            _('speed'), _('mtu'), _('mode')]
+        _table = [[
+            self.linkstate,
+            self.name,
+            self.iface.mac,
+            self.speed,
+            self.iface.mtu,
+            self.port_category]]
+        return tabulate(_table, _header)
