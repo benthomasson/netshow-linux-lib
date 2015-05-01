@@ -105,17 +105,26 @@ class TestPrintIface(object):
                   'speed': '1000',
                   'mtu': '9000'}
         mock_read_from_sys.side_effect = mod_args_generator(values)
-        _output = self.piface.single_iface_cli_header()
+        _output = self.piface.cli_header()
         assert_equals(_output.split('\n')[0].split(),
                       ['name', 'mac', 'speed', 'mtu', 'mode'])
         assert_equals(_output.split('\n')[2].split(),
                       ['up', 'eth22', '11:22:33:44:55:66', '1G',
                        '9000', 'access'])
 
-
-
-
-
-
-
-
+    @mock.patch('netshow.linux.print_iface.linux_iface.Iface.is_l3')
+    def test_ip_details(self, mock_is_l3):
+        # if not l3.. print empty string
+        mock_is_l3.return_value = False
+        assert_equals(self.piface.ip_details(), '')
+        # if l3, print ip details
+        mock_is_l3.return_value = True
+        self.piface.iface.ip_address.ipv4 = ['10.1.1.1/24']
+        self.piface.iface.ip_neighbor._all_neighbors = {
+            '10.1.1.2': '222',
+            '10.1.1.3': '333'}
+        _output = self.piface.ip_details()
+        _outputtable = _output.split('\n')
+        assert_equals(_outputtable[0], 'ip_details')
+        assert_equals(_outputtable[2].split(), ['ip:', '10.1.1.1/24'])
+        assert_equals(_outputtable[3].split(), ['arp_entries:', '2'])

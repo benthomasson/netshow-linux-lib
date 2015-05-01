@@ -100,7 +100,7 @@ class PrintIface(object):
 
         return ['']
 
-    def single_iface_cli_header(self):
+    def cli_header(self):
         """
         :return common cli header when printing single iface info
         """
@@ -115,4 +115,17 @@ class PrintIface(object):
             self.speed,
             self.iface.mtu,
             self.port_category]]
+        return tabulate(_table, _header)
+
+    def ip_details(self):
+        """
+        :return: basic IP info about the interface for single iface info
+        """
+        if not self.iface.is_l3():
+            return ''
+
+        _header = [_('ip_details'), '']
+        _table = []
+        _table.append(["%s:" %(_('ip')), ', '.join(self.iface.ip_address.allentries)])
+        _table.append(["%s:" %(_('arp_entries')), len(self.iface.ip_neighbor.allentries)])
         return tabulate(_table, _header)
