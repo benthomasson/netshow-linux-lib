@@ -179,7 +179,7 @@ class ShowInterfaces(object):
             _table.append([_piface.linkstate,
                            _piface.name,
                            _piface.speed,
-                           _piface.mtu,
+                           _piface.iface.mtu,
                            _piface.port_category,
                            _piface.summary[0]])
 

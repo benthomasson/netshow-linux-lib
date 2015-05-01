@@ -190,7 +190,7 @@ class TestShowInterfaces(object):
         assert_equals(re.split(r'\s+', _table.split('\n')[0]),
                       ['', 'name', 'speed', 'mtu', 'mode', 'summary'])
         assert_equals(re.split(r'\s+', _table.split('\n')[2]),
-                      ['dn', 'eth10', '1G', '1500', 'unknown'])
+                      ['dn', 'eth10', '1G', '1500', 'access'])
 
     @mock.patch('netshow.linux.show_interfaces.print_iface.linux_iface.Iface.read_from_sys')
     @mock.patch('netshow.linux.show_interfaces.print_iface.linux_iface.Iface.is_trunk')
