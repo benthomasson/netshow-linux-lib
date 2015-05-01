@@ -57,13 +57,15 @@ class PrintIface(object):
         :return: port type. Via interface discovery determine classify port \
         type
         """
-        if self.iface.is_l3():
+        if self.iface.is_loopback():
+            return _('loopback')
+        elif self.iface.is_l3():
             if self.iface.is_subint():
                 return _('subint/l3')
             else:
                 return _('access/l3')
-        else:
-            return _('access')
+
+        return _('access')
 
     @property
     def speed(self):
