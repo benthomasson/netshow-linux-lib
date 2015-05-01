@@ -126,6 +126,28 @@ class PrintIface(object):
 
         _header = [_('ip_details'), '']
         _table = []
-        _table.append(["%s:" %(_('ip')), ', '.join(self.iface.ip_address.allentries)])
-        _table.append(["%s:" %(_('arp_entries')), len(self.iface.ip_neighbor.allentries)])
+        _table.append(["%s:" % (_('ip')),
+                       ', '.join(self.iface.ip_address.allentries)])
+        _table.append(["%s:" % (_('arp_entries')),
+                       len(self.iface.ip_neighbor.allentries)])
+        return tabulate(_table, _header)
+
+    def lldp_details(self):
+        """
+        :return: lldp details about this specific interface
+        """
+        lldp_output = self.iface.lldp
+        if not lldp_output:
+            return ''
+        _header = [_('lldp'), '', '']
+        _table = []
+        _table.append([self.iface.name, '====',
+                       "%s(%s)" % (lldp_output[0].get('adj_port'),
+                                   lldp_output[0].get('adj_hostname'))])
+        del lldp_output[0]
+        for _entry in lldp_output:
+            _table.append(['', '====',
+                           "%s(%s)" % (_entry.get('adj_port'),
+                                       _entry.get('adj_hostname'))])
+
         return tabulate(_table, _header)

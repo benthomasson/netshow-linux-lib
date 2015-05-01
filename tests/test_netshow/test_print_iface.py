@@ -38,11 +38,10 @@ class TestPrintIface(object):
         mock_read_from_sys.side_effect = mod_args_generator(values)
         assert_equals(self.piface.linkstate, 'dn')
         # up
-        self.piface.iface._linkstate = None # reset linkstate setting
+        self.piface.iface._linkstate = None  # reset linkstate setting
         values = {'carrier': '1'}
         mock_read_from_sys.side_effect = mod_args_generator(values)
         assert_equals(self.piface.linkstate, 'up')
-
 
     @mock.patch('netshow.linux.print_iface.linux_iface.Iface.is_loopback')
     @mock.patch('netshow.linux.print_iface.linux_iface.Iface.is_l3')
@@ -66,7 +65,6 @@ class TestPrintIface(object):
         mock_is_loopback.return_value = True
         mock_is_subint.return_value = False
         assert_equals(self.piface.port_category, 'loopback')
-
 
     @mock.patch('netshow.linux.print_iface.linux_iface.Iface.read_from_sys')
     def test_speed(self, mock_read_from_sys):
@@ -128,3 +126,15 @@ class TestPrintIface(object):
         assert_equals(_outputtable[0], 'ip_details')
         assert_equals(_outputtable[2].split(), ['ip:', '10.1.1.1/24'])
         assert_equals(_outputtable[3].split(), ['arp_entries:', '2'])
+
+    @mock.patch('netshowlib.linux.lldp.interface')
+    def test_lldp_details(self, mock_lldp):
+        mock_lldp.return_value = [{'adj_port': 'eth2',
+                                   'adj_hostname': 'switch1'},
+                                  {'adj_port': 'eth10',
+                                   'adj_hostname': 'switch2'}]
+        _output = self.piface.lldp_details()
+        _outputtable = _output.split('\n')
+        assert_equals(_outputtable[0].split(), ['lldp'])
+        assert_equals(_outputtable[2].split(), ['eth22', '====', 'eth2(switch1)'])
+        assert_equals(_outputtable[3].split(), ['====', 'eth10(switch2)'])
