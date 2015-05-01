@@ -53,15 +53,16 @@ def iface(name, cache=None):
     calls on checks to determine best interface type match for the named interface
 
     :return: regular :class:`linux.iface <netshowlib.linux.iface.Iface>` or \
-    :class:`linux.bond<netshowlib.linux.bond.Bond>`  or  \
-    :class:`linux.bridge<netshowlib.linux.bridge.Bridge>` interface
+    :class:`linux bond or bond member<netshowlib.linux.bond.Bond>`  or  \
+    :class:`linux bridge or bridge member <netshowlib.linux.bridge.Bridge>` \
+    interface
     """
     # create test iface.
     test_iface = Iface(name, cache=cache)
     if test_iface.is_bridge():
         bridge = nn.import_module('netshowlib.linux.bridge')
         return bridge.Bridge(name, cache=cache)
-    if test_iface.is_bridgemem():
+    elif test_iface.is_bridgemem():
         bridge = nn.import_module('netshowlib.linux.bridge')
         return bridge.BridgeMember(name, cache=cache)
     elif test_iface.is_bond():
@@ -179,14 +180,15 @@ class Iface(object):
             filehandler = open(leasesfile)
             lines = filehandler.read()
             filehandler.close()
-        except:
+        except IOError:
             return
-        lines2 = re.sub('\n', '', lines)
-        last_lease = re.split(r'lease\s*{', lines2)[-1]
-        try:
-            lease_expires_on = re.search(r'expire\s+\d+\s+([0-9/]+\s+[0-9:]+)',
-                                         last_lease).group(1)
-        except:
+        lines = re.sub('\n', '', lines)
+        last_lease = re.split(r'lease\s*{', lines)[-1]
+        _m0 = re.search(r'expire\s+\d+\s+([0-9/]+\s+[0-9:]+)',
+                        last_lease)
+        if _m0:
+            lease_expires_on = _m0.group(1)
+        else:
             return
         fmt = '%Y/%m/%d %H:%M:%S'
         lease_expires_on = datetime.strptime(lease_expires_on, fmt)

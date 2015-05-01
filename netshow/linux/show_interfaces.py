@@ -6,9 +6,11 @@ Module for printout of 'netshow interfaces'
 
 from collections import OrderedDict
 from tabulate import tabulate
+import netshow.linux.print_bridge as print_bridge
+import netshow.linux.print_bond as print_bond
 import netshowlib.linux.cache as linux_cache
 from netshowlib.linux import iface as linux_iface
-from netshow.linux.print_iface import PrintIface
+import netshow.linux.print_iface as print_iface
 
 from flufl.i18n import initialize
 
@@ -92,32 +94,36 @@ class ShowInterfaces(object):
         feature_cache = linux_cache.Cache()
         feature_cache.run()
         for _portname in list_of_ports:
-            test_iface = PrintIface(_portname, feature_cache)
+            _printiface = print_iface.iface(_portname, feature_cache)
 
             # if iface is a l2 subint bridgemem, then ignore
-            if test_iface.is_subint() and test_iface.is_bridgemem():
+            if _printiface.iface.is_subint() and \
+                    isinstance(_printiface, print_bridge.PrintBridgeMember):
                 continue
 
-            # mutual exclusive bond/bridge/bondmem
-            if test_iface.is_bridge():
-                self._ifacelist['bridge'][_portname] = test_iface
-                self._ifacelist['l2'][_portname] = test_iface
-            elif test_iface.is_bond():
-                self._ifacelist['bond'][_portname] = test_iface
-            elif test_iface.is_bondmem():
-                self._ifacelist['bondmem'][_portname] = test_iface
+            self._ifacelist['all'][_portname] = _printiface
+
+            # mutual exclusive bond/bridge/bondmem/bridgemem
+            if isinstance(_printiface, print_bridge.PrintBridge):
+                self._ifacelist['bridge'][_portname] = _printiface
+                self._ifacelist['l2'][_portname] = _printiface
+            elif isinstance(_printiface, print_bond.PrintBond):
+                self._ifacelist['bond'][_portname] = _printiface
+            elif isinstance(_printiface, print_bridge.PrintBridgeMember):
+                self._ifacelist['l2'][_portname] = _printiface
+            elif isinstance(_printiface, print_bond.PrintBondMember):
+                self._ifacelist['bondmem'][_portname] = _printiface
+                continue
+
 
             # mutual exclusive - l3/trunk/access
-            if test_iface.is_l3():
-                self._ifacelist['l3'][_portname] = test_iface
-            elif test_iface.is_trunk():
-                self._ifacelist['trunk'][_portname] = test_iface
-                self._ifacelist['l2'][_portname] = test_iface
-            elif test_iface.is_access():
-                self._ifacelist['access'][_portname] = test_iface
-                self._ifacelist['l2'][_portname] = test_iface
+            if _printiface.iface.is_l3():
+                self._ifacelist['l3'][_portname] = _printiface
+            elif _printiface.iface.is_trunk():
+                self._ifacelist['trunk'][_portname] = _printiface
+            elif _printiface.iface.is_access():
+                self._ifacelist['access'][_portname] = _printiface
 
-            self._ifacelist['all'][_portname] = test_iface
 
         return self._ifacelist
 
@@ -171,7 +177,7 @@ class ShowInterfaces(object):
                            _p_iface.name,
                            _p_iface.speed,
                            _p_iface.mtu,
-                           _p_iface.mode,
+                           _p_iface.port_category,
                            _p_iface.summary[0]])
 
             if len(_p_iface.summary) > 1:
