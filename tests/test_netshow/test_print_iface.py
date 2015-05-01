@@ -57,7 +57,7 @@ class TestPrintIface(object):
         assert_equals(self.piface.port_category, 'subint/l3')
         # if l3 is not true
         mock_is_l3.return_value = False
-        assert_equals(self.piface.port_category, 'unknown')
+        assert_equals(self.piface.port_category, 'access')
 
 
     @mock.patch('netshow.linux.print_iface.linux_iface.Iface.read_from_sys')
@@ -75,3 +75,23 @@ class TestPrintIface(object):
         self.piface.iface._speed = None
         mock_read_from_sys.return_value = '40000'
         assert_equals(self.piface.speed, '40G')
+
+    @mock.patch('netshow.linux.print_iface.linux_iface.Iface.read_from_sys')
+    @mock.patch('netshow.linux.print_iface.linux_iface.Iface.check_port_dhcp_assignment')
+    def test_summary(self, mock_is_l3, mock_dhcp):
+        # if not l3. summary is blank
+        mock_is_l3.return_value = False
+        assert_equals(self.piface.summary, [''])
+        # is l3 but not dhcp
+        mock_is_l3.return_value = True
+        self.piface.iface.ip_address.ipv4 = ['10.1.1.1/24']
+        assert_equals(self.piface.summary, ['10.1.1.1/24'])
+        # is l3 and is dhcp
+        self.piface.iface._ip_addr_assign = 1
+        assert_equals(self.piface.summary, ['10.1.1.1/24(dhcp)'])
+
+
+
+
+
+

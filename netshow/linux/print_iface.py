@@ -37,7 +37,6 @@ class PrintIface(object):
     def __init__(self, _iface):
         self.iface = _iface
         self.name = self.iface.name
-        self.mtu = self.iface.mtu
 
     @property
     def linkstate(self):
@@ -64,7 +63,7 @@ class PrintIface(object):
             else:
                 return _('access/l3')
         else:
-            return _('unknown')
+            return _('access')
 
     @property
     def speed(self):
@@ -90,7 +89,7 @@ class PrintIface(object):
         """
         if self.iface.is_l3():
             _str2 = ""
-            if self.iface.ip_addr_assign == 'dhcp':
+            if self.iface.ip_addr_assign == 1:
                 _str2 = "(%s)" % _('dhcp')
 
             _str = ', '.join(self.iface.ip_address.allentries) + _str2
