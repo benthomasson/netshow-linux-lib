@@ -169,6 +169,25 @@ class TestShowInterfaces(object):
         assert_equals(mock_many.call_count, 1)
         assert_equals(mock_single.call_count, 0)
 
+    @mock.patch('netshow.linux.show_interfaces.print_iface.PrintIface.cli_output')
+    @mock.patch('netshow.linux.show_interfaces.print_iface.linux_iface.Iface.exists')
+    def test_print_single_iface(self, mock_exists, mock_cli_output):
+        # iface does not exist
+        mock_exists.return_value = False
+        self.showint.single_iface = 'eth22'
+        assert_equals(self.showint.print_single_iface(),
+                      'interface_does_not_exist')
+        # iface exists but print json
+        mock_exists.return_value = True
+        self.showint.use_json = True
+        assert_equals(json.loads(
+            self.showint.print_single_iface()
+        ).get('linkstate'), 'admdn')
+        # iface exists but print out cli
+        self.showint.use_json = False
+        self.showint.print_single_iface()
+        assert_equals(mock_cli_output.call_count, 1)
+
     @mock.patch('netshow.linux.show_interfaces.ShowInterfaces.print_json_many_ifaces')
     @mock.patch('netshow.linux.show_interfaces.ShowInterfaces.print_cli_many_ifaces')
     def test_many_ifaces_cli_output(self, mock_cli_ifaces, mock_json_ifaces):
