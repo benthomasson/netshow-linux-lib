@@ -12,10 +12,14 @@ _ = initialize('netshow-linux-lib')
 
 def iface(name, cache=None):
     """
-    :return: print class object that matches correct iface type of the named interface
+    :return: ``:class:PrintIface`` instance that matches \
+        correct iface type of the named interface
+    :return: None if interface does not exist
     """
     # create test iface.
     test_iface = linux_iface.iface(name, cache=cache)
+    if not test_iface.exists():
+        return None
     if test_iface.is_bridge():
         bridge = nn.import_module('netshow.linux.print_bridge')
         return bridge.PrintBridge(test_iface)
@@ -116,6 +120,16 @@ class PrintIface(object):
             self.iface.mtu,
             self.port_category]]
         return tabulate(_table, _header)
+
+    def cli_output(self):
+        """
+        Each PrintIface child should define their own  of this function
+        :return: output for 'netshow interface <ifacename>'
+        """
+        _str = self.cli_header()
+        _str += self.ip_details()
+        _str += self.lldp_details()
+        return _str
 
     def ip_details(self):
         """

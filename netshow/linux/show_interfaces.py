@@ -65,19 +65,17 @@ class ShowInterfaces(object):
         """
         :return: netshow terminal output or JSON of a single iface
         """
+        feature_cache = linux_cache.Cache()
+        feature_cache.run()
+        _printiface = print_iface.iface(self.single_iface, feature_cache)
+        if not _printiface:
+            return _('interface_does_not_exist')
+
         if self.use_json:
-            ifacename = self.single_iface
-            return json.dumps(self.ifacelist.get('all').get(ifacename),
+            return json.dumps(_printiface,
                               cls=NetEncoder, indent=4)
-
         else:
-            return self.print_cli_single_iface()
-
-    def print_cli_single_iface(self):
-        """
-        :return: cli output providing basic info about the interface.
-        """
-        pass
+            return _printiface.cli_output()
 
     def _initialize_ifacelist(self):
         """
