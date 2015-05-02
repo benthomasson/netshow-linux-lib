@@ -126,9 +126,9 @@ class PrintIface(object):
         Each PrintIface child should define their own  of this function
         :return: output for 'netshow interface <ifacename>'
         """
-        _str = self.cli_header()
-        _str += self.ip_details()
-        _str += self.lldp_details()
+        _str = self.cli_header() + "\n"
+        _str += self.ip_details() + "\n"
+        _str += self.lldp_details() + "\n"
         return _str
 
     def ip_details(self):

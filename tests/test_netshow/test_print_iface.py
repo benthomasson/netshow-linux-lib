@@ -27,6 +27,21 @@ class TestPrintIface(object):
         iface = linux_iface.Iface('eth22')
         self.piface = print_iface.PrintIface(iface)
 
+    @mock.patch('netshow.linux.print_iface.PrintIface.cli_header')
+    @mock.patch('netshow.linux.print_iface.PrintIface.ip_details')
+    @mock.patch('netshow.linux.print_iface.PrintIface.lldp_details')
+    def test_cli_output(self, mock_lldp, mock_ip_details, mock_cli_header):
+        manager = mock.MagicMock()
+        manager.attach_mock(mock_lldp, 'lldp_details')
+        manager.attach_mock(mock_ip_details, 'ip_details')
+        manager.attach_mock(mock_cli_header, 'cli_header')
+        self.piface.cli_output()
+        expected_calls = [mock.call.cli_header(),
+                          mock.call.ip_details(),
+                          mock.call.lldp_details()]
+        assert_equals(manager.method_calls, expected_calls)
+
+
     @mock.patch('netshow.linux.print_iface.linux_iface.Iface.read_from_sys')
     def test_linkstate(self, mock_read_from_sys):
         # admin down
