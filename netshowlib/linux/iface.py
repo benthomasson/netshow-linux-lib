@@ -121,6 +121,14 @@ class Iface(object):
 
 # -----------------------
 
+    def exists(self):
+        """
+        :return: return true if port exists in /sys/class/net
+        """
+        if os.path.exists(os.path.join(self._sys_path_root, self.name)):
+            return True
+        return False
+
     def read_symlink(self, attr):
         """
         :return symlink under a /sys/class/net iface config.

@@ -77,6 +77,15 @@ class TestLinuxIface(object):
         """ setup function """
         self.iface = linux_iface.Iface('eth1')
 
+    @mock.patch('netshowlib.linux.iface.os.path.exists')
+    def test_exists(self, mock_path_exists):
+        mock_path_exists.return_value = True
+        assert_equals(self.iface.exists(), True)
+        mock_path_exists.assert_called_with('/sys/class/net/eth1')
+        mock_path_exists.return_value = False
+        assert_equals(self.iface.exists(), False)
+
+
     @mock.patch('netshowlib.linux.lldp._exec_lldp')
     def test_lldp(self, mock_lldp):
         lldp_out = open('tests/test_netshowlib/lldp_output.txt').read()
