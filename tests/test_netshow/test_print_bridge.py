@@ -71,3 +71,17 @@ class TestPrintBridge(object):
         bridgemems = ['bond0.100', 'bond1.100']
         mock_listdirs.return_value = bridgemems
         assert_equals(self.piface.untagged_ifaces(), '')
+
+    @mock.patch('netshow.linux.print_bridge.PrintBridge.untagged_ifaces')
+    @mock.patch('netshow.linux.print_bridge.PrintBridge.tagged_ifaces')
+    @mock.patch('netshow.linux.print_bridge.PrintBridge.vlan_id')
+    def test_summary(self, mock_vlan_id, mock_tagged, mock_untagged):
+        manager = mock.MagicMock()
+        manager.attach_mock(mock_vlan_id, 'vlan_id')
+        manager.attach_mock(mock_tagged, 'tagged_ifaces')
+        manager.attach_mock(mock_untagged, 'untagged_ifaces')
+        self.piface.summary
+        expected_calls = [mock.call.untagged_ifaces(),
+                          mock.call.tagged_ifaces(),
+                          mock.call.vlan_id()]
+        assert_equals(manager.method_calls, expected_calls)
