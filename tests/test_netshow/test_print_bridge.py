@@ -59,3 +59,15 @@ class TestPrintBridge(object):
         bridgemems = ['bond0', 'bond1', 'eth9', 'eth10']
         mock_listdirs.return_value = bridgemems
         assert_equals(self.piface.tagged_ifaces(), '')
+
+    @mock.patch('netshowlib.linux.bridge.os.listdir')
+    def test_untagged_ifaces(self, mock_listdirs):
+        # list of untagged ports exists
+        bridgemems = ['bond0', 'bond1', 'eth9', 'eth10']
+        mock_listdirs.return_value = bridgemems
+        assert_equals(self.piface.untagged_ifaces().split(),
+                      ['untagged:', 'bond0-1,eth9-10'])
+        # list has no untagged ports
+        bridgemems = ['bond0.100', 'bond1.100']
+        mock_listdirs.return_value = bridgemems
+        assert_equals(self.piface.untagged_ifaces(), '')

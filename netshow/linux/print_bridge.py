@@ -34,7 +34,12 @@ class PrintBridge(PrintIface):
         """
         :return: list of untagged interfaces of the bridge
         """
-        pass
+        _untagmems = self.iface.untagged_members.keys()
+        if _untagmems:
+            _str = "%s:" % (_('untagged'))
+            _str += ' ' + ','.join(common.group_ports(_untagmems))
+            return _str
+        return ''
 
     def tagged_ifaces(self):
         """
