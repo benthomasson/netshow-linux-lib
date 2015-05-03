@@ -2,6 +2,7 @@
 Print and Analysis Module for Linux bridge interfaces
 """
 from netshow.linux.print_iface import PrintIface
+from netshowlib.linux import common
 
 from flufl.i18n import initialize
 
@@ -39,7 +40,12 @@ class PrintBridge(PrintIface):
         """
         :return: list of tagged interfaces of the bridge
         """
-        pass
+        _tagmems = self.iface.tagged_members.keys()
+        if _tagmems:
+            _str = "%s:" % (_('tagged'))
+            _str += ' ' + ','.join(common.group_ports(_tagmems))
+            return _str
+        return ''
 
     def vlan_id(self):
         """
