@@ -62,6 +62,32 @@ class PrintBridge(PrintIface):
             _str = _('untagged')
         return _str
 
+    def stp_summary(self):
+        """
+        :return: root switch priority if switch is root of bridge
+        :return: root port if switch is not root of bridge
+        :return: stp disabled if stp is disabled
+        """
+        _str = ["%s:" % (_('stp'))]
+        if self.iface.stp:
+            if self.iface.stp.is_root():
+                _str.append("%s(%s)" % (_('rootswitch'),
+                                        self.iface.stp.root_priority))
+            else:
+                _root_ports = self.iface.stp.member_state.get('root')
+                # should be only one..but just in case something is messed up
+                # print all root ports found
+                _rootportnames = []
+                for _port in _root_ports:
+                    _rootportnames.append(_port.name)
+                _str.append("%s(%s)" % (','.join(_rootportnames),
+                                        _('root')))
+                _str.append("%s(%s)" % (self.iface.stp.root_priority,
+                                        _('root_priority')))
+        else:
+            _str.append(_('disabled'))
+        return ' '.join(_str)
+
     @property
     def summary(self):
         """
@@ -71,4 +97,5 @@ class PrintBridge(PrintIface):
         _info.append(self.untagged_ifaces())
         _info.append(self.tagged_ifaces())
         _info.append(self.vlan_id())
+        _info.append(self.stp_summary())
         return _info

@@ -18,7 +18,7 @@
 import netshow.linux.print_bridge as print_bridge
 import netshowlib.linux.bridge as linux_bridge
 import mock
-from asserts import assert_equals
+from asserts import assert_equals, mod_args_generator
 from nose.tools import set_trace
 
 
@@ -85,3 +85,41 @@ class TestPrintBridge(object):
                           mock.call.tagged_ifaces(),
                           mock.call.vlan_id()]
         assert_equals(manager.method_calls, expected_calls)
+
+    @mock.patch('netshowlib.linux.common.read_file_oneline')
+    @mock.patch('netshowlib.linux.bridge.os.listdir')
+    @mock.patch('netshowlib.linux.bridge.Bridge.read_from_sys')
+    @mock.patch('netshowlib.linux.bridge.KernelStpBridge.is_root')
+    def test_stp_summary(self, mock_is_root, mock_read_from_sys,
+                         mock_listdir, mock_oneline):
+        # if stp is disabled
+        mock_read_from_sys.return_value = '0'
+        assert_equals(self.piface.stp_summary().split(), ['stp:', 'disabled'])
+        # if stp is root
+        values = {
+            'bridge/stp_state': '1',
+            'bridge/root_id': '4000.fe54007e7eeb',
+            'bridge/bridge_id': '4000.fe54007e7eeb'}
+        mock_read_from_sys.side_effect = mod_args_generator(values)
+        mock_is_root.return_value = True
+        assert_equals(self.piface.stp_summary().split(), ['stp:', 'rootswitch(16384)'])
+        # if stp is not root
+        values = {
+            'bridge/stp_state': '1',
+            'bridge/root_id': '4000.fe54007e7eeb',
+            'bridge/bridge_id': '8000.fe54007e7111'}
+        values2 = {
+            '/sys/class/net/eth1/brport/state': '3',
+            '/sys/class/net/eth1/brport/bridge/bridge/root_port': '1',
+            '/sys/class/net/eth1/brport/port_id': '1',
+            '/sys/class/net/eth2/brport/state': '0',
+            '/sys/class/net/eth2/brport/bridge/bridge/stp_state': '1',
+            '/sys/class/net/eth2/brport/bridge/bridge/root_port': '1',
+            '/sys/class/net/eth2/brport/port_id': '2',
+        }
+        mock_oneline.side_effect = mod_args_generator(values2)
+        mock_read_from_sys.side_effect = mod_args_generator(values)
+        mock_is_root.return_value = False
+        mock_listdir.return_value = ['eth1', 'eth2']
+        assert_equals(self.piface.stp_summary().split(),
+                      ['stp:', 'eth1(root)', '16384(root_priority)'])
