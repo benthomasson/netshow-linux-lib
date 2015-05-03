@@ -28,3 +28,36 @@ class PrintBridge(PrintIface):
         if self.iface.is_l3():
             return _('bridge/l3')
         return _('bridge/l2')
+
+    def untagged_ifaces(self):
+        """
+        :return: list of untagged interfaces of the bridge
+        """
+        pass
+
+    def tagged_ifaces(self):
+        """
+        :return: list of tagged interfaces of the bridge
+        """
+        pass
+
+    def vlan_id(self):
+        """
+        :return: vlan id
+        :return: 'untagged' if non is available
+        """
+        _str = self.iface.vlan_tag
+        if not _str:
+            _str = _('untagged')
+        return _str
+
+    @property
+    def summary(self):
+        """
+        :return: summary information regarding the bridge
+        """
+        _info = []
+        _info.append(self.untagged_ifaces())
+        _info.append(self.tagged_ifaces())
+        _info.append(self.vlan_id())
+        return _info

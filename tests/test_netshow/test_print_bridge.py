@@ -35,3 +35,15 @@ class TestPrintBridge(object):
         # if l3 is not true
         mock_is_l3.return_value = False
         assert_equals(self.piface.port_category, 'bridge/l2')
+
+    @mock.patch('netshowlib.linux.bridge.Bridge._memberlist_str')
+    def test_vlan_id(self, mock_bridgemems):
+        # tagged ports
+        mock_bridgemems.return_value = ['eth1.100', 'eth2.100', 'eth3', 'eth4']
+        assert_equals(self.piface.vlan_id(), '100')
+        # untagged ports
+        mock_bridgemems.return_value = ['eth1', 'eth12', 'eth13']
+        assert_equals(self.piface.vlan_id(), 'untagged')
+        # no ports
+        mock_bridgemems.return_value = ['']
+        assert_equals(self.piface.vlan_id(), 'untagged')
