@@ -35,13 +35,6 @@ def iface(name, cache=None):
     return PrintIface(test_iface)
 
 
-def new_line():
-    """
-    :return: print newline in cli output. its just two "\n"
-    """
-    return "\n\n"
-
-
 class PrintIface(object):
     """
     Printer for Linux Iface class
@@ -49,6 +42,13 @@ class PrintIface(object):
     def __init__(self, _iface):
         self.iface = _iface
         self.name = self.iface.name
+
+    @classmethod
+    def new_line(cls):
+        """
+        :return: print newline in cli output. its just two "\n"
+        """
+        return "\n\n"
 
     @property
     def linkstate(self):
@@ -133,9 +133,9 @@ class PrintIface(object):
         Each PrintIface child should define their own  of this function
         :return: output for 'netshow interface <ifacename>'
         """
-        _str = self.cli_header() + new_line()
-        _str += self.ip_details() + new_line()
-        _str += self.lldp_details() + new_line()
+        _str = self.cli_header() + self.new_line()
+        _str += self.ip_details() + self.new_line()
+        _str += self.lldp_details() + self.new_line()
         return _str
 
     def ip_details(self):
