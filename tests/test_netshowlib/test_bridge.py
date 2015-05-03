@@ -20,6 +20,7 @@ class TestKernelStpBridgeMem(object):
         self.iface = linux_bridge.BridgeMember('eth1')
         self.stp = linux_bridge.KernelStpBridgeMember(self.iface)
 
+
     @mock.patch('netshowlib.linux.common.read_file_oneline')
     @mock.patch('netshowlib.linux.iface.os.path.exists')
     @mock.patch('netshowlib.linux.common.read_symlink')
@@ -107,6 +108,19 @@ class TestKernelStpBridge(object):
     def setup(self):
         br0 = linux_bridge.Bridge('br0')
         self.stp = linux_bridge.KernelStpBridge(br0)
+
+
+    @mock.patch('netshowlib.linux.common.read_file_oneline')
+    def test_get_stp_root_state(self, mock_read_oneline):
+        values = {'/sys/class/net/br0/bridge/root_id': '8000.3332222111',
+                  '/sys/class/net/br0/bridge/bridge_id': '8000.3332222111'}
+        mock_read_oneline.side_effect = mod_args_generator(values)
+        assert_equals(self.stp.is_root(), True)
+        values = {'/sys/class/net/br0/bridge/root_id': '8000.3332222222',
+                  '/sys/class/net/br0/bridge/bridge_id': '8000.3332222111'}
+        mock_read_oneline.side_effect = mod_args_generator(values)
+        assert_equals(self.stp.is_root(), False)
+
 
     @mock.patch('netshowlib.linux.common.read_file_oneline')
     def test_get_root_priority(self, mock_read_oneline):

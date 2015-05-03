@@ -75,6 +75,16 @@ class KernelStpBridge(object):
             'intransition': []
         }
 
+    def is_root(self):
+        """
+        :return: True if bridge is STP root.
+        """
+        _root_id = self.bridge.read_from_sys('bridge/root_id')
+        _bridge_id = self.bridge.read_from_sys('bridge/bridge_id')
+        if _root_id == _bridge_id:
+            return True
+        return False
+
     @property
     def root_priority(self):
         """
@@ -90,7 +100,13 @@ class KernelStpBridge(object):
         """
         :return: return bridge priority number
         """
-        pass
+        _priority = self.bridge.read_from_sys('bridge/bridge_id')
+        if _priority:
+            self._bridge_priority = str(int(_priority.split('.')[0], 16))
+
+        return self._bridge_priority
+
+
 
     @property
     def member_state(self):
