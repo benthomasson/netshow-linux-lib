@@ -137,6 +137,17 @@ class PrintBridge(PrintIface):
         _table.append(self.vlan_id_field())
         return tabulate(_table, _header) + self.new_line()
 
+
+    def ports_in_fwd_state(self):
+        """
+        :return: string output of lists of ports in forwarding state
+        """
+        _header = [_('ports_in_fwding_state'), '']
+        _table = []
+        _portlist = [_x.name for _x in self.iface.stp.member_state.get('forwarding')]
+        _table.append(common.group_ports(_portlist))
+        return tabulate(_table, _header)
+
     def cli_output(self):
         """
         :return: output for 'netshow interface <ifacename> for a bridge interface'
