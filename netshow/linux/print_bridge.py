@@ -127,6 +127,16 @@ class PrintBridge(PrintIface):
         _table.append(self.vlan_id_field())
         return tabulate(_table, _header)
 
+    def no_stp_details(self):
+        """
+        :return: details when stp is not enabled
+        """
+        _header = ['', '']
+        _table = []
+        _table.append([_('stp_mode') + ':', _('disabled')])
+        _table.append(self.vlan_id_field())
+        return tabulate(_table, _header) + self.new_line()
+
     def cli_output(self):
         """
         :return: output for 'netshow interface <ifacename> for a bridge interface'
@@ -136,9 +146,6 @@ class PrintBridge(PrintIface):
         if self.iface.stp:
             _str += self.stp_details() + self.new_line()
         else:
-            _header = ['', '']
-            _table = []
-            _table.append([_('stp_mode') + ':', _('disabled')])
-            _table.append(self.vlan_id_field())
-            _str += tabulate(_table, _header) + self.new_line()
+            _str += self.no_stp_details() + self.new_line()
+
         return _str

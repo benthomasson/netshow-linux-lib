@@ -162,3 +162,31 @@ class TestPrintBridge(object):
                       ['root_priority:', '16384'])
         assert_equals(_outputtable[5].split(), ['bridge_priority:', '32768'])
         assert_equals(_outputtable[6].split(), ['vlan_id:', 'untagged'])
+
+
+    @mock.patch('netshowlib.linux.bridge.Bridge.read_from_sys')
+    @mock.patch('netshow.linux.print_bridge.PrintBridge.cli_header')
+    @mock.patch('netshow.linux.print_bridge.PrintBridge.ip_details')
+    @mock.patch('netshow.linux.print_bridge.PrintBridge.stp_details')
+    @mock.patch('netshow.linux.print_bridge.PrintBridge.no_stp_details')
+    def test_cli_output(self, mock_no_stp_details, mock_stp_details, mock_ip_details,
+                        mock_cli_header, mock_read_from_sys):
+        manager = mock.MagicMock()
+        manager.attach_mock(mock_no_stp_details, 'no_stp_details')
+        manager.attach_mock(mock_stp_details, 'stp_details')
+        manager.attach_mock(mock_ip_details, 'ip_details')
+        manager.attach_mock(mock_cli_header, 'cli_header')
+        self.piface.cli_output()
+        # stp enabled
+        expected_calls = [mock.call.cli_header(),
+                          mock.call.ip_details(),
+                          mock.call.stp_details()]
+        assert_equals(manager.method_calls, expected_calls)
+        # stp disabled
+        manager.reset_mock()
+        mock_read_from_sys.return_value = '0'
+        self.piface.cli_output()
+        expected_calls = [mock.call.cli_header(),
+                          mock.call.ip_details(),
+                          mock.call.no_stp_details()]
+        assert_equals(manager.method_calls, expected_calls)
