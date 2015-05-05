@@ -5,6 +5,7 @@ from netshow.linux.print_iface import PrintIface
 from netshowlib.linux import common
 
 from flufl.i18n import initialize
+from tabulate import tabulate
 
 _ = initialize('netshow-linux-lib')
 
@@ -62,6 +63,13 @@ class PrintBridge(PrintIface):
             _str = _('untagged')
         return _str
 
+    def vlan_id_field(self):
+        """
+        return: list with label saying 'vlan id' and vlan tag
+        """
+        _arr = [_('vlan_id') + ':', self.vlan_id()]
+        return _arr
+
     def stp_summary(self):
         """
         :return: root switch priority if switch is root of bridge
@@ -74,13 +82,7 @@ class PrintBridge(PrintIface):
                 _str.append("%s(%s)" % (_('rootswitch'),
                                         self.iface.stp.root_priority))
             else:
-                _root_ports = self.iface.stp.member_state.get('root')
-                # should be only one..but just in case something is messed up
-                # print all root ports found
-                _rootportnames = []
-                for _port in _root_ports:
-                    _rootportnames.append(_port.name)
-                _str.append("%s(%s)" % (','.join(_rootportnames),
+                _str.append("%s(%s)" % (','.join(self.root_port()),
                                         _('root')))
                 _str.append("%s(%s)" % (self.iface.stp.root_priority,
                                         _('root_priority')))
@@ -96,6 +98,47 @@ class PrintBridge(PrintIface):
         _info = []
         _info.append(self.untagged_ifaces())
         _info.append(self.tagged_ifaces())
-        _info.append(self.vlan_id())
+        _info.append(self.vlan_id_field())
         _info.append(self.stp_summary())
         return _info
+
+    def root_port(self):
+        """
+        return: root port (should be only one or None)
+        """
+        _root_ports = self.iface.stp.member_state.get('root')
+        # should be only one..but just in case something is messed up
+        # print all root ports found
+        _rootportnames = []
+        for _port in _root_ports:
+            _rootportnames.append(_port.name)
+        return _rootportnames
+
+    def stp_details(self):
+        """
+        :return: stp details for the bridge interface
+        """
+        _header = [_(''), '']
+        _table = []
+        _table.append([_('stp_mode') + ':', _('802.1d / per bridge instance')])
+        _table.append([_('root_port') + ':', ', '.join(self.root_port())])
+        _table.append([_('root_priority') + ':', self.iface.stp.root_priority])
+        _table.append([_('bridge_priority') + ':', self.iface.stp.bridge_priority])
+        _table.append(self.vlan_id_field())
+        return tabulate(_table, _header)
+
+    def cli_output(self):
+        """
+        :return: output for 'netshow interface <ifacename> for a bridge interface'
+        """
+        _str = self.cli_header() + self.new_line()
+        _str += self.ip_details() + self.new_line()
+        if self.iface.stp:
+            _str += self.stp_details() + self.new_line()
+        else:
+            _header = ['', '']
+            _table = []
+            _table.append([_('stp_mode') + ':', _('disabled')])
+            _table.append(self.vlan_id_field())
+            _str += tabulate(_table, _header) + self.new_line()
+        return _str

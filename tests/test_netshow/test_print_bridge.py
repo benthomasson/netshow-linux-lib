@@ -20,6 +20,7 @@ import netshowlib.linux.bridge as linux_bridge
 import mock
 from asserts import assert_equals, mod_args_generator
 from nose.tools import set_trace
+import re
 
 
 class TestPrintBridge(object):
@@ -127,3 +128,37 @@ class TestPrintBridge(object):
         mock_listdir.return_value = ['eth1', 'eth2']
         assert_equals(self.piface.stp_summary().split(),
                       ['stp:', 'eth1(root)', '16384(root_priority)'])
+
+    @mock.patch('netshowlib.linux.bridge.KernelStpBridge.is_root')
+    @mock.patch('netshowlib.linux.common.read_file_oneline')
+    @mock.patch('netshowlib.linux.bridge.os.listdir')
+    @mock.patch('netshowlib.linux.bridge.Bridge.read_from_sys')
+    def test_stp_details(self, mock_read_sys, mock_listdir,
+                         mock_file_oneline, mock_is_root):
+        mock_is_root.return_value = False
+        mock_listdir.return_value = ['eth1', 'eth2']
+        values1 = {
+            'bridge/stp_state': '1',
+            'bridge/root_id': '4000.fe54007e7eeb',
+            'bridge/bridge_id': '8000.fe54007e7111'}
+        values2 = {
+            '/sys/class/net/eth1/brport/state': '3',
+            '/sys/class/net/eth1/brport/bridge/bridge/root_port': '1',
+            '/sys/class/net/eth1/brport/port_id': '1',
+            '/sys/class/net/eth2/brport/state': '0',
+            '/sys/class/net/eth2/brport/bridge/bridge/stp_state': '1',
+            '/sys/class/net/eth2/brport/bridge/bridge/root_port': '1',
+            '/sys/class/net/eth2/brport/port_id': '2',
+        }
+        mock_read_sys.side_effect = mod_args_generator(values1)
+        mock_file_oneline.side_effect = mod_args_generator(values2)
+        _output = self.piface.stp_details()
+        _outputtable = _output.split('\n')
+        assert_equals(re.split(r'\s{2,}', _outputtable[2]),
+                      ['stp_mode:', '802.1d / per bridge instance'])
+        assert_equals(_outputtable[3].split(),
+                      ['root_port:', 'eth1'])
+        assert_equals(_outputtable[4].split(),
+                      ['root_priority:', '16384'])
+        assert_equals(_outputtable[5].split(), ['bridge_priority:', '32768'])
+        assert_equals(_outputtable[6].split(), ['vlan_id:', 'untagged'])
