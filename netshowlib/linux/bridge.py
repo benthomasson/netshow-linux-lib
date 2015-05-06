@@ -207,6 +207,35 @@ class BridgeMember(linux_iface.Iface):
     def __init__(self, name, cache=None):
         linux_iface.Iface.__init__(self, name, cache)
         self.stp = KernelStpBridgeMember(self, cache)
+        self._cache = cache
+        self._bridge_masters = []
+
+    @property
+    def bridge_masters(self):
+        """
+        :return: list of bridges associated with this port \
+            and its subinterfaces.
+        """
+        self._bridge_masters = {}
+        bridgename = self.read_symlink('brport/bridge')
+        if bridgename:
+            if BRIDGE_CACHE.get(bridgename):
+                bridgeiface = BRIDGE_CACHE.get(bridgename)
+            else:
+                bridgeiface = Bridge(bridgename, cache=self._cache)
+            self._bridge_masters[bridgeiface.name] = bridgeiface
+
+        for subintname in self.get_sub_interfaces():
+            subiface = linux_iface.Iface(subintname)
+            bridgename = subiface.read_symlink('brport/bridge')
+            if bridgename:
+                if BRIDGE_CACHE.get(bridgename):
+                    bridgeiface = BRIDGE_CACHE.get(bridgename)
+                else:
+                    bridgeiface = Bridge(bridgename, cache=self._cache)
+                self._bridge_masters[bridgeiface.name] = bridgeiface
+
+        return self._bridge_masters
 
 
 # ======================================================================= #
