@@ -240,3 +240,44 @@ class TestPrintBridge(object):
         }
         mock_oneline.side_effect = mod_args_generator(values2)
         assert_equals(self.piface.ports_in_fwd_state(), '')
+
+    @mock.patch('netshowlib.linux.bridge.KernelStpBridge.is_root')
+    @mock.patch('netshowlib.linux.common.read_file_oneline')
+    @mock.patch('netshowlib.linux.bridge.os.listdir')
+    @mock.patch('netshowlib.linux.bridge.Bridge.read_from_sys')
+    def test_ports_in_blocking_state(self, mock_read_sys, mock_listdir,
+                                     mock_oneline,
+                                     mock_is_root):
+        values1 = {
+            'bridge/stp_state': '1',
+            'bridge/root_id': '4000.fe54007e7eeb',
+            'bridge/bridge_id': '8000.fe54007e7111'}
+        values2 = {
+            '/sys/class/net/eth1/brport/state': '4',
+            '/sys/class/net/eth1/brport/bridge/bridge/root_port': '1',
+            '/sys/class/net/eth1/brport/port_id': '1',
+            '/sys/class/net/eth2/brport/state': '4',
+            '/sys/class/net/eth2/brport/bridge/bridge/stp_state': '1',
+            '/sys/class/net/eth2/brport/bridge/bridge/root_port': '1',
+            '/sys/class/net/eth2/brport/port_id': '2',
+        }
+        mock_oneline.side_effect = mod_args_generator(values2)
+        mock_read_sys.side_effect = mod_args_generator(values1)
+        mock_is_root.return_value = True
+        mock_listdir.return_value = ['eth1', 'eth2']
+        _output = self.piface.ports_in_blocking_state()
+        _outputtable = _output.split('\n')
+        assert_equals(_outputtable[0], 'ports_in_blocking_state')
+        assert_equals(_outputtable[2], 'eth1-2')
+        # if no ports are forwarding
+        values2 = {
+            '/sys/class/net/eth1/brport/state': '1',
+            '/sys/class/net/eth1/brport/bridge/bridge/root_port': '1',
+            '/sys/class/net/eth1/brport/port_id': '1',
+            '/sys/class/net/eth2/brport/state': '1',
+            '/sys/class/net/eth2/brport/bridge/bridge/stp_state': '1',
+            '/sys/class/net/eth2/brport/bridge/bridge/root_port': '1',
+            '/sys/class/net/eth2/brport/port_id': '2',
+        }
+        mock_oneline.side_effect = mod_args_generator(values2)
+        assert_equals(self.piface.ports_in_blocking_state(), '')
