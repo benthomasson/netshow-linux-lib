@@ -293,7 +293,62 @@ class TestLinuxBridgeMember(object):
         linux_bridge.BRIDGE_CACHE['br10'] = br10
         linux_bridge.BRIDGE_CACHE['br11'] = br11
         linux_bridge.BRIDGE_CACHE['br30'] = br30
-        assert_equals(list(self.iface.bridge_masters.keys()), ['br10', 'br11', 'br30'])
+        assert_equals(sorted(list(self.iface.bridge_masters.keys())), ['br10', 'br11', 'br30'])
+
+
+    @mock.patch('netshowlib.linux.bridge.os.listdir')
+    @mock.patch('netshowlib.linux.common.read_file_oneline')
+    @mock.patch('netshowlib.linux.iface.os.path.exists')
+    @mock.patch('netshowlib.linux.common.read_symlink')
+    def test_get_vlan_list(self, mock_symlink, mock_os_path,
+                                mock_oneline, mock_os_listdir):
+        mock_subint = MagicMock()
+        mock_subint.return_value = ['eth1.11', 'eth1.20', 'eth1.30']
+        self.iface.get_sub_interfaces = mock_subint
+        # bridgemember is trunk port
+        values = {
+            '/sys/class/net/eth1/brport': True,
+            '/sys/class/net/eth1.11/brport': True,
+            '/sys/class/net/eth1.20/brport': False,
+            '/sys/class/net/eth1.30/brport': True,
+        }
+        values2 = {
+            '/sys/class/net/eth1/brport/state': '3',
+            '/sys/class/net/eth1/brport/bridge/bridge/root_port': 'aaa',
+            '/sys/class/net/eth1/brport/port_id': 'aaa',
+            '/sys/class/net/eth1.11/brport/state': '0',
+            '/sys/class/net/eth1.11/brport/bridge/bridge/stp_state': '1',
+            '/sys/class/net/eth1.11/brport/bridge/bridge/root_port': 'aaa',
+            '/sys/class/net/eth1.11/brport/port_id': 'aaa',
+            '/sys/class/net/eth1.30/brport/state': '0',
+            '/sys/class/net/eth1.30/brport/bridge/bridge/stp_state': '0'
+
+        }
+        values3 = {
+            '/sys/class/net/eth1/brport/bridge': 'br10',
+            '/sys/class/net/eth1.11/brport/bridge': 'br11',
+            '/sys/class/net/eth1.20/brport/bridge': None,
+            '/sys/class/net/eth1.30/brport/bridge': 'br30'
+        }
+        values4 = {
+            '/sys/class/net/br30/brif': ['eth1.30'],
+            '/sys/class/net/br11/brif': ['eth1.11'],
+            '/sys/class/net/br10/brif': []
+        }
+
+        mock_os_listdir.side_effect = mod_args_generator(values4)
+        mock_symlink.side_effect = mod_args_generator(values3)
+        mock_oneline.side_effect = mod_args_generator(values2)
+        mock_os_path.side_effect = mod_args_generator(values)
+        br10 = linux_bridge.Bridge('br10')
+        br11 = linux_bridge.Bridge('br11')
+        br30 = linux_bridge.Bridge('br30')
+        linux_bridge.BRIDGE_CACHE['br10'] = br10
+        linux_bridge.BRIDGE_CACHE['br11'] = br11
+        linux_bridge.BRIDGE_CACHE['br30'] = br30
+        set_trace()
+        assert_equals(self.iface.vlan_list, ['br10', '11', '30'])
+
 
 
 class TestLinuxBridge(object):
@@ -343,13 +398,13 @@ class TestLinuxBridge(object):
         # single tag
         bridgemems = ['eth7', 'eth8', 'eth9.100', 'eth10.100']
         mock_listdirs.return_value = bridgemems
-        assert_equals(self.iface.vlan_tag, '100')
+        assert_equals(self.iface.vlan_tag, ['100'])
         # multiple tags
         bridgemems = ['eth7', 'eth8', 'eth9.100', 'eth10.100',
                       'eth11.10', 'eth12.3']
         mock_listdirs.return_value = bridgemems
-        assert_equals(self.iface.vlan_tag, '3, 10, 100')
+        assert_equals(self.iface.vlan_tag, ['3', '10', '100'])
         # no tag
         bridgemems = ['eth7', 'eth8']
         mock_listdirs.return_value = bridgemems
-        assert_equals(self.iface.vlan_tag, '')
+        assert_equals(self.iface.vlan_tag, [])

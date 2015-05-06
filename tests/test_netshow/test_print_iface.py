@@ -153,3 +153,16 @@ class TestPrintIface(object):
         assert_equals(_outputtable[0].split(), ['lldp'])
         assert_equals(_outputtable[2].split(), ['eth22', '====', 'eth2(switch1)'])
         assert_equals(_outputtable[3].split(), ['====', 'eth10(switch2)'])
+
+    def test_access_summary(self):
+        _output = self.piface.access_summary()
+        # Untagged: br0
+        assert_equals(_output.split(), ['bridge:', 'br0'])
+
+    def test_trunk_summary(self):
+        _output = self.piface.trunk_summary()
+        # Tagged: 2-4
+        # Untagged: 1
+        assert_equals(_output[0].split(), ['tagged:', '2-4'])
+        assert_equals(_output[1].split(), ['untagged:', 'br0'])
+
