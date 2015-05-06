@@ -177,7 +177,7 @@ class PrintIface(object):
         """
         :return: summary info for a trunk port
         """
-        pass
+        return ['']
 
 
     def access_summary(self):
@@ -187,4 +187,4 @@ class PrintIface(object):
         if self.iface.is_access():
             _bridgename = ','.join(self.iface.bridge_masters.keys())
             return [_('untagged') + ':', _bridgename]
-        return ''
+        return ['']
