@@ -228,5 +228,15 @@ class TestPrintBridge(object):
         _outputtable = _output.split('\n')
         assert_equals(_outputtable[0], 'ports_in_fwding_state')
         assert_equals(_outputtable[2], 'eth1-2')
-
-
+        # if no ports are forwarding
+        values2 = {
+            '/sys/class/net/eth1/brport/state': '1',
+            '/sys/class/net/eth1/brport/bridge/bridge/root_port': '1',
+            '/sys/class/net/eth1/brport/port_id': '1',
+            '/sys/class/net/eth2/brport/state': '1',
+            '/sys/class/net/eth2/brport/bridge/bridge/stp_state': '1',
+            '/sys/class/net/eth2/brport/bridge/bridge/root_port': '1',
+            '/sys/class/net/eth2/brport/port_id': '2',
+        }
+        mock_oneline.side_effect = mod_args_generator(values2)
+        assert_equals(self.piface.ports_in_fwd_state(), '')

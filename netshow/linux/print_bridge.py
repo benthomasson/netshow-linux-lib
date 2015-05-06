@@ -145,8 +145,23 @@ class PrintBridge(PrintIface):
         _header = [_('ports_in_fwding_state'), '']
         _table = []
         _portlist = [_x.name for _x in self.iface.stp.member_state.get('forwarding')]
-        _table.append(common.group_ports(_portlist))
-        return tabulate(_table, _header)
+        if _portlist:
+            _table.append(common.group_ports(_portlist))
+            return tabulate(_table, _header)
+        return ''
+
+    def ports_in_blocking_state(self):
+        """
+        :return: string output of lists of ports in blocking state
+        """
+        _header = [_('ports_in_blocking_state'), '']
+        _table = []
+        _portlist = [_x.name for _x in self.iface.stp.member_state.get('blocking')]
+        if _portlist:
+            _table.append(common.group_ports(_portlist))
+            return tabulate(_table, _header)
+        return ''
+
 
     def cli_output(self):
         """
