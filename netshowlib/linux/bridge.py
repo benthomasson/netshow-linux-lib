@@ -116,7 +116,7 @@ class KernelStpBridge(object):
         self._initialize_state()
         # go through tagged members first
         for _ifacename, _iface in self.bridge.tagged_members.items():
-            subifacename = "%s.%s" % (_ifacename, self.bridge.vlan_tag)
+            subifacename = "%s.%s" % (_ifacename, self.bridge.vlan_tag[0])
             subiface = linux_iface.Iface(subifacename)
             update_stp_state(self._member_state, _iface, subiface)
 
@@ -208,7 +208,7 @@ class BridgeMember(linux_iface.Iface):
         linux_iface.Iface.__init__(self, name, cache)
         self.stp = KernelStpBridgeMember(self, cache)
         self._cache = cache
-        self._bridge_masters = []
+        self._bridge_masters = {}
 
     @property
     def bridge_masters(self):
@@ -237,6 +237,22 @@ class BridgeMember(linux_iface.Iface):
 
         return self._bridge_masters
 
+    @property
+    def vlan_list(self):
+        """
+        :return: list that first has the name of the untagged vlan followed by a list \
+        of vlans the trunk supports
+        :return: empty list if no vlan list found.
+        """
+        _vlanlist = []
+        for _bridge in self.bridge_masters.values():
+            _vlan_tag = _bridge.vlan_tag
+            if _vlan_tag:
+                _vlanlist += _vlan_tag
+            else:
+                # insert at the beginning of the array
+                _vlanlist.insert(0, _bridge.name)
+        return _vlanlist
 
 # ======================================================================= #
 
@@ -351,8 +367,8 @@ class Bridge(linux_iface.Iface):
         is provided then the function will use the tag as the vlan id
 
         :return: vlan ID if applicable. If multiple tags found, possibly indicating \
-            vlan translation, then all tags are printed as a comma \
-            delimited string. Empty string means no tag.
+            vlan translation, then all tags are printed as a list \
+            Empty array means no tag
         """
 
         # this may print something like '100,400', meaning that this bridge
@@ -370,7 +386,7 @@ class Bridge(linux_iface.Iface):
         # apply str.join function on list.
         # on an empty tagged_member output it will produce ''
         # -----------------------------------
-        self._vlan_tag = ', '.join(sorted(list(set(
+        self._vlan_tag = sorted(list(set(
             [x.split('.')[1] for x in self._memberlist_str()
-             if len(x.split('.')) > 1])), key=int))
+             if len(x.split('.')) > 1])), key=int)
         return self._vlan_tag

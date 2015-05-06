@@ -8,6 +8,7 @@
 # pylint: disable=W0201
 # pylint: disable=F0401
 import netshowlib.linux.bridge as linux_bridge
+from netshowlib.linux import common
 import mock
 from asserts import assert_equals, mod_args_generator
 from nose.tools import set_trace
@@ -346,7 +347,16 @@ class TestLinuxBridgeMember(object):
         linux_bridge.BRIDGE_CACHE['br10'] = br10
         linux_bridge.BRIDGE_CACHE['br11'] = br11
         linux_bridge.BRIDGE_CACHE['br30'] = br30
-        assert_equals(self.iface.vlan_list, ['br10', '11', '30'])
+        vlanlist = self.iface.vlan_list
+        native_vlans = []
+        tagged_vlans = []
+        for _str in vlanlist:
+            if _str.isdigit():
+                tagged_vlans.append(_str)
+            else:
+                native_vlans.append(_str)
+        vlanlist = common.group_ports(native_vlans) + common.create_range('', tagged_vlans)
+        assert_equals(vlanlist, ['br10', '11', '30'])
 
 
 
