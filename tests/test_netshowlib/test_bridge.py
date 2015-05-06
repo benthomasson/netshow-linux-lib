@@ -346,7 +346,6 @@ class TestLinuxBridgeMember(object):
         linux_bridge.BRIDGE_CACHE['br10'] = br10
         linux_bridge.BRIDGE_CACHE['br11'] = br11
         linux_bridge.BRIDGE_CACHE['br30'] = br30
-        set_trace()
         assert_equals(self.iface.vlan_list, ['br10', '11', '30'])
 
 
