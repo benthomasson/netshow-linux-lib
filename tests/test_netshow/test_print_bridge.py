@@ -23,14 +23,28 @@ from nose.tools import set_trace
 import re
 
 
+class TestPrintBridgeMember(object):
+    def setup(self):
+        iface = linux_bridge.BridgeMember('eth22')
+        self.piface = print_bridge.PrintBridgeMember(iface)
+
+    @mock.patch('netshow.linux.print_iface.linux_iface.Iface.is_trunk')
+    def test_port_category(self, mock_is_trunk):
+        # if trunk
+        mock_is_trunk.return_value = True
+        assert_equals(self.piface.port_category, 'trunk/l2')
+        # if not trunk
+        mock_is_trunk.return_value = False
+        assert_equals(self.piface.port_category, 'access/l2')
+
 class TestPrintBridge(object):
     def setup(self):
-        iface = linux_bridge.Bridge('eth22')
+        iface = linux_bridge.Bridge('br0')
         self.piface = print_bridge.PrintBridge(iface)
 
     @mock.patch('netshow.linux.print_iface.linux_iface.Iface.is_l3')
     def test_port_category(self, mock_is_l3):
-        # if l3 is true and is not loopback
+        # if l3
         mock_is_l3.return_value = True
         assert_equals(self.piface.port_category, 'bridge/l3')
         # if l3 is not true
