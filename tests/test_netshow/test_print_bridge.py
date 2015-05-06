@@ -161,7 +161,7 @@ class TestPrintBridge(object):
         assert_equals(_outputtable[4].split(),
                       ['root_priority:', '16384'])
         assert_equals(_outputtable[5].split(), ['bridge_priority:', '32768'])
-        assert_equals(_outputtable[6].split(), ['vlan_id:', 'untagged'])
+        assert_equals(_outputtable[6].split(), ['802.1q_tag:', 'untagged'])
 
     @mock.patch('netshowlib.linux.bridge.Bridge.read_from_sys')
     def test_no_stp_details(self, mock_read_from_sys):
@@ -171,7 +171,7 @@ class TestPrintBridge(object):
         assert_equals(_outputtable[2].split(),
                       ['stp_mode:', 'disabled'])
         assert_equals(_outputtable[3].split(),
-                      ['vlan_id:', 'untagged'])
+                      ['802.1q_tag:', 'untagged'])
 
     @mock.patch('netshowlib.linux.bridge.Bridge.read_from_sys')
     @mock.patch('netshow.linux.print_bridge.PrintBridge.cli_header')

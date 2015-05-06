@@ -67,7 +67,7 @@ class PrintBridge(PrintIface):
         """
         return: list with label saying 'vlan id' and vlan tag
         """
-        _arr = [_('vlan_id') + ':', self.vlan_id()]
+        _arr = [_('802.1q_tag') + ':', self.vlan_id()]
         return _arr
 
     def stp_summary(self):
