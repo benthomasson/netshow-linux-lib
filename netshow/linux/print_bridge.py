@@ -171,6 +171,8 @@ class PrintBridge(PrintIface):
         _str += self.ip_details() + self.new_line()
         if self.iface.stp:
             _str += self.stp_details() + self.new_line()
+            _str += self.ports_in_fwd_state() + self.new_line()
+            _str += self.ports_in_blocking_state() + self.new_line()
         else:
             _str += self.no_stp_details() + self.new_line()
 

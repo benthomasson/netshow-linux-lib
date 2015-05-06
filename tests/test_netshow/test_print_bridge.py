@@ -178,9 +178,14 @@ class TestPrintBridge(object):
     @mock.patch('netshow.linux.print_bridge.PrintBridge.ip_details')
     @mock.patch('netshow.linux.print_bridge.PrintBridge.stp_details')
     @mock.patch('netshow.linux.print_bridge.PrintBridge.no_stp_details')
-    def test_cli_output(self, mock_no_stp_details, mock_stp_details, mock_ip_details,
+    @mock.patch('netshow.linux.print_bridge.PrintBridge.ports_in_fwd_state')
+    @mock.patch('netshow.linux.print_bridge.PrintBridge.ports_in_blocking_state')
+    def test_cli_output(self, mock_block_state, mock_fwd_state,
+                        mock_no_stp_details, mock_stp_details, mock_ip_details,
                         mock_cli_header, mock_read_from_sys):
         manager = mock.MagicMock()
+        manager.attach_mock(mock_fwd_state, 'ports_in_fwd_state')
+        manager.attach_mock(mock_block_state, 'ports_in_blocking_state')
         manager.attach_mock(mock_no_stp_details, 'no_stp_details')
         manager.attach_mock(mock_stp_details, 'stp_details')
         manager.attach_mock(mock_ip_details, 'ip_details')
@@ -189,7 +194,9 @@ class TestPrintBridge(object):
         # stp enabled
         expected_calls = [mock.call.cli_header(),
                           mock.call.ip_details(),
-                          mock.call.stp_details()]
+                          mock.call.stp_details(),
+                          mock.call.ports_in_fwd_state(),
+                          mock.call.ports_in_blocking_state()]
         assert_equals(manager.method_calls, expected_calls)
         # stp disabled
         manager.reset_mock()
