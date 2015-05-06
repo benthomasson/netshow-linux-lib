@@ -14,9 +14,23 @@ class PrintBridgeMember(PrintIface):
     """
     Print and Analysis Class for Linux bridge member interfaces
     """
-    def mode(self):
-        pass
+    @property
+    def port_category(self):
+        """
+        :return: port category for bridge member
+        """
+        if self.iface.is_trunk():
+            return _('trunk/l2')
+        return _('access/l2')
 
+    @property
+    def summary(self):
+        """
+        :return: summary info regarding a bridge member
+        """
+        if self.iface.is_trunk():
+            return self.trunk_summary()
+        return self.access_summary()
 
 class PrintBridge(PrintIface):
     """
@@ -30,6 +44,18 @@ class PrintBridge(PrintIface):
         if self.iface.is_l3():
             return _('bridge/l3')
         return _('bridge/l2')
+
+    @property
+    def summary(self):
+        """
+        :return: summary information regarding the bridge
+        """
+        _info = []
+        _info.append(self.untagged_ifaces())
+        _info.append(self.tagged_ifaces())
+        _info.append(self.vlan_id_field())
+        _info.append(self.stp_summary())
+        return _info
 
     def untagged_ifaces(self):
         """
@@ -58,8 +84,10 @@ class PrintBridge(PrintIface):
         :return: vlan id
         :return: 'untagged' if non is available
         """
-        _str = self.iface.vlan_tag
-        if not _str:
+        _vlantag = self.iface.vlan_tag
+        if _vlantag:
+            _str = ','.join(_vlantag)
+        else:
             _str = _('untagged')
         return _str
 
@@ -89,18 +117,6 @@ class PrintBridge(PrintIface):
         else:
             _str.append(_('disabled'))
         return ' '.join(_str)
-
-    @property
-    def summary(self):
-        """
-        :return: summary information regarding the bridge
-        """
-        _info = []
-        _info.append(self.untagged_ifaces())
-        _info.append(self.tagged_ifaces())
-        _info.append(self.vlan_id_field())
-        _info.append(self.stp_summary())
-        return _info
 
     def root_port(self):
         """

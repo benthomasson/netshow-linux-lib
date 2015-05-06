@@ -172,3 +172,19 @@ class PrintIface(object):
                                        _entry.get('adj_hostname'))])
 
         return tabulate(_table, _header)
+
+    def trunk_summary(self):
+        """
+        :return: summary info for a trunk port
+        """
+        pass
+
+
+    def access_summary(self):
+        """
+        :return: summary info for an access port
+        """
+        if self.iface.is_access():
+            _bridgename = ','.join(self.iface.bridge_masters.keys())
+            return [_('untagged') + ':', _bridgename]
+        return ''

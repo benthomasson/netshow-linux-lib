@@ -17,6 +17,7 @@
 
 import netshow.linux.print_iface as print_iface
 import netshowlib.linux.iface as linux_iface
+import netshowlib.linux.bridge as linux_bridge
 import mock
 from asserts import assert_equals, mod_args_generator
 from nose.tools import set_trace
@@ -154,10 +155,33 @@ class TestPrintIface(object):
         assert_equals(_outputtable[2].split(), ['eth22', '====', 'eth2(switch1)'])
         assert_equals(_outputtable[3].split(), ['====', 'eth10(switch2)'])
 
-    def test_access_summary(self):
+    @mock.patch('netshowlib.linux.common.read_file_oneline')
+    @mock.patch('netshowlib.linux.iface.os.path.exists')
+    @mock.patch('netshowlib.linux.common.read_symlink')
+    def test_access_summary(self, mock_symlink, mock_os_path,
+                                mock_oneline):
+        self.piface.iface = linux_bridge.BridgeMember('eth22')
+        mock_subint = mock.MagicMock()
+        mock_subint.return_value = []
+        self.piface.iface.get_sub_interfaces = mock_subint
+        # bridgemember is trunk port
+        values = {
+            '/sys/class/net/eth22/brport': True,
+        }
+        values2 = {
+            '/sys/class/net/eth22/brport/state': '3',
+        }
+        values3 = {
+            '/sys/class/net/eth22/brport/bridge': 'br10',
+        }
+        mock_symlink.side_effect = mod_args_generator(values3)
+        mock_oneline.side_effect = mod_args_generator(values2)
+        mock_os_path.side_effect = mod_args_generator(values)
+        br10 = linux_bridge.Bridge('br10')
+        linux_bridge.BRIDGE_CACHE['br10'] = br10
         _output = self.piface.access_summary()
         # Untagged: br0
-        assert_equals(_output.split(), ['bridge:', 'br0'])
+        assert_equals(_output, ['untagged:', 'br10'])
 
     def test_trunk_summary(self):
         _output = self.piface.trunk_summary()
