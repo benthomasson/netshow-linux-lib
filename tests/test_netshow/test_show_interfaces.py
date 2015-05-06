@@ -212,7 +212,7 @@ class TestShowInterfaces(object):
                              mock_trunk, mock_read_from_sys, mock_exists):
         mock_exists.return_value = True
         mock_portlist.return_value = ['eth10', 'eth11']
-        mock_bridgemem.return_value = True
+        mock_bridgemem.return_value = False
         mock_trunk.return_value = False
         values = {'mtu': '1500',
                   'carrier': '0',
@@ -222,7 +222,7 @@ class TestShowInterfaces(object):
         assert_equals(re.split(r'\s+', _table.split('\n')[0]),
                       ['', 'name', 'speed', 'mtu', 'mode', 'summary'])
         assert_equals(re.split(r'\s+', _table.split('\n')[2]),
-                      ['dn', 'eth10', '1G', '1500', 'access/l2'])
+                      ['dn', 'eth10', '1G', '1500', 'access'])
 
     @mock.patch('netshow.linux.print_iface.linux_iface.Iface.exists')
     @mock.patch('netshow.linux.show_interfaces.print_iface.linux_iface.Iface.read_from_sys')

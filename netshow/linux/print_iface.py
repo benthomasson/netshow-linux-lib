@@ -4,6 +4,7 @@ Linux Iface module with print functions
 
 import netshowlib.netshowlib as nn
 from netshowlib.linux import iface as linux_iface
+from netshowlib.linux import common
 from flufl.i18n import initialize
 from tabulate import tabulate
 
@@ -177,14 +178,28 @@ class PrintIface(object):
         """
         :return: summary info for a trunk port
         """
-        return ['']
+        _vlanlist = self.iface.vlan_list
+        native_vlans = []
+        tagged_vlans = []
+        for _str in _vlanlist:
+            if _str.isdigit():
+                tagged_vlans.append(_str)
+            else:
+                native_vlans.append(_str)
+        _strlist = []
+        if tagged_vlans:
+            _strlist.append([_('tagged') + ':',
+                             ','.join(common.create_range('', tagged_vlans))])
 
+        if native_vlans:
+            _strlist.append([_('untagged') + ':',
+                             ','.join(common.group_ports(native_vlans))])
+
+        return _strlist
 
     def access_summary(self):
         """
         :return: summary info for an access port
         """
-        if self.iface.is_access():
-            _bridgename = ','.join(self.iface.bridge_masters.keys())
-            return [_('untagged') + ':', _bridgename]
-        return ['']
+        _bridgename = ','.join(self.iface.bridge_masters.keys())
+        return [_('untagged') + ':', _bridgename]

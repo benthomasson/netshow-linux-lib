@@ -183,10 +183,61 @@ class TestPrintIface(object):
         # Untagged: br0
         assert_equals(_output, ['untagged:', 'br10'])
 
-    def test_trunk_summary(self):
+    @mock.patch('netshowlib.linux.iface.Iface.is_trunk')
+    @mock.patch('netshowlib.linux.bridge.os.listdir')
+    @mock.patch('netshowlib.linux.common.read_file_oneline')
+    @mock.patch('netshowlib.linux.iface.os.path.exists')
+    @mock.patch('netshowlib.linux.common.read_symlink')
+    def test_trunk_summary(self, mock_symlink, mock_os_path,
+                                mock_oneline, mock_os_listdir,
+                            mock_is_trunk):
+        mock_is_trunk.return_value = True
+        mock_subint = mock.MagicMock()
+        mock_subint.return_value = ['eth22.11', 'eth22.20', 'eth22.30']
+        self.piface.iface = linux_bridge.BridgeMember('eth22')
+        self.piface.iface.get_sub_interfaces = mock_subint
+        # bridgemember is trunk port
+        values = {
+            '/sys/class/net/eth22/brport': True,
+            '/sys/class/net/eth22.11/brport': True,
+            '/sys/class/net/eth22.20/brport': False,
+            '/sys/class/net/eth22.30/brport': True,
+        }
+        values2 = {
+            '/sys/class/net/eth22/brport/state': '3',
+            '/sys/class/net/eth22/brport/bridge/bridge/root_port': 'aaa',
+            '/sys/class/net/eth22/brport/port_id': 'aaa',
+            '/sys/class/net/eth22.11/brport/state': '0',
+            '/sys/class/net/eth22.11/brport/bridge/bridge/stp_state': '1',
+            '/sys/class/net/eth22.11/brport/bridge/bridge/root_port': 'aaa',
+            '/sys/class/net/eth22.11/brport/port_id': 'aaa',
+            '/sys/class/net/eth22.30/brport/state': '0',
+            '/sys/class/net/eth22.30/brport/bridge/bridge/stp_state': '0'
+
+        }
+        values3 = {
+            '/sys/class/net/eth22/brport/bridge': 'br10',
+            '/sys/class/net/eth22.11/brport/bridge': 'br11',
+            '/sys/class/net/eth22.20/brport/bridge': None,
+            '/sys/class/net/eth22.30/brport/bridge': 'br30'
+        }
+        values4 = {
+            '/sys/class/net/br30/brif': ['eth22.30'],
+            '/sys/class/net/br11/brif': ['eth22.11'],
+            '/sys/class/net/br10/brif': ['eth22']
+        }
+
+        mock_os_listdir.side_effect = mod_args_generator(values4)
+        mock_symlink.side_effect = mod_args_generator(values3)
+        mock_oneline.side_effect = mod_args_generator(values2)
+        mock_os_path.side_effect = mod_args_generator(values)
+        br10 = linux_bridge.Bridge('br10')
+        br11 = linux_bridge.Bridge('br11')
+        br30 = linux_bridge.Bridge('br30')
+        linux_bridge.BRIDGE_CACHE['br10'] = br10
+        linux_bridge.BRIDGE_CACHE['br11'] = br11
+        linux_bridge.BRIDGE_CACHE['br30'] = br30
         _output = self.piface.trunk_summary()
-        # Tagged: 2-4
-        # Untagged: 1
-        assert_equals(_output[0].split(), ['tagged:', '2-4'])
-        assert_equals(_output[1].split(), ['untagged:', 'br0'])
+        assert_equals(_output[0], ['tagged:', '11,30'])
+        assert_equals(_output[1], ['untagged:', 'br10'])
 
