@@ -46,7 +46,8 @@ class KernelStpBridge(object):
 
        iface = linux.bridge.Bridge('eth2')
        iface.stp.state
-       >> { 'forwarding': [list of bridge member instances ]
+       >> { 'stp_disabled': [list of bridge member instances]
+            'forwarding': [list of bridge member instances ]
             'blocking': [list of bridge member instances ]
             'intransition': [ list of bridge member instances ]
             'disabled': [list of bridge member instances]
