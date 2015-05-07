@@ -32,6 +32,58 @@ class PrintBridgeMember(PrintIface):
             return self.trunk_summary()
         return self.access_summary()
 
+    def _pretty_vlanlist(self, stpstate, category):
+        """
+        :return: list of vlans that match category. First list of \
+            native ports, then vlan ids of tagged bridgers
+        """
+        if not stpstate:
+            return
+
+        bridgelist = stpstate.get(category)
+        _native_vlans = []
+        _tagged_vlans = []
+        for _bridge in bridgelist:
+            _vlantag = _bridge.vlan_tag
+            if _vlantag:
+                _tagged_vlans += _vlantag
+            else:
+                _native_vlans.append(_bridge.name)
+        _vlanlist = common.group_ports(_native_vlans) +  \
+            common.create_range('', _tagged_vlans)
+        return [', '.join(_vlanlist)]
+
+    def bridgemem_details(self):
+        """
+        :return: list vlans or bridge names of various stp states
+        """
+        _str = ''
+        _stpstate = self.iface.stp.state
+        if _stpstate.get(_('stp_disabled')):
+            _header = ['vlans in stp disabled state']
+            _table = [self._pretty_vlanlist(_stpstate, 'stp_disabled')]
+            _str += tabulate(_table, _header, numalign='left') + self.new_line()
+        if _stpstate.get('forwarding'):
+            _header = ['vlans in forwarding state']
+            _table = [self._pretty_vlanlist(_stpstate, 'forwarding')]
+            _str += tabulate(_table, _header, numalign='left') + self.new_line()
+        if _stpstate.get('blocking'):
+            _header = ['vlans in blocking state']
+            _table = [self._pretty_vlanlist(_stpstate, 'blocking')]
+            _str += tabulate(_table, _header, numalign='left')
+        return _str
+
+    def cli_output(self):
+        """
+        :return: output for 'netshow interface <ifacename> for a bridge interface'
+        """
+        _str = self.cli_header() + self.new_line()
+        _str += self.bridgemem_details() + self.new_line()
+        _str += self.lldp_details() + self.new_line()
+
+        return _str
+
+
 class PrintBridge(PrintIface):
     """
     Print and Analysis Class for Linux bridge interfaces
@@ -153,7 +205,6 @@ class PrintBridge(PrintIface):
         _table.append(self.vlan_id_field())
         return tabulate(_table, _header) + self.new_line()
 
-
     def ports_in_fwd_state(self):
         """
         :return: string output of lists of ports in forwarding state
@@ -177,7 +228,6 @@ class PrintBridge(PrintIface):
             _table.append(common.group_ports(_portlist))
             return tabulate(_table, _header)
         return ''
-
 
     def cli_output(self):
         """

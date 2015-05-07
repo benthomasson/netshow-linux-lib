@@ -28,6 +28,17 @@ class TestPrintBridgeMember(object):
         iface = linux_bridge.BridgeMember('eth22')
         self.piface = print_bridge.PrintBridgeMember(iface)
 
+    @mock.patch('netshow.linux.print_bridge.PrintBridgeMember.cli_header')
+    @mock.patch('netshow.linux.print_bridge.PrintBridgeMember.bridgemem_details')
+    @mock.patch('netshow.linux.print_bridge.PrintBridgeMember.lldp_details')
+    def test_cli_output(self, mock_lldp, mock_details, mock_cli_header):
+        mock_cli_header.return_value = 'cli_header'
+        mock_details.return_value = 'bridgemem_details'
+        mock_lldp.return_value = 'lldp'
+        assert_equals(self.piface.cli_output(), 'cli_header\n\nbridgemem_details\n\nlldp\n\n')
+
+
+
     @mock.patch('netshow.linux.print_iface.linux_iface.Iface.is_trunk')
     def test_port_category(self, mock_is_trunk):
         # if trunk
@@ -50,6 +61,74 @@ class TestPrintBridgeMember(object):
         # if access
         mock_is_trunk.return_value = False
         assert_equals(self.piface.summary, 'access summary')
+
+    @mock.patch('netshowlib.linux.bridge.os.listdir')
+    @mock.patch('netshowlib.linux.common.read_file_oneline')
+    @mock.patch('netshowlib.linux.iface.os.path.exists')
+    @mock.patch('netshowlib.linux.common.read_symlink')
+    def test_bridgemem_details(self, mock_symlink, mock_os_path,
+                               mock_oneline, mock_os_listdir):
+        mock_subint = mock.MagicMock()
+        mock_subint.return_value = ['eth22.11', 'eth22.20',
+                                    'eth22.40', 'eth22.30']
+        self.piface.iface.get_sub_interfaces = mock_subint
+        values22 = {
+            '/sys/class/net/br10/brif': ['eth22', 'eth33', 'eth44'],
+            '/sys/class/net/br30/brif': ['eth22.30', 'eth1.30', 'eth2'],
+            '/sys/class/net/br11/brif': ['eth22.11', 'eth1.11', 'eth4'],
+            '/sys/class/net/br40/brif': ['eth22.40', 'eth1.40', 'eth12']
+        }
+        mock_os_listdir.side_effect = mod_args_generator(values22)
+        self.piface.iface.get_sub_interfaces = mock_subint
+        # bridgemember is trunk port
+        values = {
+            '/sys/class/net/eth22/brport': True,
+            '/sys/class/net/eth22.11/brport': True,
+            '/sys/class/net/eth22.20/brport': False,
+            '/sys/class/net/eth22.30/brport': True,
+            '/sys/class/net/eth22.40/brport': True,
+        }
+        values2 = {
+            '/sys/class/net/eth22/brport/state': '3',
+            '/sys/class/net/eth22/brport/bridge/bridge/root_port': 'aaa',
+            '/sys/class/net/eth22/brport/port_id': 'aaa',
+            '/sys/class/net/eth22/brport/bridge/bridge/stp_state': '1',
+            '/sys/class/net/eth22.11/brport/state': '4',
+            '/sys/class/net/eth22.11/brport/bridge/bridge/stp_state': '1',
+            '/sys/class/net/eth22.11/brport/bridge/bridge/root_port': 'aaa',
+            '/sys/class/net/eth22.11/brport/port_id': '12',
+            '/sys/class/net/eth22.30/brport/state': '0',
+            '/sys/class/net/eth22.30/brport/bridge/bridge/stp_state': '0',
+            '/sys/class/net/eth22.40/brport/bridge/bridge/root_port': 'aaa',
+            '/sys/class/net/eth22.40/brport/state': '3',
+            '/sys/class/net/eth22.40/brport/port_id': '10',
+            '/sys/class/net/eth22.40/brport/bridge/bridge/stp_state': '1'
+        }
+        values3 = {
+            '/sys/class/net/eth22/brport/bridge': 'br10',
+            '/sys/class/net/eth22.11/brport/bridge': 'br11',
+            '/sys/class/net/eth22.20/brport/bridge': None,
+            '/sys/class/net/eth22.30/brport/bridge': 'br30',
+            '/sys/class/net/eth22.40/brport/bridge': 'br40'
+        }
+        mock_symlink.side_effect = mod_args_generator(values3)
+        mock_oneline.side_effect = mod_args_generator(values2)
+        mock_os_path.side_effect = mod_args_generator(values)
+        br10 = linux_bridge.Bridge('br10')
+        br11 = linux_bridge.Bridge('br11')
+        br30 = linux_bridge.Bridge('br30')
+        linux_bridge.BRIDGE_CACHE['br10'] = br10
+        linux_bridge.BRIDGE_CACHE['br11'] = br11
+        linux_bridge.BRIDGE_CACHE['br30'] = br30
+        _output = self.piface.bridgemem_details()
+        _outputtable = _output.split('\n')
+        assert_equals(_outputtable[0], 'vlans in stp disabled state')
+        assert_equals(_outputtable[2], '30')
+        assert_equals(_outputtable[4], 'vlans in forwarding state')
+        assert_equals(_outputtable[6], 'br10, 40')
+        assert_equals(_outputtable[8], 'vlans in blocking state')
+        assert_equals(_outputtable[10], '11')
+
 
 class TestPrintBridge(object):
     def setup(self):
