@@ -203,3 +203,14 @@ class PrintIface(object):
         """
         _bridgename = ','.join(self.iface.bridge_masters.keys())
         return [_('untagged') + ':', _bridgename]
+
+    @classmethod
+    def abbrev_linksummary(cls, linuxiface):
+        """
+        :return: 'U' if port is up
+        :return: 'D' if port is down or admdn
+        """
+        if linuxiface.linkstate == 2:
+            return _('U')
+        else:
+            return _('D')

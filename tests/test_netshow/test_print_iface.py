@@ -241,3 +241,11 @@ class TestPrintIface(object):
         assert_equals(_output[0], ['tagged:', '11,30'])
         assert_equals(_output[1], ['untagged:', 'br10'])
 
+    @mock.patch('netshowlib.linux.iface.Iface.read_from_sys')
+    def test_abbrev_linksummary(self, mock_read_from_sys):
+        values = {'carrier': '1'}
+        mock_read_from_sys.side_effect = mod_args_generator(values)
+        assert_equals(self.piface.abbrev_linksummary(self.piface.iface), 'U')
+        values = {'carrier': '0'}
+        mock_read_from_sys.side_effect = mod_args_generator(values)
+        assert_equals(self.piface.abbrev_linksummary(self.piface.iface), 'D')
