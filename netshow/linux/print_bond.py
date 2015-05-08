@@ -21,5 +21,12 @@ class PrintBond(PrintIface):
     """
     Print and Analysis Class for Linux bond interfaces
     """
-    def mode(self):
-        pass
+    @property
+    def port_category(self):
+        """
+        :return: port category for a bond
+        """
+        if self.iface.is_l3():
+            return _('bond/l3')
+        else:
+            return _('bond/l2')
