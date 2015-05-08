@@ -410,12 +410,11 @@ class Iface(object):
         :return:  0(adminDown), 1(Down), 2(Up)
         :rtype: int
         """
-        if not self._linkstate:
-            _carrier = self.read_from_sys('carrier')
-            if _carrier:
-                self._linkstate = 1 if _carrier == '0' else 2
-            else:
-                self._linkstate = 0
+        _carrier = self.read_from_sys('carrier')
+        if _carrier:
+            self._linkstate = 1 if _carrier == '0' else 2
+        else:
+            self._linkstate = 0
         return self._linkstate
 
     @property
