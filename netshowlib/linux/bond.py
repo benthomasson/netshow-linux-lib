@@ -1,13 +1,13 @@
 """ This module is responsible for finding properties
 related to bond interface and bond member interfaces """
 import netshowlib.linux.iface as linux_iface
+import netshowlib.linux.bridge as linux_bridge
 import netshowlib.linux.lacp as lacp
 import re
 try:
     from StringIO import StringIO
 except ImportError:
     from io import StringIO
-
 
 class Bond(linux_iface.Iface):
     """ Linux Bond attributes
@@ -43,6 +43,9 @@ class Bond(linux_iface.Iface):
         self._hash_policy = None
         self._lacp = None
         self._system_mac = None
+        self.stp = linux_bridge.KernelStpBridgeMember(self, cache)
+        self._bridge_masters = {}
+
 
     # -------------------
 
@@ -71,6 +74,34 @@ class Bond(linux_iface.Iface):
 
     # ---------------------
     # Define properties
+
+    @property
+    def bridge_masters(self):
+        """
+        :return: list of bridges associated with this port \
+            and its subinterfaces.
+        """
+        self._bridge_masters = {}
+        bridgename = self.read_symlink('brport/bridge')
+        if bridgename:
+            if linux_bridge.BRIDGE_CACHE.get(bridgename):
+                bridgeiface = linux_bridge.BRIDGE_CACHE.get(bridgename)
+            else:
+                bridgeiface = linux_bridge.Bridge(bridgename, cache=self._cache)
+            self._bridge_masters[bridgeiface.name] = bridgeiface
+
+        for subintname in self.get_sub_interfaces():
+            subiface = linux_iface.Iface(subintname)
+            bridgename = subiface.read_symlink('brport/bridge')
+            if bridgename:
+                if linux_bridge.BRIDGE_CACHE.get(bridgename):
+                    bridgeiface = linux_bridge.BRIDGE_CACHE.get(bridgename)
+                else:
+                    bridgeiface = linux_bridge.Bridge(bridgename, cache=self._cache)
+                self._bridge_masters[bridgeiface.name] = bridgeiface
+
+        return self._bridge_masters
+
 
     @property
     def members(self):
