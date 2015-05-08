@@ -29,8 +29,12 @@ class PrintBond(PrintIface):
         """
         if self.iface.is_l3():
             return _('bond/l3')
+        elif self.iface.is_trunk():
+            return _('bond/trunk')
+        elif self.iface.is_access():
+            return _('bond/access')
         else:
-            return _('bond/l2')
+            return _('bond')
 
     @property
     def summary(self):
@@ -61,8 +65,8 @@ class PrintBond(PrintIface):
             for the bond interface
         """
         _arr = []
-        for _bondmem in self.iface.members:
-            _arr.append("%s(%s%s)", _bondmem.name,
+        for _bondmem in self.iface.members.values():
+            _arr.append("%s(%s%s)" % (_bondmem.name,
                         self.abbrev_linksummary(_bondmem),
-                        self.abbrev_bondstate(_bondmem))
-        return ': '.join([_('bondmems'), ', '.join(_arr)])
+                        self.abbrev_bondstate(_bondmem)))
+        return ': '.join([_('bondmems'), ', '.join(sorted(_arr))])
