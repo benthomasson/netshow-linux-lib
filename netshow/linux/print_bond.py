@@ -21,6 +21,7 @@ class PrintBond(PrintIface):
     """
     Print and Analysis Class for Linux bond interfaces
     """
+
     @property
     def port_category(self):
         """
@@ -30,3 +31,38 @@ class PrintBond(PrintIface):
             return _('bond/l3')
         else:
             return _('bond/l2')
+
+    @property
+    def summary(self):
+        """
+        :return: summary info for bonds for 'netshow interfaces'
+        """
+        _arr = []
+        _arr.append(self.print_bondmems())
+        if self.iface.is_l3():
+            _arr.append(', '.join(self.iface.ip_address.allentries))
+        return _arr
+
+    @classmethod
+    def abbrev_bondstate(cls, bondmem):
+        """
+        :param bondmem: :class:`netshowlib.linux.BondMember` instance
+        :return: 'P' if bondmem in bond
+        :return: 'D' if bondmem is not in bond
+        """
+        if bondmem.bondstate == 1:
+            return _('P')
+        else:
+            return _('D')
+
+    def print_bondmems(self):
+        """
+        :return: bondmember list when showing summary in netshow interfaces \
+            for the bond interface
+        """
+        _arr = []
+        for _bondmem in self.iface.members:
+            _arr.append("%s(%s%s)", _bondmem.name,
+                        self.abbrev_linksummary(_bondmem),
+                        self.abbrev_bondstate(_bondmem))
+        return ': '.join([_('bondmems'), ', '.join(_arr)])

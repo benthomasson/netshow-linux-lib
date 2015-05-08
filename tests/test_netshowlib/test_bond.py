@@ -10,7 +10,7 @@
 import netshowlib.linux.bond as linux_bond
 import mock
 from mock import MagicMock
-from asserts import assert_equals, mock_open_str
+from asserts import assert_equals, mock_open_str, mod_args_generator
 from nose.tools import set_trace
 
 
@@ -22,20 +22,25 @@ class TestLinuxBondMember(object):
     def test_showing_master(self):
         assert_equals(self.iface.master, self.bond)
 
-    def test_bondstate(self):
-        mock_read_from_sys = MagicMock()
-        self.iface.master.read_from_sys = mock_read_from_sys
-        mock_read_from_sys.return_value = 'active-backup 2'
+    @mock.patch('netshowlib.linux.iface.Iface.read_from_sys')
+    def test_bondstate(self, mock_read_from_sys):
+        values = {'carrier': '0',
+                  'bonding/mode': 'active-backup 2'}
+        mock_read_from_sys.side_effect = mod_args_generator(values)
+        # mock_read_from_sys.return_value = 'active-backup 2'
         # if lacp is not set and linkstate is not up
-        self.iface._linkstate = 1
         assert_equals(self.iface.bondstate, 0)
 
         # if lacp is not set and linkstate is up
-        self.iface._linkstate = 2
+        values = {'carrier': '1',
+                  'bonding/mode': 'active-backup 2'}
+        mock_read_from_sys.side_effect = mod_args_generator(values)
         assert_equals(self.iface.bondstate, 1)
 
         # if lacp is set and agg_id is same
-        mock_read_from_sys.return_value = '802.3ad 4'
+        values = {'carrier': '1',
+                  'bonding/mode': '802.3ad 4'}
+        mock_read_from_sys.side_effect = mod_args_generator(values)
         bondingfile = open('tests/test_netshowlib/proc_net_bonding_agg_id_match.txt')
         with mock.patch(mock_open_str()) as mock_open:
             mock_open.return_value = bondingfile
