@@ -76,6 +76,24 @@ class Bond(linux_iface.Iface):
     # Define properties
 
     @property
+    def vlan_list(self):
+        """
+        :return: list that first has the name of the untagged vlan followed by a list \
+        of vlans the trunk supports
+        :return: empty list if no vlan list found.
+        """
+        _vlanlist = []
+        for _bridge in self.bridge_masters.values():
+            _vlan_tag = _bridge.vlan_tag
+            if _vlan_tag:
+                _vlanlist += _vlan_tag
+            else:
+                # insert at the beginning of the array
+                _vlanlist.insert(0, _bridge.name)
+        return _vlanlist
+
+
+    @property
     def bridge_masters(self):
         """
         :return: list of bridges associated with this port \
