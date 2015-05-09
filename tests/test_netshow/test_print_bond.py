@@ -83,14 +83,35 @@ class TestPrintBond(object):
         _output = self.piface.print_bondmems()
         assert_equals(_output.split(), ['bondmems:', 'eth22(UD),', 'eth24(UD)'])
 
+
+    @mock.patch('netshow.linux.print_bond.PrintBond.access_summary')
+    @mock.patch('netshow.linux.print_bond.PrintBond.trunk_summary')
     @mock.patch('netshow.linux.print_bond.PrintBond.print_bondmems')
-    def test_summary(self, mock_bondmems):
+    def test_summary(self, mock_bondmems, mock_trunk_summary, mock_access_summary):
+        mock_trunk_summary.return_value = ['trunk summary']
+        mock_access_summary.return_value = ['access summary']
         mock_bondmems.return_value = 'list of bondmembers'
-        mock_is_l3 = mock.MagicMock()
-        mock_is_l3.return_value = True
+        mock_is_l3 = mock.MagicMock(return_value=True)
+        mock_is_trunk = mock.MagicMock(return_value=False)
+        mock_is_access = mock.MagicMock(return_value=False)
         self.piface.iface.is_l3 = mock_is_l3
+        self.piface.iface.is_trunk = mock_is_trunk
+        self.piface.iface.is_access = mock_is_access
         self.piface.iface.ip_address.ipv4 = ['10.1.1.1/24']
         _output = self.piface.summary
         assert_equals(_output, ['list of bondmembers', '10.1.1.1/24'])
-        # is not l3
+        # is not l3 but is a trunk
         mock_is_l3.return_value = False
+        mock_is_trunk.return_value = True
+        _output = self.piface.summary
+        assert_equals(_output, ['list of bondmembers', 'trunk summary'])
+        # is not trunk or l3
+        mock_is_trunk.return_value = False
+        mock_is_access.return_value = True
+        _output = self.piface.summary
+        assert_equals(_output, ['list of bondmembers', 'access summary'])
+        # not l3 or l2
+        mock_is_access.return_value = False
+        _output = self.piface.summary
+        assert_equals(_output, ['list of bondmembers'])
+

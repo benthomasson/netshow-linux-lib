@@ -45,7 +45,13 @@ class PrintBond(PrintIface):
         _arr.append(self.print_bondmems())
         if self.iface.is_l3():
             _arr.append(', '.join(self.iface.ip_address.allentries))
+        elif self.iface.is_trunk():
+            _arr += self.trunk_summary()
+        elif self.iface.is_access():
+            _arr += self.access_summary()
         return _arr
+
+
 
     @classmethod
     def abbrev_bondstate(cls, bondmem):
