@@ -5,7 +5,7 @@ Print and Analysis Module for Linux bond interfaces
 from netshow.linux.print_iface import PrintIface
 
 from flufl.i18n import initialize
-
+from tabulate import tabulate
 _ = initialize('netshow-linux-lib')
 
 
@@ -21,7 +21,6 @@ class PrintBond(PrintIface):
     """
     Print and Analysis Class for Linux bond interfaces
     """
-
     @property
     def port_category(self):
         """
@@ -52,6 +51,42 @@ class PrintBond(PrintIface):
         return _arr
 
 
+    @property
+    def hash_policy(self):
+        """
+        :return: hash policy for bond
+        """
+        _hash_policy = self.iface.hash_policy
+        if _hash_policy == '1':
+            return _('layer3+4')
+        elif _hash_policy == '2':
+            return _('layer2+3')
+        elif _hash_policy == '0':
+            return _('layer2')
+        else:
+            return _('unknown')
+
+
+
+    @property
+    def mode(self):
+        """
+        :return: name of the bond mode
+        """
+        _mode = self.iface.mode
+        if _mode == '4':
+            return _('lacp')
+        elif _mode == '3':
+            return _('broadcast')
+        elif _mode == '2':
+            return _('balance-xor')
+        elif _mode == '1':
+            return _('active-backup')
+        elif _mode == '0':
+            return _('balance-rr')
+        else:
+            return _('unknown')
+
 
     @classmethod
     def abbrev_bondstate(cls, bondmem):
@@ -73,6 +108,38 @@ class PrintBond(PrintIface):
         _arr = []
         for _bondmem in self.iface.members.values():
             _arr.append("%s(%s%s)" % (_bondmem.name,
-                        self.abbrev_linksummary(_bondmem),
-                        self.abbrev_bondstate(_bondmem)))
+                                      self.abbrev_linksummary(_bondmem),
+                                      self.abbrev_bondstate(_bondmem)))
+
         return ': '.join([_('bondmems'), ', '.join(sorted(_arr))])
+
+    def bond_details(self):
+        """
+        print out table with bond details for netshow interface [ifacename]
+        """
+        _header = [_('bond_details'), '']
+        _table = []
+        _table.append([_('bond_mode') + ':', self.bond_mode])
+        _table.append([_('load_balancing') + ':',  self.hash_policy])
+        return tabulate(_table, _header)
+
+    def bondmem_details(self):
+        """
+        print out table with bond member summary info for netshow interface [ifacename]
+        for bond interface
+        """
+        pass
+
+    def cli_output(self):
+        """
+        cli output of the linux bond interface
+        :return: output for 'netshow interface <ifacename>'
+        """
+        _str = self.cli_header() + self.new_line()
+        _str += self.bond_details() + self.new_line()
+        _str += self.ip_details() + self.new_line()
+        _str += self.bondmem_details() + self.new_line()
+        _str += self.lldp_details() + self.new_line()
+        return _str
+
+

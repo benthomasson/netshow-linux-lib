@@ -27,6 +27,17 @@ class TestPrintBond(object):
         iface = linux_bond.Bond('eth22')
         self.piface = print_bond.PrintBond(iface)
 
+    @mock.patch('netshowlib.linux.iface.Iface.read_from_sys')
+    def test_hash_policy(self, mock_read_from_sys):
+        mock_read_from_sys.return_value = 'layer3+4 1'
+        assert_equals(self.piface.hash_policy, 'layer3+4')
+
+
+    @mock.patch('netshowlib.linux.iface.Iface.read_from_sys')
+    def test_bond_mode(self, mock_read_from_sys):
+        mock_read_from_sys.return_value = '802.3ad 4'
+        assert_equals(self.piface.mode, 'lacp')
+
     @mock.patch('netshow.linux.print_iface.linux_iface.Iface.is_access')
     @mock.patch('netshow.linux.print_iface.linux_iface.Iface.is_trunk')
     @mock.patch('netshow.linux.print_iface.linux_iface.Iface.is_l3')
