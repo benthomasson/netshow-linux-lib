@@ -206,7 +206,7 @@ class BondMember(linux_iface.Iface):
     * **master**: pointer to :class:`Bond<netshowlib.linux.bond.Bond>` instance \
         that this interface belongs to. This can be provided in the ``__init__`` \
         function
-    * **link_failures**: bond driver reports number of times bond member flaps
+    * **linkfailures**: bond driver reports number of times bond member flaps
     * **bondstate**: returns whether bond member is active (1) or inactive(0) in a bond \
         **irrespective** of its carrier/linkstate status. What this means is that \
         the link can be up, but not in the bond.
