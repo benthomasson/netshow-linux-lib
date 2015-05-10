@@ -27,6 +27,25 @@ class TestPrintBond(object):
         iface = linux_bond.Bond('bond0')
         self.piface = print_bond.PrintBond(iface)
 
+    @mock.patch('netshow.linux.print_iface.PrintIface.cli_header')
+    @mock.patch('netshow.linux.print_bond.PrintBond.bond_details')
+    @mock.patch('netshow.linux.print_iface.PrintIface.ip_details')
+    @mock.patch('netshow.linux.print_bond.PrintBond.bondmem_details')
+    @mock.patch('netshow.linux.print_iface.PrintIface.lldp_details')
+    def test_cl_output(self,
+                       mock_lldp, mock_bondmems,
+                       mock_ip, mock_bond_details,
+                       mock_cli_header):
+        mock_lldp.return_value = 'lldp_output'
+        mock_ip.return_value = 'ip output'
+        mock_bondmems.return_value = 'bondmem output'
+        mock_bond_details.return_value = 'bond details'
+        mock_cli_header.return_value = 'cli header'
+        _output = self.piface.cli_output()
+        assert_equals(_output,
+                      'cli header\n\nbond details\n\nip output\n\nbondmem output\n\nlldp_output\n\n')
+
+        self.piface.cli_output
     @mock.patch('netshowlib.linux.common.read_file_oneline')
     @mock.patch('netshowlib.linux.iface.Iface.read_from_sys')
     def test_bond_details(self, mock_read_from_sys, mock_file_oneline):
