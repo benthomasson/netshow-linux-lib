@@ -113,14 +113,33 @@ class PrintBond(PrintIface):
 
         return ': '.join([_('bondmems'), ', '.join(sorted(_arr))])
 
+    def lacp_rate(self):
+        """
+        :return: lacp rate in plain english
+        """
+        _lacp = self.iface.lacp
+        if _lacp:
+            if _lacp.rate == '1':
+                return _('fast_lacp')
+            elif _lacp.rate == '0':
+                return _('slow_lacp')
+            else:
+                return _('unknown')
+
+
     def bond_details(self):
         """
         print out table with bond details for netshow interface [ifacename]
         """
         _header = [_('bond_details'), '']
         _table = []
-        _table.append([_('bond_mode') + ':', self.bond_mode])
-        _table.append([_('load_balancing') + ':',  self.hash_policy])
+        _table.append([_('bond_mode') + ':', self.mode])
+        _table.append([_('load_balancing') + ':', self.hash_policy])
+        _table.append([_('minimum_links') + ':', self.iface.min_links])
+        _lacp_info = self.iface.lacp
+        if _lacp_info:
+            _table.append([_('lacp_sys_priority') + ':', self.iface.lacp.sys_priority])
+            _table.append([_('lacp_rate') + ':', self.lacp_rate()])
         return tabulate(_table, _header)
 
     def bondmem_details(self):

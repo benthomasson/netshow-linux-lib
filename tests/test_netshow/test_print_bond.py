@@ -24,8 +24,40 @@ from nose.tools import set_trace
 
 class TestPrintBond(object):
     def setup(self):
-        iface = linux_bond.Bond('eth22')
+        iface = linux_bond.Bond('bond0')
         self.piface = print_bond.PrintBond(iface)
+
+    @mock.patch('netshowlib.linux.common.read_file_oneline')
+    @mock.patch('netshowlib.linux.iface.Iface.read_from_sys')
+    def test_bond_details(self, mock_read_from_sys, mock_file_oneline):
+        #with lacp
+        values1 = {'bonding/mode': '802.3ad 4',
+                   'bonding/xmit_hash_policy': 'layer3+4 2',
+                   'bonding/min_links': '2'}
+        values2 = {
+            '/sys/class/net/bond0/bonding/ad_sys_priority': '65535',
+            '/sys/class/net/bond0/bonding/lacp_rate': 'fast 1'
+        }
+        mock_read_from_sys.side_effect = mod_args_generator(values1)
+        mock_file_oneline.side_effect = mod_args_generator(values2)
+        _output = self.piface.bond_details()
+        _outputtable = _output.split('\n')
+        assert_equals(_outputtable[0], 'bond_details')
+        assert_equals(_outputtable[2].split(), ['bond_mode:', 'lacp'])
+        assert_equals(_outputtable[3].split(), ['load_balancing:', 'layer2+3'])
+        assert_equals(_outputtable[4].split(), ['minimum_links:', '2'])
+        assert_equals(_outputtable[5].split(), ['lacp_sys_priority:', '65535'])
+        assert_equals(_outputtable[6].split(), ['lacp_rate:', 'fast_lacp'])
+        assert_equals(len(_output.split('\n')), 7)
+        # without lacp
+        values1 = {'bonding/mode': 'something_else 2',
+                   'bonding/xmit_hash_policy': 'layer3+4 2',
+                   'bonding/min_links': '2'}
+        mock_read_from_sys.side_effect = mod_args_generator(values1)
+        _output = self.piface.bond_details()
+        assert_equals(len(_output.split('\n')), 5)
+
+
 
     @mock.patch('netshowlib.linux.iface.Iface.read_from_sys')
     def test_hash_policy(self, mock_read_from_sys):
