@@ -45,7 +45,22 @@ class TestPrintBond(object):
         assert_equals(_output,
                       'cli header\n\nbond details\n\nip output\n\nbondmem output\n\nlldp_output\n\n')
 
-        self.piface.cli_output
+    @mock.patch('netshowlib.linux.common.read_file_oneline')
+    @mock.patch('netshowlib.linux.iface.Iface.read_from_sys')
+    def test_bondmem_details(self, mock_read_from_sys, mock_file_oneline):
+        values1 = {'bonding/slaves': 'eth20 eth30',
+                   'carrier': '1',
+                   'bonding/mode': 'something 2',
+                   'speed': '1000'}
+        values2 = {}
+        mock_read_from_sys.side_effect = mod_args_generator(values1)
+        mock_file_oneline.side_effect = mod_args_generator(values2)
+        _output = self.piface.bondmem_details()
+        _outputtable = _output.split('\n')
+        assert_equals(_outputtable[0].split(), ['port', 'speed', 'link_failures'])
+        assert_equals(_outputtable[2].split(), ['up', 'eth20(P)', '1G', '0'])
+        assert_equals(_outputtable[3].split(), ['up', 'eth30(P)', '1G', '0'])
+
     @mock.patch('netshowlib.linux.common.read_file_oneline')
     @mock.patch('netshowlib.linux.iface.Iface.read_from_sys')
     def test_bond_details(self, mock_read_from_sys, mock_file_oneline):
@@ -144,6 +159,13 @@ class TestPrintBond(object):
             _bondmem._bondstate = 0
         _output = self.piface.print_bondmems()
         assert_equals(_output.split(), ['bondmems:', 'eth22(UD),', 'eth24(UD)'])
+        # no ports in bond
+        values = {'bonding/slaves': None}
+        mock_read_from_sys.side_effect = mod_args_generator(values)
+        mock_file_oneline.side_effect = mod_args_generator(values2)
+        _output = self.piface.print_bondmems()
+        assert_equals(_output, 'no_bond_members_found')
+
 
 
     @mock.patch('netshow.linux.print_bond.PrintBond.access_summary')

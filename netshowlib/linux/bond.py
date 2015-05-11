@@ -233,7 +233,7 @@ class BondMember(linux_iface.Iface):
     def __init__(self, name, cache=None, master=None):
         linux_iface.Iface.__init__(self, name, cache)
         self._master = master
-        self._linkfailures = None
+        self._linkfailures = 0
         self._bondstate = None
 
     # -------------------

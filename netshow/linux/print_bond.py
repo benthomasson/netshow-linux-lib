@@ -50,7 +50,6 @@ class PrintBond(PrintIface):
             _arr += self.access_summary()
         return _arr
 
-
     @property
     def hash_policy(self):
         """
@@ -65,8 +64,6 @@ class PrintBond(PrintIface):
             return _('layer2')
         else:
             return _('unknown')
-
-
 
     @property
     def mode(self):
@@ -86,7 +83,6 @@ class PrintBond(PrintIface):
             return _('balance-rr')
         else:
             return _('unknown')
-
 
     @classmethod
     def abbrev_bondstate(cls, bondmem):
@@ -110,8 +106,10 @@ class PrintBond(PrintIface):
             _arr.append("%s(%s%s)" % (_bondmem.name,
                                       self.abbrev_linksummary(_bondmem),
                                       self.abbrev_bondstate(_bondmem)))
-
-        return ': '.join([_('bondmems'), ', '.join(sorted(_arr))])
+        if len(_arr) > 0:
+            return ': '.join([_('bondmems'), ', '.join(sorted(_arr))])
+        else:
+            return _('no_bond_members_found')
 
     def lacp_rate(self):
         """
@@ -125,7 +123,6 @@ class PrintBond(PrintIface):
                 return _('slow_lacp')
             else:
                 return _('unknown')
-
 
     def bond_details(self):
         """
@@ -147,7 +144,21 @@ class PrintBond(PrintIface):
         print out table with bond member summary info for netshow interface [ifacename]
         for bond interface
         """
-        pass
+        _header = ['', _('port'), _('speed'), _('link_failures')]
+        _table = []
+        _bondmembers = self.iface.members.values()
+        if len(_bondmembers) == 0:
+            return _('no_bond_members_found')
+
+        for _bondmem in _bondmembers:
+            _printbondmem = PrintBondMember(_bondmem)
+            _table.append([_printbondmem.linkstate,
+                           "%s(%s)" % (_printbondmem.name,
+                                       self.abbrev_bondstate(_bondmem)),
+                           _printbondmem.speed,
+                           _bondmem.linkfailures])
+
+        return tabulate(_table, _header)
 
     def cli_output(self):
         """
@@ -160,5 +171,3 @@ class PrintBond(PrintIface):
         _str += self.bondmem_details() + self.new_line()
         _str += self.lldp_details() + self.new_line()
         return _str
-
-

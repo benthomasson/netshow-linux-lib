@@ -42,7 +42,7 @@ class PrintIface(object):
     """
     def __init__(self, _iface):
         self.iface = _iface
-        self.name = self.iface.name
+        self.name = _iface.name
 
     @classmethod
     def new_line(cls):
