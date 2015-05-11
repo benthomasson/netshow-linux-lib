@@ -13,9 +13,31 @@ class PrintBondMember(PrintIface):
     """
     Print and Analysis Class for Linux bond member interfaces
     """
-    def mode(self):
-        pass
+    @property
+    def port_category(self):
+        """
+        :return: port category for a bondmem
+        """
+        return _('bondmem')
 
+    @property
+    def summary(self):
+        """
+        :return: summary info for bond members for 'netshow interfaces'
+        """
+        _arr = []
+        _arr.append("%s: %s", _('master'), self.iface.master.name)
+        return _arr
+
+    def cli_output(self):
+        """
+        cli output of the linux bond member interface
+        :return: output for 'netshow interface <ifacename>'
+        """
+        _str = self.cli_header() + self.new_line()
+        _str += self.bondmem_details() + self.new_line()
+        _str += self.lldp_details() + self.new_line()
+        return _str
 
 class PrintBond(PrintIface):
     """
@@ -159,6 +181,33 @@ class PrintBond(PrintIface):
                            _bondmem.linkfailures])
 
         return tabulate(_table, _header)
+
+    def lldp_details(self):
+        """
+        :return: lldp info for the bond members
+        """
+        _header = [_('lldp'), '', '']
+        _table = []
+        for  _bondmem in self.iface.members.values():
+            lldp_output = _bondmem.lldp
+            if not lldp_output:
+                continue
+            _table.append(["%s(%s)" % (_bondmem.name,
+                                       self.abbrev_bondstate(_bondmem))
+                           , '====',
+                           "%s(%s)" % (lldp_output[0].get('adj_port'),
+                                       lldp_output[0].get('adj_hostname'))])
+            del lldp_output[0]
+            for _entry in lldp_output:
+                _table.append(['', '====',
+                               "%s(%s)" % (_entry.get('adj_port'),
+                                           _entry.get('adj_hostname'))])
+
+        if len(_table) > 0:
+            return tabulate(_table, _header)
+        else:
+            return _('no_lldp_entries')
+
 
     def cli_output(self):
         """

@@ -31,19 +31,42 @@ class TestPrintBond(object):
     @mock.patch('netshow.linux.print_bond.PrintBond.bond_details')
     @mock.patch('netshow.linux.print_iface.PrintIface.ip_details')
     @mock.patch('netshow.linux.print_bond.PrintBond.bondmem_details')
-    @mock.patch('netshow.linux.print_iface.PrintIface.lldp_details')
-    def test_cl_output(self,
-                       mock_lldp, mock_bondmems,
+    def test_cl_output(self, mock_bondmems,
                        mock_ip, mock_bond_details,
                        mock_cli_header):
-        mock_lldp.return_value = 'lldp_output'
         mock_ip.return_value = 'ip output'
         mock_bondmems.return_value = 'bondmem output'
         mock_bond_details.return_value = 'bond details'
         mock_cli_header.return_value = 'cli header'
         _output = self.piface.cli_output()
         assert_equals(_output,
-                      'cli header\n\nbond details\n\nip output\n\nbondmem output\n\nlldp_output\n\n')
+                      'cli header\n\nbond details\n\nip output\n\nbondmem output\n\nno_lldp_entries\n\n')
+
+
+    @mock.patch('netshowlib.linux.lldp.interface')
+    @mock.patch('netshowlib.linux.common.read_file_oneline')
+    @mock.patch('netshowlib.linux.iface.Iface.read_from_sys')
+    def test_lldp_details(self, mock_read_from_sys, mock_file_oneline,
+                          mock_lldp):
+        values1 = {'bonding/slaves': 'eth20 eth30',
+                   'bonding/mode': 'something 2',
+                   'carrier': '1'}
+        values2 = {}
+        values = [{'adj_port': 'eth2',
+                   'adj_hostname': 'switch1'},
+                  {'adj_port': 'eth10',
+                   'adj_hostname': 'switch2'}]
+        mock_lldp.return_value = values
+        mock_read_from_sys.side_effect = mod_args_generator(values1)
+        mock_file_oneline.side_effect = mod_args_generator(values2)
+        _output = self.piface.lldp_details()
+        _outputtable = _output.split('\n')
+        assert_equals(_outputtable[0].split(), ['lldp'])
+        assert_equals(_outputtable[2].split(), ['eth20(P)', '====', 'eth2(switch1)'])
+        assert_equals(_outputtable[3].split(), ['====', 'eth10(switch2)'])
+        assert_equals(_outputtable[4].split(), ['eth30(P)', '====', 'eth10(switch2)'])
+
+
 
     @mock.patch('netshowlib.linux.common.read_file_oneline')
     @mock.patch('netshowlib.linux.iface.Iface.read_from_sys')

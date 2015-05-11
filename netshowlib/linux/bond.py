@@ -1,5 +1,6 @@
 """ This module is responsible for finding properties
 related to bond interface and bond member interfaces """
+from collections import OrderedDict
 import netshowlib.linux.iface as linux_iface
 import netshowlib.linux.bridge as linux_bridge
 import netshowlib.linux.lacp as lacp
@@ -130,7 +131,7 @@ class Bond(linux_iface.Iface):
         # if bond member list has changed..clear the bond members hash
         if fileoutput:
             if set(fileoutput.split()) != set(self._members.keys()):
-                self._members = {}
+                self._members = OrderedDict()
                 for i in fileoutput.split():
                     self._members[i] = BondMember(i, master=self)
         else:
