@@ -22,6 +22,26 @@ from asserts import assert_equals, mod_args_generator
 from nose.tools import set_trace
 
 
+class TestPrintBondMember(object):
+    def setup(self):
+        self.bond = linux_bond.Bond('bond0')
+        iface = linux_bond.BondMember('eth22', master=self.bond)
+        self.piface = print_bond.PrintBondMember(iface)
+
+    def test_port_category(self):
+        assert_equals(self.piface.port_category, 'bondmem')
+
+    @mock.patch('netshowlib.linux.common.read_file_oneline')
+    @mock.patch('netshowlib.linux.iface.Iface.read_from_sys')
+    def test_summary(self, mock_read_from_sys, mock_file_oneline):
+        values1 = {'carrier': '1',
+                   'bonding/mode': 'something 2'}
+        values2 = {}
+        mock_read_from_sys.side_effect = mod_args_generator(values1)
+        mock_file_oneline.side_effect = mod_args_generator(values2)
+        assert_equals(self.piface.summary, ['master: bond0(UP)'])
+
+
 class TestPrintBond(object):
     def setup(self):
         iface = linux_bond.Bond('bond0')

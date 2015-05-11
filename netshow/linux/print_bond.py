@@ -26,7 +26,10 @@ class PrintBondMember(PrintIface):
         :return: summary info for bond members for 'netshow interfaces'
         """
         _arr = []
-        _arr.append("%s: %s", _('master'), self.iface.master.name)
+        _arr.append("%s: %s(%s%s)" % (_('master'),
+                                      self.iface.master.name,
+                                      PrintIface.abbrev_linksummary(self.iface),
+                                      PrintBond.abbrev_bondstate(self.iface)))
         return _arr
 
     def cli_output(self):
@@ -35,7 +38,7 @@ class PrintBondMember(PrintIface):
         :return: output for 'netshow interface <ifacename>'
         """
         _str = self.cli_header() + self.new_line()
-        _str += self.bondmem_details() + self.new_line()
+        # _str += self.bondmem_details() + self.new_line()
         _str += self.lldp_details() + self.new_line()
         return _str
 
