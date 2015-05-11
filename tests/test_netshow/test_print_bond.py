@@ -27,10 +27,6 @@ class TestPrintBond(object):
         iface = linux_bond.Bond('bond0')
         self.piface = print_bond.PrintBond(iface)
 
-    def test_port_category(self):
-        assert_equals(self.piface.category, 'bondmem')
-
-
     @mock.patch('netshow.linux.print_iface.PrintIface.cli_header')
     @mock.patch('netshow.linux.print_bond.PrintBond.bond_details')
     @mock.patch('netshow.linux.print_iface.PrintIface.ip_details')
