@@ -71,7 +71,7 @@ class PrintBondMember(PrintIface):
         :return: output for 'netshow interface <ifacename>'
         """
         _str = self.cli_header() + self.new_line()
-        # _str += self.bondmem_details() + self.new_line()
+        _str += self.bondmem_details() + self.new_line()
         _str += self.lldp_details() + self.new_line()
         return _str
 

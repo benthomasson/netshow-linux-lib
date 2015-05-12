@@ -80,6 +80,16 @@ class TestPrintBondMember(object):
                       ['lacp_sys_priority:', '65535'])
         assert_equals(re.split(r'\s{3,}', _outputtable[10]), ['lacp_rate:', 'slow_lacp'])
 
+    @mock.patch('netshow.linux.print_bond.PrintBondMember.lldp_details')
+    @mock.patch('netshow.linux.print_bond.PrintBondMember.bondmem_details')
+    @mock.patch('netshow.linux.print_bond.PrintBondMember.cli_header')
+    def test_cli_output(self, mock_cli_header, mock_bondmem_details, mock_lldp):
+        mock_cli_header.return_value = 'cli_output'
+        mock_bondmem_details.return_value = 'bondmem_details'
+        mock_lldp.return_value = 'lldp_output'
+        assert_equals(self.piface.cli_output(),
+                      'cli_output\n\nbondmem_details\n\nlldp_output\n\n')
+
 
 class TestPrintBond(object):
     def setup(self):
