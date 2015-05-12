@@ -3,12 +3,13 @@
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
+#: ../netshow/linux/print_bridge.py:189
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-04-27 03:46+0000\n"
+"POT-Creation-Date: 2015-05-12 17:44+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,71 +18,310 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: ../netshow/linux/print_iface.py:22
-msgid "admdn"
+#: ../netshow/linux/print_bond.py:21
+msgid "bondmem"
 msgstr ""
 
-#: ../netshow/linux/print_iface.py:24
-msgid "dn"
+#: ../netshow/linux/print_bond.py:29
+msgid "master"
 msgstr ""
 
-#: ../netshow/linux/print_iface.py:26
-msgid "up"
+#: ../netshow/linux/print_bond.py:41
+msgid "port_in_bond"
 msgstr ""
 
-#: ../netshow/linux/print_iface.py:36
-msgid "subint/l3"
+#: ../netshow/linux/print_bond.py:43
+msgid "port_not_in_bond"
 msgstr ""
 
-#: ../netshow/linux/print_iface.py:38
-msgid "access/l3"
+#: ../netshow/linux/print_bond.py:50 ../netshow/linux/print_bond.py:190
+msgid "bond_details"
 msgstr ""
 
-#: ../netshow/linux/print_iface.py:40
-msgid "access/L2"
+#: ../netshow/linux/print_bond.py:54
+msgid "master_bond"
 msgstr ""
 
-#: ../netshow/linux/print_iface.py:42
-msgid "trunk/l2"
+#: ../netshow/linux/print_bond.py:55
+msgid "state_in_bond"
 msgstr ""
 
-#: ../netshow/linux/print_iface.py:44
+#: ../netshow/linux/print_bond.py:56 ../netshow/linux/print_bond.py:206
+msgid "link_failures"
+msgstr ""
+
+#: ../netshow/linux/print_bond.py:57
+msgid "bond_members"
+msgstr ""
+
+#: ../netshow/linux/print_bond.py:58 ../netshow/linux/print_bond.py:192
+msgid "bond_mode"
+msgstr ""
+
+#: ../netshow/linux/print_bond.py:59 ../netshow/linux/print_bond.py:193
+msgid "load_balancing"
+msgstr ""
+
+#: ../netshow/linux/print_bond.py:60 ../netshow/linux/print_bond.py:194
+msgid "minimum_links"
+msgstr ""
+
+#: ../netshow/linux/print_bond.py:63 ../netshow/linux/print_bond.py:197
+msgid "lacp_sys_priority"
+msgstr ""
+
+#: ../netshow/linux/print_bond.py:64 ../netshow/linux/print_bond.py:198
+msgid "lacp_rate"
+msgstr ""
+
+#: ../netshow/linux/print_bond.py:89
+msgid "bond/l3"
+msgstr ""
+
+#: ../netshow/linux/print_bond.py:91
+msgid "bond/trunk"
+msgstr ""
+
+#: ../netshow/linux/print_bond.py:93
+msgid "bond/access"
+msgstr ""
+
+#: ../netshow/linux/print_bond.py:95
+msgid "bond"
+msgstr ""
+
+#: ../netshow/linux/print_bond.py:119
+msgid "layer3+4"
+msgstr ""
+
+#: ../netshow/linux/print_bond.py:121
+msgid "layer2+3"
+msgstr ""
+
+#: ../netshow/linux/print_bond.py:123
+msgid "layer2"
+msgstr ""
+
+#: ../netshow/linux/print_bond.py:125 ../netshow/linux/print_bond.py:144
+#: ../netshow/linux/print_bond.py:184
 msgid "unknown"
 msgstr ""
 
-#: ../netshow/linux/print_iface.py:48
-msgid "myspeed"
+#: ../netshow/linux/print_bond.py:134
+msgid "lacp"
 msgstr ""
 
-#: ../netshow/linux/print_iface.py:58
-msgid "dhcp"
+#: ../netshow/linux/print_bond.py:136
+msgid "broadcast"
 msgstr ""
 
-#: ../netshow/linux/show_interfaces.py:152
-#: ../netshow/linux/show_interfaces.py:155
-msgid "name"
+#: ../netshow/linux/print_bond.py:138
+msgid "balance-xor"
 msgstr ""
 
-#: ../netshow/linux/show_interfaces.py:152
-msgid "mac"
+#: ../netshow/linux/print_bond.py:140
+msgid "active-backup"
 msgstr ""
 
-#: ../netshow/linux/show_interfaces.py:152
-#: ../netshow/linux/show_interfaces.py:155
+#: ../netshow/linux/print_bond.py:142
+msgid "balance-rr"
+msgstr ""
+
+#: ../netshow/linux/print_bond.py:154
+msgid "P"
+msgstr ""
+
+#: ../netshow/linux/print_bond.py:156 ../netshow/linux/print_iface.py:216
+msgid "D"
+msgstr ""
+
+#: ../netshow/linux/print_bond.py:169
+msgid "bondmems"
+msgstr ""
+
+#: ../netshow/linux/print_bond.py:171 ../netshow/linux/print_bond.py:210
+msgid "no_bond_members_found"
+msgstr ""
+
+#: ../netshow/linux/print_bond.py:180
+msgid "fast_lacp"
+msgstr ""
+
+#: ../netshow/linux/print_bond.py:182
+msgid "slow_lacp"
+msgstr ""
+
+#: ../netshow/linux/print_bond.py:206
+msgid "port"
+msgstr ""
+
+#: ../netshow/linux/print_bond.py:206 ../netshow/linux/print_iface.py:122
+#: ../netshow/linux/show_interfaces.py:168
+#: ../netshow/linux/show_interfaces.py:171
 msgid "speed"
 msgstr ""
 
-#: ../netshow/linux/show_interfaces.py:153
-#: ../netshow/linux/show_interfaces.py:156
+#: ../netshow/linux/print_bond.py:226 ../netshow/linux/print_iface.py:164
+msgid "lldp"
+msgstr ""
+
+#: ../netshow/linux/print_bond.py:246
+msgid "no_lldp_entries"
+msgstr ""
+
+#: ../netshow/linux/print_iface.py:61
+msgid "admdn"
+msgstr ""
+
+#: ../netshow/linux/print_iface.py:63
+msgid "dn"
+msgstr ""
+
+#: ../netshow/linux/print_iface.py:65
+msgid "up"
+msgstr ""
+
+#: ../netshow/linux/print_iface.py:74
+msgid "loopback"
+msgstr ""
+
+#: ../netshow/linux/print_iface.py:77
+msgid "subint/l3"
+msgstr ""
+
+#: ../netshow/linux/print_iface.py:79
+msgid "access/l3"
+msgstr ""
+
+#: ../netshow/linux/print_iface.py:81
+msgid "access"
+msgstr ""
+
+#: ../netshow/linux/print_iface.py:88
+msgid "n/a"
+msgstr ""
+
+#: ../netshow/linux/print_iface.py:108
+msgid "dhcp"
+msgstr ""
+
+#: ../netshow/linux/print_iface.py:121 ../netshow/linux/show_interfaces.py:168
+#: ../netshow/linux/show_interfaces.py:171
+msgid "name"
+msgstr ""
+
+#: ../netshow/linux/print_iface.py:121 ../netshow/linux/show_interfaces.py:168
+msgid "mac"
+msgstr ""
+
+#: ../netshow/linux/print_iface.py:122 ../netshow/linux/show_interfaces.py:169
+#: ../netshow/linux/show_interfaces.py:172
 msgid "mtu"
 msgstr ""
 
-#: ../netshow/linux/show_interfaces.py:153
-#: ../netshow/linux/show_interfaces.py:156
+#: ../netshow/linux/print_iface.py:122 ../netshow/linux/show_interfaces.py:169
+#: ../netshow/linux/show_interfaces.py:172
 msgid "mode"
 msgstr ""
 
-#: ../netshow/linux/show_interfaces.py:153
-#: ../netshow/linux/show_interfaces.py:156
+#: ../netshow/linux/print_iface.py:149
+msgid "ip_details"
+msgstr ""
+
+#: ../netshow/linux/print_iface.py:151
+msgid "ip"
+msgstr ""
+
+#: ../netshow/linux/print_iface.py:153
+msgid "arp_entries"
+msgstr ""
+
+#: ../netshow/linux/print_iface.py:191 ../netshow/linux/print_bridge.py:129
+msgid "tagged"
+msgstr ""
+
+#: ../netshow/linux/print_iface.py:195 ../netshow/linux/print_iface.py:205
+#: ../netshow/linux/print_bridge.py:118 ../netshow/linux/print_bridge.py:143
+msgid "untagged"
+msgstr ""
+
+#: ../netshow/linux/print_iface.py:214
+msgid "U"
+msgstr ""
+
+#: ../netshow/linux/print_bridge.py:23
+msgid "trunk/l2"
+msgstr ""
+
+#: ../netshow/linux/print_bridge.py:24
+msgid "access/l2"
+msgstr ""
+
+#: ../netshow/linux/print_bridge.py:62
+msgid "stp_disabled"
+msgstr ""
+
+#: ../netshow/linux/print_bridge.py:97
+msgid "bridge/l3"
+msgstr ""
+
+#: ../netshow/linux/print_bridge.py:98
+msgid "bridge/l2"
+msgstr ""
+
+#: ../netshow/linux/print_bridge.py:150
+msgid "802.1q_tag"
+msgstr ""
+
+#: ../netshow/linux/print_bridge.py:159
+msgid "stp"
+msgstr ""
+
+#: ../netshow/linux/print_bridge.py:162
+msgid "rootswitch"
+msgstr ""
+
+#: ../netshow/linux/print_bridge.py:166
+msgid "root"
+msgstr ""
+
+#: ../netshow/linux/print_bridge.py:168 ../netshow/linux/print_bridge.py:193
+msgid "root_priority"
+msgstr ""
+
+#: ../netshow/linux/print_bridge.py:170 ../netshow/linux/print_bridge.py:204
+msgid "disabled"
+msgstr ""
+
+#: ../netshow/linux/print_bridge.py:191 ../netshow/linux/print_bridge.py:204
+msgid "stp_mode"
+msgstr ""
+
+#: ../netshow/linux/print_bridge.py:191
+msgid "802.1d / per bridge instance"
+msgstr ""
+
+#: ../netshow/linux/print_bridge.py:192
+msgid "root_port"
+msgstr ""
+
+#: ../netshow/linux/print_bridge.py:194
+msgid "bridge_priority"
+msgstr ""
+
+#: ../netshow/linux/print_bridge.py:212
+msgid "ports_in_fwding_state"
+msgstr ""
+
+#: ../netshow/linux/print_bridge.py:224
+msgid "ports_in_blocking_state"
+msgstr ""
+
+#: ../netshow/linux/show_interfaces.py:72
+msgid "interface_does_not_exist"
+msgstr ""
+
+#: ../netshow/linux/show_interfaces.py:169
+#: ../netshow/linux/show_interfaces.py:172
 msgid "summary"
 msgstr ""
