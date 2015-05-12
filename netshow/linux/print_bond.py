@@ -32,6 +32,39 @@ class PrintBondMember(PrintIface):
                                       PrintBond.abbrev_bondstate(self.iface)))
         return _arr
 
+    @property
+    def state_in_bond(self):
+        """
+        :return: text describing the state of the port in the bond
+        """
+        if self.iface.bondstate == 1:
+            return _('port_in_bond')
+        else:
+            return _('port_not_in_bond')
+
+    def bondmem_details(self):
+        """
+        :return: string with output shown when netshow interfaces is issued on a \
+        bond member
+        """
+        _header = [_('bond_details'), '']
+        _master = self.iface.master
+        _printbond = PrintBond(_master)
+        _table = []
+        _table.append([_('master_bond') + ':', _master.name])
+        _table.append([_('state_in_bond') + ':', self.state_in_bond])
+        _table.append([_('link_failures') + ':', self.iface.linkfailures])
+        _table.append([_('bond_members') + ':', ', '.join(_master.members.keys())])
+        _table.append([_('bond_mode') + ':', _printbond.mode])
+        _table.append([_('load_balancing') + ':', _printbond.hash_policy])
+        _table.append([_('minimum_links') + ':', _master.min_links])
+        _lacp_info = self.iface.master.lacp
+        if _lacp_info:
+            _table.append([_('lacp_sys_priority') + ':', _master.lacp.sys_priority])
+            _table.append([_('lacp_rate') + ':', _printbond.lacp_rate()])
+
+        return tabulate(_table, _header)
+
     def cli_output(self):
         """
         cli output of the linux bond member interface
@@ -41,6 +74,7 @@ class PrintBondMember(PrintIface):
         # _str += self.bondmem_details() + self.new_line()
         _str += self.lldp_details() + self.new_line()
         return _str
+
 
 class PrintBond(PrintIface):
     """
@@ -191,13 +225,13 @@ class PrintBond(PrintIface):
         """
         _header = [_('lldp'), '', '']
         _table = []
-        for  _bondmem in self.iface.members.values():
+        for _bondmem in self.iface.members.values():
             lldp_output = _bondmem.lldp
             if not lldp_output:
                 continue
             _table.append(["%s(%s)" % (_bondmem.name,
-                                       self.abbrev_bondstate(_bondmem))
-                           , '====',
+                                       self.abbrev_bondstate(_bondmem)),
+                           '====',
                            "%s(%s)" % (lldp_output[0].get('adj_port'),
                                        lldp_output[0].get('adj_hostname'))])
             del lldp_output[0]
@@ -210,7 +244,6 @@ class PrintBond(PrintIface):
             return tabulate(_table, _header)
         else:
             return _('no_lldp_entries')
-
 
     def cli_output(self):
         """

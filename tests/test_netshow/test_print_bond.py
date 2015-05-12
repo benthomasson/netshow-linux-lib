@@ -20,7 +20,7 @@ import netshowlib.linux.bond as linux_bond
 import mock
 from asserts import assert_equals, mod_args_generator
 from nose.tools import set_trace
-
+import re
 
 class TestPrintBondMember(object):
     def setup(self):
@@ -42,6 +42,45 @@ class TestPrintBondMember(object):
         assert_equals(self.piface.summary, ['master: bond0(UP)'])
 
 
+    @mock.patch('netshowlib.linux.lldp.interface')
+    @mock.patch('netshowlib.linux.common.read_file_oneline')
+    @mock.patch('netshowlib.linux.iface.Iface.read_from_sys')
+    def test_bondmem_details(self, mock_read_from_sys, mock_file_oneline,
+                             mock_lldp):
+        values1 = {'carrier': '1',
+                   'bonding/mode': '802.3ad 4',
+                   'bonding/slaves': 'eth22 eth23',
+                   'bonding/xmit_hash_policy': 'layer3+4 1',
+                   'bonding/min_links': '2'}
+        values2 = {'/sys/class/net/bond0/bonding/ad_sys_priority': '65535',
+                   '/sys/class/net/bond0/bonding/lacp_rate': 'slow 0'}
+        values = [{'adj_port': 'eth2',
+                   'adj_hostname': 'switch1'},
+                  {'adj_port': 'eth10',
+                   'adj_hostname': 'switch2'}]
+        mock_lldp.return_value = values
+        mock_read_from_sys.side_effect = mod_args_generator(values1)
+        mock_file_oneline.side_effect = mod_args_generator(values2)
+        _output = self.piface.bondmem_details()
+        _outputtable = _output.split('\n')
+        assert_equals(len(_outputtable), 11)
+        assert_equals(_outputtable[0].split(r'\s{3,}'), ['bond_details'])
+        assert_equals(re.split(r'\s{3,}', _outputtable[2]), ['master_bond:', 'bond0'])
+        assert_equals(re.split(r'\s{3,}', _outputtable[3]), ['state_in_bond:',
+                                                             'port_not_in_bond'])
+        assert_equals(re.split(r'\s{3,}', _outputtable[4]), ['link_failures:', '0'])
+        assert_equals(re.split(r'\s{3,}', _outputtable[5]), ['bond_members:',
+                                                             'eth22, eth23'])
+
+        assert_equals(re.split(r'\s{3,}', _outputtable[6]), ['bond_mode:', 'lacp'])
+        assert_equals(re.split(r'\s{3,}', _outputtable[7]), ['load_balancing:',
+                                                             'layer3+4'])
+        assert_equals(re.split(r'\s{3,}', _outputtable[8]), ['minimum_links:', '2'])
+        assert_equals(re.split(r'\s{2,}', _outputtable[9]),
+                      ['lacp_sys_priority:', '65535'])
+        assert_equals(re.split(r'\s{3,}', _outputtable[10]), ['lacp_rate:', 'slow_lacp'])
+
+
 class TestPrintBond(object):
     def setup(self):
         iface = linux_bond.Bond('bond0')
@@ -61,7 +100,6 @@ class TestPrintBond(object):
         _output = self.piface.cli_output()
         assert_equals(_output,
                       'cli header\n\nbond details\n\nip output\n\nbondmem output\n\nno_lldp_entries\n\n')
-
 
     @mock.patch('netshowlib.linux.lldp.interface')
     @mock.patch('netshowlib.linux.common.read_file_oneline')
@@ -86,8 +124,6 @@ class TestPrintBond(object):
         assert_equals(_outputtable[3].split(), ['====', 'eth10(switch2)'])
         assert_equals(_outputtable[4].split(), ['eth30(P)', '====', 'eth10(switch2)'])
 
-
-
     @mock.patch('netshowlib.linux.common.read_file_oneline')
     @mock.patch('netshowlib.linux.iface.Iface.read_from_sys')
     def test_bondmem_details(self, mock_read_from_sys, mock_file_oneline):
@@ -107,7 +143,7 @@ class TestPrintBond(object):
     @mock.patch('netshowlib.linux.common.read_file_oneline')
     @mock.patch('netshowlib.linux.iface.Iface.read_from_sys')
     def test_bond_details(self, mock_read_from_sys, mock_file_oneline):
-        #with lacp
+        # with lacp
         values1 = {'bonding/mode': '802.3ad 4',
                    'bonding/xmit_hash_policy': 'layer3+4 2',
                    'bonding/min_links': '2'}
@@ -134,13 +170,10 @@ class TestPrintBond(object):
         _output = self.piface.bond_details()
         assert_equals(len(_output.split('\n')), 5)
 
-
-
     @mock.patch('netshowlib.linux.iface.Iface.read_from_sys')
     def test_hash_policy(self, mock_read_from_sys):
         mock_read_from_sys.return_value = 'layer3+4 1'
         assert_equals(self.piface.hash_policy, 'layer3+4')
-
 
     @mock.patch('netshowlib.linux.iface.Iface.read_from_sys')
     def test_bond_mode(self, mock_read_from_sys):
@@ -209,8 +242,6 @@ class TestPrintBond(object):
         _output = self.piface.print_bondmems()
         assert_equals(_output, 'no_bond_members_found')
 
-
-
     @mock.patch('netshow.linux.print_bond.PrintBond.access_summary')
     @mock.patch('netshow.linux.print_bond.PrintBond.trunk_summary')
     @mock.patch('netshow.linux.print_bond.PrintBond.print_bondmems')
@@ -241,4 +272,3 @@ class TestPrintBond(object):
         mock_is_access.return_value = False
         _output = self.piface.summary
         assert_equals(_output, ['list of bondmembers'])
-
