@@ -22,6 +22,7 @@ from asserts import assert_equals, mod_args_generator
 from nose.tools import set_trace
 import re
 
+
 class TestPrintBondMember(object):
     def setup(self):
         self.bond = linux_bond.Bond('bond0')
@@ -40,7 +41,6 @@ class TestPrintBondMember(object):
         mock_read_from_sys.side_effect = mod_args_generator(values1)
         mock_file_oneline.side_effect = mod_args_generator(values2)
         assert_equals(self.piface.summary, ['master: bond0(UP)'])
-
 
     @mock.patch('netshowlib.linux.lldp.interface')
     @mock.patch('netshowlib.linux.common.read_file_oneline')
