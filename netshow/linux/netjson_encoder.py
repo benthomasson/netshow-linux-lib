@@ -19,4 +19,6 @@ class NetEncoder(JSONEncoder):
             _hash[_property] = getattr(obj, _property)
         if hasattr(obj, 'iface'):
             _hash['iface_obj'] = obj.iface
+        elif hasattr(obj, 'system'):
+            _hash['system_obj'] = obj.system.__dict__
         return _hash
