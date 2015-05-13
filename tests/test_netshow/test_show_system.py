@@ -23,7 +23,7 @@ import json
 import re
 
 
-class TestShowInterfaces(object):
+class TestShowSystem(object):
 
     def setup(self):
         results = {'json': False}
