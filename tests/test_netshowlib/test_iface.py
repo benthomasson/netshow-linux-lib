@@ -77,6 +77,15 @@ class TestLinuxIface(object):
         """ setup function """
         self.iface = linux_iface.Iface('eth1')
 
+    @mock.patch('netshowlib.linux.iface.os.path.exists')
+    def test_exists(self, mock_path_exists):
+        mock_path_exists.return_value = True
+        assert_equals(self.iface.exists(), True)
+        mock_path_exists.assert_called_with('/sys/class/net/eth1')
+        mock_path_exists.return_value = False
+        assert_equals(self.iface.exists(), False)
+
+
     @mock.patch('netshowlib.linux.lldp._exec_lldp')
     def test_lldp(self, mock_lldp):
         lldp_out = open('tests/test_netshowlib/lldp_output.txt').read()
@@ -264,7 +273,7 @@ class TestLinuxIface(object):
         dhcpfile = open('/tmp/empty_file')
         with mock.patch(mock_open_str()) as mock_open:
             mock_open.return_value = dhcpfile
-            assert_equals(self.iface.ip_addr_assign, None)
+            assert_equals(self.iface.ip_addr_assign, 0)
 
     def test_checking_if_dhcp_is_used(self):
         dhcpfile = open('tests/test_netshowlib/dhclient.eth0.leases')
@@ -274,4 +283,4 @@ class TestLinuxIface(object):
         # -----
         with mock.patch(mock_open_str()) as mock_open:
             mock_open.return_value = dhcpfile
-            assert_equals(self.iface.ip_addr_assign, 'dhcp')
+            assert_equals(self.iface.ip_addr_assign, 1)

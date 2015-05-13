@@ -4,17 +4,23 @@ Linux Iface module with print functions
 
 import netshowlib.netshowlib as nn
 from netshowlib.linux import iface as linux_iface
+from netshowlib.linux import common
 from flufl.i18n import initialize
+from tabulate import tabulate
 
 _ = initialize('netshow-linux-lib')
 
 
 def iface(name, cache=None):
     """
-    :return: print class object that matches correct iface type of the named interface
+    :return: ``:class:PrintIface`` instance that matches \
+        correct iface type of the named interface
+    :return: None if interface does not exist
     """
     # create test iface.
     test_iface = linux_iface.iface(name, cache=cache)
+    if not test_iface.exists():
+        return None
     if test_iface.is_bridge():
         bridge = nn.import_module('netshow.linux.print_bridge')
         return bridge.PrintBridge(test_iface)
@@ -36,8 +42,14 @@ class PrintIface(object):
     """
     def __init__(self, _iface):
         self.iface = _iface
-        self.name = self.iface.name
-        self.mtu = self.iface.mtu
+        self.name = _iface.name
+
+    @classmethod
+    def new_line(cls):
+        """
+        :return: print newline in cli output. its just two "\n"
+        """
+        return "\n\n"
 
     @property
     def linkstate(self):
@@ -58,13 +70,15 @@ class PrintIface(object):
         :return: port type. Via interface discovery determine classify port \
         type
         """
-        if self.iface.is_l3():
+        if self.iface.is_loopback():
+            return _('loopback')
+        elif self.iface.is_l3():
             if self.iface.is_subint():
                 return _('subint/l3')
             else:
                 return _('access/l3')
-        else:
-            return _('unknown')
+
+        return _('access')
 
     @property
     def speed(self):
@@ -90,10 +104,113 @@ class PrintIface(object):
         """
         if self.iface.is_l3():
             _str2 = ""
-            if self.iface.ip_addr_assign == 'dhcp':
+            if self.iface.ip_addr_assign == 1:
                 _str2 = "(%s)" % _('dhcp')
 
             _str = ', '.join(self.iface.ip_address.allentries) + _str2
             return [_str]
 
         return ['']
+
+    def cli_header(self):
+        """
+        :return common cli header when printing single iface info
+        """
+        _header = [
+            '',
+            _('name'), _('mac'),
+            _('speed'), _('mtu'), _('mode')]
+        _table = [[
+            self.linkstate,
+            self.name,
+            self.iface.mac,
+            self.speed,
+            self.iface.mtu,
+            self.port_category]]
+        return tabulate(_table, _header)
+
+    def cli_output(self):
+        """
+        Each PrintIface child should define their own  of this function
+        :return: output for 'netshow interface <ifacename>'
+        """
+        _str = self.cli_header() + self.new_line()
+        _str += self.ip_details() + self.new_line()
+        _str += self.lldp_details() + self.new_line()
+        return _str
+
+    def ip_details(self):
+        """
+        :return: basic IP info about the interface for single iface info
+        """
+        if not self.iface.is_l3():
+            return ''
+
+        _header = [_('ip_details'), '']
+        _table = []
+        _table.append(["%s:" % (_('ip')),
+                       ', '.join(self.iface.ip_address.allentries)])
+        _table.append(["%s:" % (_('arp_entries')),
+                       len(self.iface.ip_neighbor.allentries)])
+        return tabulate(_table, _header)
+
+    def lldp_details(self):
+        """
+        :return: lldp details about this specific interface
+        """
+        lldp_output = self.iface.lldp
+        if not lldp_output:
+            return ''
+        _header = [_('lldp'), '', '']
+        _table = []
+        _table.append([self.iface.name, '====',
+                       "%s(%s)" % (lldp_output[0].get('adj_port'),
+                                   lldp_output[0].get('adj_hostname'))])
+        del lldp_output[0]
+        for _entry in lldp_output:
+            _table.append(['', '====',
+                           "%s(%s)" % (_entry.get('adj_port'),
+                                       _entry.get('adj_hostname'))])
+
+        return tabulate(_table, _header)
+
+    def trunk_summary(self):
+        """
+        :return: summary info for a trunk port
+        """
+        _vlanlist = self.iface.vlan_list
+        native_vlans = []
+        tagged_vlans = []
+        for _str in _vlanlist:
+            if _str.isdigit():
+                tagged_vlans.append(_str)
+            else:
+                native_vlans.append(_str)
+        _strlist = []
+        if tagged_vlans:
+            _strlist.append([_('tagged') + ':',
+                             ','.join(common.create_range('', tagged_vlans))])
+
+        if native_vlans:
+            _strlist.append([_('untagged') + ':',
+                             ','.join(common.group_ports(native_vlans))])
+
+        return _strlist
+
+    def access_summary(self):
+        """
+        :return: summary info for an access port
+        """
+        _bridgename = ','.join(self.iface.bridge_masters.keys())
+        return [_('untagged') + ':', _bridgename]
+
+    @classmethod
+    def abbrev_linksummary(cls, linuxiface):
+        """
+        :return: 'U' if port is up
+        :return: 'D' if port is down or admdn
+        """
+        if linuxiface.linkstate == 2:
+            return _('U')
+        else:
+            return _('D')

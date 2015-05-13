@@ -87,10 +87,11 @@ class IpNeighbor(object):
         """
         if not self._cache:
             self._cache = cacheinfo()
-        self.ipv4 = self._cache.get(self.name).get('ipv4')
-        self.ipv6 = self._cache.get(self.name).get('ipv6')
-        self._all_neighbors = self.ipv4.copy()
-        self._all_neighbors.update(self.ipv6)
+        if self._cache.get(self.name):
+            self.ipv4 = self._cache.get(self.name).get('ipv4')
+            self.ipv6 = self._cache.get(self.name).get('ipv6')
+            self._all_neighbors = self.ipv4.copy()
+            self._all_neighbors.update(self.ipv6)
 
     @property
     def allentries(self):

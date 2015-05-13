@@ -20,7 +20,8 @@ except ImportError:
 
 class TestLinuxIpAddress(object):
 
-    def test_ips(self):
+    @mock.patch('netshowlib.linux.ip_address.IpAddress.run')
+    def test_ips(self, mock_run):
         self.ip_address = ip_address_mod.IpAddress('eth1')
         self.ip_address.ipv4 = ['10.1.1.1/24']
         self.ip_address.ipv6 = ['10:1:1::1/64']

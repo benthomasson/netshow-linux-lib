@@ -11,7 +11,8 @@ import netshow.linux.print_bond as print_bond
 import netshowlib.linux.cache as linux_cache
 from netshowlib.linux import iface as linux_iface
 import netshow.linux.print_iface as print_iface
-
+import json
+from netshow.linux.netjson_encoder import NetEncoder
 from flufl.i18n import initialize
 
 _ = initialize('netshow-linux-lib')
@@ -64,7 +65,17 @@ class ShowInterfaces(object):
         """
         :return: netshow terminal output or JSON of a single iface
         """
-        pass
+        feature_cache = linux_cache.Cache()
+        feature_cache.run()
+        _printiface = print_iface.iface(self.single_iface, feature_cache)
+        if not _printiface:
+            return _('interface_does_not_exist')
+
+        if self.use_json:
+            return json.dumps(_printiface,
+                              cls=NetEncoder, indent=4)
+        else:
+            return _printiface.cli_output()
 
     def _initialize_ifacelist(self):
         """
@@ -164,7 +175,9 @@ class ShowInterfaces(object):
         """
         :return: 'netshow interface' of many interfaces in JSON output
         """
-        pass
+        return json.dumps(self.ifacelist.get(port_type),
+                          cls=NetEncoder, indent=4)
+
 
     def print_cli_many_ifaces(self, port_type):
         """
@@ -172,17 +185,17 @@ class ShowInterfaces(object):
         """
         _headers = self.summary_header
         _table = []
-        for _p_iface in self.ifacelist.get(port_type).values():
-            _table.append([_p_iface.linkstate,
-                           _p_iface.name,
-                           _p_iface.speed,
-                           _p_iface.mtu,
-                           _p_iface.port_category,
-                           _p_iface.summary[0]])
+        for _piface in self.ifacelist.get(port_type).values():
+            _table.append([_piface.linkstate,
+                           _piface.name,
+                           _piface.speed,
+                           _piface.iface.mtu,
+                           _piface.port_category,
+                           _piface.summary[0]])
 
-            if len(_p_iface.summary) > 1:
-                for i in range(1, len(_p_iface.summary)):
+            if len(_piface.summary) > 1:
+                for i in range(1, len(_piface.summary)):
                     _table.append(['', '',
-                                   '', '', '', _p_iface.summary[i]])
+                                   '', '', '', _piface.summary[i]])
 
         return tabulate(_table, _headers)

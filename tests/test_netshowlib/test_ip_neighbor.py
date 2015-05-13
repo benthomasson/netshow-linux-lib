@@ -43,6 +43,15 @@ class TestIpNeighbor(object):
         assert_equals(self.ipneigh.ipv4, {'10.1.1.1': '11:22:33:44:55:66'})
 
     @mock.patch('netshowlib.linux.ip_neighbor.cacheinfo')
+    def test_run_int_doesnt_exist(self, mock_cacheinfo):
+        mock_cacheinfo.return_value = {'eth2':
+                                       {'ipv4':
+                                        {'10.1.1.1': '11:22:33:44:55:66'},
+                                        'ipv6': {}}}
+        self.ipneigh.run()
+        assert_equals(self.ipneigh.ipv4, {})
+
+    @mock.patch('netshowlib.linux.ip_neighbor.cacheinfo')
     def test_all_neighbors(self, mock_cacheinfo):
         mock_cacheinfo.return_value = {'eth1':
                                        {'ipv4': {'10.1.1.1':

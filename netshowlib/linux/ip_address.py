@@ -89,6 +89,7 @@ class IpAddress(object):
         """
         :return: list of all IPs found both ipv6 and ipv4
         """
+        self.run()
         return self.ipv4 + self.ipv6
 
     def run(self):

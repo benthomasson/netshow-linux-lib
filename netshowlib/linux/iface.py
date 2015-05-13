@@ -89,7 +89,7 @@ class Iface(object):
     * **ip_address**: This provides a list of IPv4 and IPv6 addresses \
         associated with the interface
     * **ip_addr_assign**: If the address is configured via \
-        DHCP this property is set
+        DHCP this property is set to 1
     * **ip_address**: pointer to  \
         :class:`linux.ip_address<netshowlib.linux.ip_address.Ipaddr>` \
         class instance
@@ -108,7 +108,7 @@ class Iface(object):
         self._feature_cache = cache
         self._ip_address = ip_address.IpAddress(name, cache)
         self._ip_neighbor = ip_neighbor.IpNeighbor(name, cache)
-        self._ip_addr_assign = None
+        self._ip_addr_assign = 0
         self._cache = cache
 
 # ----------------------
@@ -120,6 +120,14 @@ class Iface(object):
         return re.compile(r"%s\.\d+$" % _ifacename)
 
 # -----------------------
+
+    def exists(self):
+        """
+        :return: return true if port exists in /sys/class/net
+        """
+        if os.path.exists(os.path.join(self._sys_path_root, self.name)):
+            return True
+        return False
 
     def read_symlink(self, attr):
         """
@@ -172,7 +180,7 @@ class Iface(object):
 
     def check_port_dhcp_assignment(self):
         """
-        sets ``self._ip_addr_assign`` to ``dhcp`` if port is
+        sets ``self._ip_addr_assign`` to ``1`` if port is
         a DHCP enabled interface
         """
         leasesfile = '/var/lib/dhcp/dhclient.%s.leases' % (self.name)
@@ -205,7 +213,7 @@ class Iface(object):
                 if self.ip_address.allentries:
                     for i in self.ip_address.allentries:
                         if dhcpaddr == i:
-                            self._ip_addr_assign = 'dhcp'
+                            self._ip_addr_assign = 1
                             return
 
 
@@ -402,12 +410,11 @@ class Iface(object):
         :return:  0(adminDown), 1(Down), 2(Up)
         :rtype: int
         """
-        if not self._linkstate:
-            _carrier = self.read_from_sys('carrier')
-            if _carrier:
-                self._linkstate = 1 if _carrier == '0' else 2
-            else:
-                self._linkstate = 0
+        _carrier = self.read_from_sys('carrier')
+        if _carrier:
+            self._linkstate = 1 if _carrier == '0' else 2
+        else:
+            self._linkstate = 0
         return self._linkstate
 
     @property
@@ -451,7 +458,7 @@ class Iface(object):
     @property
     def ip_addr_assign(self):
         """
-        :return: ``dhcp`` if port is DHCP enabled else returns ``None``
+        :return: ``1`` if port is DHCP enabled else returns ``0``
         """
         self.check_port_dhcp_assignment()
         return self._ip_addr_assign

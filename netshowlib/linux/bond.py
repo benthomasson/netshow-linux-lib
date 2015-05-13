@@ -1,13 +1,14 @@
 """ This module is responsible for finding properties
 related to bond interface and bond member interfaces """
+from collections import OrderedDict
 import netshowlib.linux.iface as linux_iface
+import netshowlib.linux.bridge as linux_bridge
 import netshowlib.linux.lacp as lacp
 import re
 try:
     from StringIO import StringIO
 except ImportError:
     from io import StringIO
-
 
 class Bond(linux_iface.Iface):
     """ Linux Bond attributes
@@ -43,6 +44,9 @@ class Bond(linux_iface.Iface):
         self._hash_policy = None
         self._lacp = None
         self._system_mac = None
+        self.stp = linux_bridge.KernelStpBridgeMember(self, cache)
+        self._bridge_masters = {}
+
 
     # -------------------
 
@@ -73,6 +77,52 @@ class Bond(linux_iface.Iface):
     # Define properties
 
     @property
+    def vlan_list(self):
+        """
+        :return: list that first has the name of the untagged vlan followed by a list \
+        of vlans the trunk supports
+        :return: empty list if no vlan list found.
+        """
+        _vlanlist = []
+        for _bridge in self.bridge_masters.values():
+            _vlan_tag = _bridge.vlan_tag
+            if _vlan_tag:
+                _vlanlist += _vlan_tag
+            else:
+                # insert at the beginning of the array
+                _vlanlist.insert(0, _bridge.name)
+        return _vlanlist
+
+
+    @property
+    def bridge_masters(self):
+        """
+        :return: list of bridges associated with this port \
+            and its subinterfaces.
+        """
+        self._bridge_masters = {}
+        bridgename = self.read_symlink('brport/bridge')
+        if bridgename:
+            if linux_bridge.BRIDGE_CACHE.get(bridgename):
+                bridgeiface = linux_bridge.BRIDGE_CACHE.get(bridgename)
+            else:
+                bridgeiface = linux_bridge.Bridge(bridgename, cache=self._cache)
+            self._bridge_masters[bridgeiface.name] = bridgeiface
+
+        for subintname in self.get_sub_interfaces():
+            subiface = linux_iface.Iface(subintname)
+            bridgename = subiface.read_symlink('brport/bridge')
+            if bridgename:
+                if linux_bridge.BRIDGE_CACHE.get(bridgename):
+                    bridgeiface = linux_bridge.BRIDGE_CACHE.get(bridgename)
+                else:
+                    bridgeiface = linux_bridge.Bridge(bridgename, cache=self._cache)
+                self._bridge_masters[bridgeiface.name] = bridgeiface
+
+        return self._bridge_masters
+
+
+    @property
     def members(self):
         """
         :return: list of bond members
@@ -81,7 +131,7 @@ class Bond(linux_iface.Iface):
         # if bond member list has changed..clear the bond members hash
         if fileoutput:
             if set(fileoutput.split()) != set(self._members.keys()):
-                self._members = {}
+                self._members = OrderedDict()
                 for i in fileoutput.split():
                     self._members[i] = BondMember(i, master=self)
         else:
@@ -157,7 +207,7 @@ class BondMember(linux_iface.Iface):
     * **master**: pointer to :class:`Bond<netshowlib.linux.bond.Bond>` instance \
         that this interface belongs to. This can be provided in the ``__init__`` \
         function
-    * **link_failures**: bond driver reports number of times bond member flaps
+    * **linkfailures**: bond driver reports number of times bond member flaps
     * **bondstate**: returns whether bond member is active (1) or inactive(0) in a bond \
         **irrespective** of its carrier/linkstate status. What this means is that \
         the link can be up, but not in the bond.
@@ -184,7 +234,7 @@ class BondMember(linux_iface.Iface):
     def __init__(self, name, cache=None, master=None):
         linux_iface.Iface.__init__(self, name, cache)
         self._master = master
-        self._linkfailures = None
+        self._linkfailures = 0
         self._bondstate = None
 
     # -------------------
