@@ -194,17 +194,23 @@ class TestShowInterfaces(object):
     @mock.patch('netshow.linux.show_interfaces.ShowInterfaces.print_json_many_ifaces')
     @mock.patch('netshow.linux.show_interfaces.ShowInterfaces.print_cli_many_ifaces')
     def test_many_ifaces_cli_output(self, mock_cli_ifaces, mock_json_ifaces):
+        mock_cli_ifaces.return_value = 'cli_output'
         # if json is false get cli output
-        self.showint.print_many_ifaces()
+        _output = self.showint.print_many_ifaces()
         mock_cli_ifaces.assert_called_with('l2')
+        assert_equals(_output, 'cli_output')
 
     @mock.patch('netshow.linux.show_interfaces.ShowInterfaces.print_json_many_ifaces')
     @mock.patch('netshow.linux.show_interfaces.ShowInterfaces.print_cli_many_ifaces')
     def test_many_ifaces_json_output(self, mock_cli_ifaces, mock_json_ifaces):
         # if json is false get cli output
+        mock_json_ifaces.return_value = 'json_output'
         self.showint.use_json = True
-        self.showint.print_many_ifaces()
+        _output = self.showint.print_many_ifaces()
         mock_json_ifaces.assert_called_with('l2')
+        assert_equals(_output, 'json_output')
+
+
 
     @mock.patch('netshow.linux.print_iface.linux_iface.Iface.exists')
     @mock.patch('netshow.linux.show_interfaces.print_iface.linux_iface.Iface.read_from_sys')
