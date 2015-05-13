@@ -36,7 +36,7 @@ def parse_ip_cache(fileio):
                 break
         if foundname not in ip_cache.keys():
             ip_cache[foundname] = {'ipv4': [], 'ipv6': []}
-        if scope == 'global':
+        if scope == 'global' or scope == 'host':
             if inet_type == 'inet':
                 ip_cache.get(foundname)['ipv4'].append(ip_addr)
             elif inet_type == 'inet6':
