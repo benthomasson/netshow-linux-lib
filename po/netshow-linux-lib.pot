@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-05-12 17:44+0000\n"
+"POT-Creation-Date: 2015-05-14 04:18+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -156,8 +156,9 @@ msgid "port"
 msgstr ""
 
 #: ../netshow/linux/print_bond.py:206 ../netshow/linux/print_iface.py:122
-#: ../netshow/linux/show_interfaces.py:168
-#: ../netshow/linux/show_interfaces.py:171
+#: ../netshow/linux/show_interfaces.py:166
+#: ../netshow/linux/show_interfaces.py:169
+#: ../netshow/linux/show_neighbors.py:42
 msgid "speed"
 msgstr ""
 
@@ -205,22 +206,23 @@ msgstr ""
 msgid "dhcp"
 msgstr ""
 
-#: ../netshow/linux/print_iface.py:121 ../netshow/linux/show_interfaces.py:168
-#: ../netshow/linux/show_interfaces.py:171
+#: ../netshow/linux/print_iface.py:121 ../netshow/linux/show_interfaces.py:166
+#: ../netshow/linux/show_interfaces.py:169
 msgid "name"
 msgstr ""
 
-#: ../netshow/linux/print_iface.py:121 ../netshow/linux/show_interfaces.py:168
+#: ../netshow/linux/print_iface.py:121 ../netshow/linux/show_interfaces.py:166
 msgid "mac"
 msgstr ""
 
-#: ../netshow/linux/print_iface.py:122 ../netshow/linux/show_interfaces.py:169
-#: ../netshow/linux/show_interfaces.py:172
+#: ../netshow/linux/print_iface.py:122 ../netshow/linux/show_interfaces.py:167
+#: ../netshow/linux/show_interfaces.py:170
 msgid "mtu"
 msgstr ""
 
-#: ../netshow/linux/print_iface.py:122 ../netshow/linux/show_interfaces.py:169
-#: ../netshow/linux/show_interfaces.py:172
+#: ../netshow/linux/print_iface.py:122 ../netshow/linux/show_interfaces.py:167
+#: ../netshow/linux/show_interfaces.py:170
+#: ../netshow/linux/show_neighbors.py:42
 msgid "mode"
 msgstr ""
 
@@ -321,7 +323,28 @@ msgstr ""
 msgid "interface_does_not_exist"
 msgstr ""
 
-#: ../netshow/linux/show_interfaces.py:169
-#: ../netshow/linux/show_interfaces.py:172
+#: ../netshow/linux/show_interfaces.py:167
+#: ../netshow/linux/show_interfaces.py:170
+#: ../netshow/linux/show_neighbors.py:43
 msgid "summary"
+msgstr ""
+
+#: ../netshow/linux/show_neighbors.py:42
+msgid "local"
+msgstr ""
+
+#: ../netshow/linux/show_neighbors.py:43
+msgid "remote"
+msgstr ""
+
+#: ../netshow/linux/show_neighbors.py:43
+msgid "sw/hostname"
+msgstr ""
+
+#: ../netshow/linux/show_system.py:38
+msgid "build"
+msgstr ""
+
+#: ../netshow/linux/show_system.py:39
+msgid "uptime"
 msgstr ""

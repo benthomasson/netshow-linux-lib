@@ -126,7 +126,6 @@ class ShowInterfaces(object):
                 self._ifacelist['bondmem'][_portname] = _printiface
                 continue
 
-
             # mutual exclusive - l3/trunk/access
             if _printiface.iface.is_l3():
                 self._ifacelist['l3'][_portname] = _printiface
@@ -134,7 +133,6 @@ class ShowInterfaces(object):
                 self._ifacelist['trunk'][_portname] = _printiface
             elif _printiface.iface.is_access():
                 self._ifacelist['access'][_portname] = _printiface
-
 
         return self._ifacelist
 
@@ -155,7 +153,7 @@ class ShowInterfaces(object):
             _port_type = 'all'
 
         if self.use_json:
-            self.print_json_many_ifaces(_port_type)
+            return self.print_json_many_ifaces(_port_type)
 
         return self.print_cli_many_ifaces(_port_type)
 
@@ -177,7 +175,6 @@ class ShowInterfaces(object):
         """
         return json.dumps(self.ifacelist.get(port_type),
                           cls=NetEncoder, indent=4)
-
 
     def print_cli_many_ifaces(self, port_type):
         """

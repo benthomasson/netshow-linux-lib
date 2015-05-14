@@ -60,8 +60,8 @@ class TestLinuxIpAddress(object):
             result,
             {
                 'lo': {
-                    'ipv4': [],
-                    'ipv6': []
+                    'ipv4': ['127.0.0.1/8'],
+                    'ipv6': ['::1/128']
                 },
                 'net2compute': {
                     'ipv4': ['192.168.50.1/24'],

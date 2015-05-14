@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: netshow-linux-lib\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-05-12 17:44+0000\n"
+"POT-Creation-Date: 2015-05-13 21:06+0000\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Stanley Karunditu <stanleyk@cumulusnetworks.com>\n"
 "Language-Team: Customer Engineering <ce-ceng@cumulusnetworks.com>\n"
@@ -124,11 +124,11 @@ msgstr "Balance-RR"
 
 #: ../netshow/linux/print_bond.py:154
 msgid "P"
-msgstr ""
+msgstr "P"
 
 #: ../netshow/linux/print_bond.py:156 ../netshow/linux/print_iface.py:216
 msgid "D"
-msgstr ""
+msgstr "D"
 
 #: ../netshow/linux/print_bond.py:169
 msgid "bondmems"
@@ -151,8 +151,9 @@ msgid "port"
 msgstr "Port"
 
 #: ../netshow/linux/print_bond.py:206 ../netshow/linux/print_iface.py:122
-#: ../netshow/linux/show_interfaces.py:168
-#: ../netshow/linux/show_interfaces.py:171
+#: ../netshow/linux/show_interfaces.py:166
+#: ../netshow/linux/show_interfaces.py:169
+#: ../netshow/linux/show_neighbors.py:42
 msgid "speed"
 msgstr "Speed"
 
@@ -206,22 +207,23 @@ msgstr "N/A"
 msgid "dhcp"
 msgstr "DHCP"
 
-#: ../netshow/linux/print_iface.py:121 ../netshow/linux/show_interfaces.py:168
-#: ../netshow/linux/show_interfaces.py:171
+#: ../netshow/linux/print_iface.py:121 ../netshow/linux/show_interfaces.py:166
+#: ../netshow/linux/show_interfaces.py:169
 msgid "name"
 msgstr "Name"
 
-#: ../netshow/linux/print_iface.py:121 ../netshow/linux/show_interfaces.py:168
+#: ../netshow/linux/print_iface.py:121 ../netshow/linux/show_interfaces.py:166
 msgid "mac"
 msgstr "Mac"
 
-#: ../netshow/linux/print_iface.py:122 ../netshow/linux/show_interfaces.py:169
-#: ../netshow/linux/show_interfaces.py:172
+#: ../netshow/linux/print_iface.py:122 ../netshow/linux/show_interfaces.py:167
+#: ../netshow/linux/show_interfaces.py:170
 msgid "mtu"
 msgstr "MTU"
 
-#: ../netshow/linux/print_iface.py:122 ../netshow/linux/show_interfaces.py:169
-#: ../netshow/linux/show_interfaces.py:172
+#: ../netshow/linux/print_iface.py:122 ../netshow/linux/show_interfaces.py:167
+#: ../netshow/linux/show_interfaces.py:170
+#: ../netshow/linux/show_neighbors.py:42
 msgid "mode"
 msgstr "Mode"
 
@@ -248,7 +250,7 @@ msgstr "Untagged"
 
 #: ../netshow/linux/print_iface.py:214
 msgid "U"
-msgstr ""
+msgstr "U"
 
 #: ../netshow/linux/print_bridge.py:23
 msgid "trunk/l2"
@@ -322,10 +324,31 @@ msgstr "Port In Blocking State"
 msgid "interface_does_not_exist"
 msgstr "Interface Does Not Exist"
 
-#: ../netshow/linux/show_interfaces.py:169
-#: ../netshow/linux/show_interfaces.py:172
+#: ../netshow/linux/show_interfaces.py:167
+#: ../netshow/linux/show_interfaces.py:170
+#: ../netshow/linux/show_neighbors.py:43
 msgid "summary"
 msgstr "Summary"
+
+#: ../netshow/linux/show_neighbors.py:42
+msgid "local"
+msgstr "Local"
+
+#: ../netshow/linux/show_neighbors.py:43
+msgid "remote"
+msgstr "Remote"
+
+#: ../netshow/linux/show_neighbors.py:43
+msgid "sw/hostname"
+msgstr "Sw/Hostname"
+
+#: ../netshow/linux/show_system.py:38
+msgid "build"
+msgstr "Build"
+
+#: ../netshow/linux/show_system.py:39
+msgid "uptime"
+msgstr "Uptime"
 
 #~ msgid "access/L2"
 #~ msgstr "Access/L2"
