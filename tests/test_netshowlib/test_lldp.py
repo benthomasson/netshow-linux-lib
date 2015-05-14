@@ -31,7 +31,7 @@ def test_cacheinfo(mock_lldp):
                    'adj_mgmt_ip': '192.168.0.15'})
 
 
-@mock.patch('netshowlib.linux.lldp.exec_command')
+@mock.patch('netshowlib.linux.lldp.common.exec_command')
 def test_get_running_exec_lldp(mock_lldp):
     lldp_out = open('tests/test_netshowlib/lldp_output.txt').read()
     mock_lldp.return_value = lldp_out
