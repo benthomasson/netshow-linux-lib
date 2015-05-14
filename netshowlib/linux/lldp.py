@@ -19,7 +19,7 @@ def _exec_lldp(ifacename=None):
     try:
         lldp_cmd = common.exec_command(exec_str)
         lldp_output = ElementTree.fromstring(lldp_cmd)
-    except common.ExecCommandExection:
+    except common.ExecCommandException:
         pass
     return lldp_output
 
