@@ -41,6 +41,7 @@ class TestLinuxIpAddress(object):
         output = StringIO(_output)
         mock_ip_cache.return_value = ip_address_mod.parse_ip_cache(output)
         _feature_cache = feature_cache.Cache()
+        _feature_cache.run()
         ip_address = ip_address_mod.IpAddress('eth0', _feature_cache)
         ip_address.run()
         assert_equals(ip_address.ipv4, ['192.168.0.33/24'])

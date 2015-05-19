@@ -174,6 +174,7 @@ class TestLinuxIface(object):
         _ipaddr = self.iface.ip_address
         assert_equals(_ipaddr.ipv4, ['192.168.1.1/24'])
         new_cache = linux_cache.Cache()
+        new_cache.run()
         new_cache.ip_address = {'eth2': {'ipv4': ['10.1.1.1/24']}}
         self.iface = linux_iface.Iface('eth2', new_cache)
         assert_equals(self.iface.ip_address.ipv4, ['10.1.1.1/24'])
