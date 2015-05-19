@@ -1,3 +1,4 @@
+# pylint: disable=E0611
 """ Module for printing out basic linux system information
 """
 

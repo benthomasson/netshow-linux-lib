@@ -1,3 +1,4 @@
+# pylint: disable=E0611
 """ Module for printout out linux device neighbors
 """
 from netshow.linux.netjson_encoder import NetEncoder

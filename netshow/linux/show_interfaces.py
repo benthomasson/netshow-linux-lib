@@ -1,5 +1,5 @@
 # pylint: disable=R0902
-
+# pylint: disable=E0611
 """
 Module for printout of 'netshow interfaces'
 """
