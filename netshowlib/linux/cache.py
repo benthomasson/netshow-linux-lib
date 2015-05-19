@@ -15,6 +15,7 @@ class Cache(object):
         self.ipaddr = {}
         self.lldp = {}
         self.stp = {}
+        self.provider = 'linux'
         self.feature_list = ['ip_neighbor', 'lldp', 'ip_address']
 
     def run(self, features=None):
@@ -29,5 +30,6 @@ class Cache(object):
             _featurelist = features
 
         for _feature in _featurelist:
-            _feature_mod = nnlib.import_module('netshowlib.linux.' + _feature)
+            _feature_mod = nnlib.import_module("netshowlib.%s.%s" % (self.provider,
+                                                                     _feature))
             self.__dict__[_feature] = _feature_mod.cacheinfo()
