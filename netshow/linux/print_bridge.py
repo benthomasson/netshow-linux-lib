@@ -1,3 +1,4 @@
+# pylint: disable=E0611
 """
 Print and Analysis Module for Linux bridge interfaces
 """
