@@ -12,9 +12,6 @@ class Cache(object):
         networking such as ip addressing, lldp, QOS
     """
     def __init__(self):
-        self.ipaddr = {}
-        self.lldp = {}
-        self.stp = {}
         self.feature_list = {'ip_neighbor': 'linux',
                              'lldp': 'linux',
                              'ip_address': 'linux'}
