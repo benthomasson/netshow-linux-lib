@@ -26,26 +26,33 @@ class TestLinuxCache(object):
         self.cache = linux_cache.Cache()
 
     def test_feature_list(self):
-        assert_equals(self.cache.feature_list, ['ip_neighbor', 'lldp', 'ip_address'])
+        featurelist = {'ip_neighbor': 'linux',
+                       'ip_address': 'linux',
+                       'lldp': 'linux'}
+        assert_equals(self.cache.feature_list, featurelist)
 
     @mock.patch('netshowlib.netshowlib.import_module')
     def test_cache_feature_runs(self, mock_import):
         # test if features=None
+        mock_ip_addr = MagicMock()
+        mock_lldp = MagicMock()
+        mock_ip_neighbor = MagicMock()
+        values = {'netshowlib.linux.ip_address': mock_ip_addr,
+                  'netshowlib.linux.lldp': mock_lldp,
+                  'netshowlib.linux.ip_neighbor': mock_ip_neighbor}
+        mock_import.side_effect = mod_args_generator(values)
         self.cache.run()
-        assert_equals(
-            mock_import.call_args_list,
-            [mock.call('netshowlib.linux.ip_neighbor'),
-             mock.call('netshowlib.linux.lldp'),
-             mock.call('netshowlib.linux.ip_address')]
-        )
+        assert_equals(mock_ip_neighbor.cacheinfo.call_count, 1)
+        assert_equals(mock_lldp.cacheinfo.call_count, 1)
+        assert_equals(mock_ip_addr.cacheinfo.call_count, 1)
         mock_import.reset_mock()
         # test if features=['ipaddr']
         mock_ipaddr = MagicMock()
         mock_ipaddr.cacheinfo.return_value = 'ip cache info'
-        values = {'netshowlib.linux.ipaddr': mock_ipaddr}
+        values = {'netshowlib.linux.ip_address': mock_ipaddr}
         mock_import.side_effect = mod_args_generator(values)
-        self.cache.run(features=['ipaddr'])
+        self.cache.run(features={'ip_address':'linux'})
         assert_equals(
             mock_import.call_args_list,
-            [mock.call('netshowlib.linux.ipaddr')])
-        assert_equals(self.cache.ipaddr, 'ip cache info')
+            [mock.call('netshowlib.linux.ip_address')])
+        assert_equals(self.cache.ip_address, 'ip cache info')

@@ -68,5 +68,6 @@ setup(
         'Intended Audience :: System Administrators',
         'Operating System :: POSIX :: Linux'
     ],
-    data_files=[('share/netshow-lib/providers', ['data/provider/linux'])]
+    data_files=[('share/netshow-lib/providers', ['data/provider/linux'])],
+    use_2to3=True
 )

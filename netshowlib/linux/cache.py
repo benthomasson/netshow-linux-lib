@@ -15,8 +15,9 @@ class Cache(object):
         self.ipaddr = {}
         self.lldp = {}
         self.stp = {}
-        self.provider = 'linux'
-        self.feature_list = ['ip_neighbor', 'lldp', 'ip_address']
+        self.feature_list = {'ip_neighbor': 'linux',
+                             'lldp': 'linux',
+                             'ip_address': 'linux'}
 
     def run(self, features=None):
         """
@@ -29,7 +30,7 @@ class Cache(object):
         if features:
             _featurelist = features
 
-        for _feature in _featurelist:
-            _feature_mod = nnlib.import_module("netshowlib.%s.%s" % (self.provider,
+        for _feature, _provider in _featurelist.iteritems():
+            _feature_mod = nnlib.import_module("netshowlib.%s.%s" % (_provider,
                                                                      _feature))
             self.__dict__[_feature] = _feature_mod.cacheinfo()
