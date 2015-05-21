@@ -275,7 +275,6 @@ class Bridge(linux_iface.Iface):
         self._members = {}
         self._memberlist = {}
         self._vlan_tag = ''
-        self._cache = cache
         self._stp = None
 
     # -----------------
@@ -291,7 +290,7 @@ class Bridge(linux_iface.Iface):
             pass
         return dirlist
 
-    def _get_members(self):
+    def _get_members(self, bridgemem=BridgeMember):
         """
         :return: get the members of a bridge into the tagged , untagged and total \
             member names and number structures
@@ -310,13 +309,13 @@ class Bridge(linux_iface.Iface):
             # take the name of the main physical or logical interface
             # not the subinterface
             membername_arr = _name.split('.')
-            bridgemem = BridgeMember(membername_arr[0],
-                                     cache=self._cache)
+            bdgmem = bridgemem(membername_arr[0],
+                               cache=self._cache)
             if len(membername_arr) == 2:
-                self._tagged_members[membername_arr[0]] = bridgemem
+                self._tagged_members[membername_arr[0]] = bdgmem
             else:
-                self._untagged_members[membername_arr[0]] = bridgemem
-            self._members[membername_arr[0]] = bridgemem
+                self._untagged_members[membername_arr[0]] = bdgmem
+            self._members[membername_arr[0]] = bdgmem
 
     # ---------------------------
 
@@ -338,7 +337,7 @@ class Bridge(linux_iface.Iface):
         """
         :return: list of bridge port members
         """
-        self._get_members()
+        self._get_members(BridgeMember)
         return self._members
 
     @property
