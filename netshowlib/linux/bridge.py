@@ -207,7 +207,7 @@ class BridgeMember(linux_iface.Iface):
     """
     def __init__(self, name, cache=None):
         linux_iface.Iface.__init__(self, name, cache)
-        self._stp = KernelStpBridgeMember(self, cache)
+        self._stp = None
         self._cache = cache
         self._bridge_masters = {}
 
@@ -216,6 +216,8 @@ class BridgeMember(linux_iface.Iface):
         """
         :return: instance of KernelStpBridgeMember
         """
+        if not self._stp:
+            self._stp = KernelStpBridgeMember(self, self._cache)
         return self._stp
 
     @property
