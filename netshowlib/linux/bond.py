@@ -44,9 +44,9 @@ class Bond(linux_iface.Iface):
         self._hash_policy = None
         self._lacp = None
         self._system_mac = None
-        self.stp = linux_bridge.KernelStpBridgeMember(self, cache)
+        self._stp = None
         self._bridge_masters = {}
-
+        self._cache = cache
 
     # -------------------
 
@@ -93,6 +93,15 @@ class Bond(linux_iface.Iface):
                 _vlanlist.insert(0, _bridge.name)
         return _vlanlist
 
+    @property
+    def stp(self):
+        """
+        :return: KernelStpBridgeMember instance
+        """
+        if not self._stp:
+            self._stp = linux_bridge.KernelStpBridgeMember(self,
+                                                           self._cache)
+        return self._stp
 
     @property
     def bridge_masters(self):
@@ -120,7 +129,6 @@ class Bond(linux_iface.Iface):
                 self._bridge_masters[bridgeiface.name] = bridgeiface
 
         return self._bridge_masters
-
 
     @property
     def members(self):
