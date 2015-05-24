@@ -43,8 +43,13 @@ class PrintIface(object):
     """
     def __init__(self, _iface):
         self.iface = _iface
-        self.name = _iface.name
 
+    @property
+    def name(self):
+        """
+        :return: name of the interface
+        """
+        return self.iface.name
     @classmethod
     def new_line(cls):
         """
