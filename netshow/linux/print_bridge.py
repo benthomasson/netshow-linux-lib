@@ -60,7 +60,7 @@ class PrintBridgeMember(PrintIface):
         """
         _str = ''
         _stpstate = self.iface.stp.state
-        if _stpstate.get(_('stp_disabled')):
+        if _stpstate.get('stp_disabled'):
             _header = ['vlans in stp disabled state']
             _table = [self._pretty_vlanlist(_stpstate, 'stp_disabled')]
             _str += tabulate(_table, _header, numalign='left') + self.new_line()
