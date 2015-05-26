@@ -61,15 +61,15 @@ class PrintBridgeMember(PrintIface):
         _str = ''
         _stpstate = self.iface.stp.state
         if _stpstate.get('stp_disabled'):
-            _header = ['vlans in stp disabled state']
+            _header = [_('vlans in stp disabled state')]
             _table = [self._pretty_vlanlist(_stpstate, 'stp_disabled')]
             _str += tabulate(_table, _header, numalign='left') + self.new_line()
         if _stpstate.get('forwarding'):
-            _header = ['vlans in forwarding state']
+            _header = [_('vlans in forwarding state')]
             _table = [self._pretty_vlanlist(_stpstate, 'forwarding')]
             _str += tabulate(_table, _header, numalign='left') + self.new_line()
         if _stpstate.get('blocking'):
-            _header = ['vlans in blocking state']
+            _header = [_('vlans in blocking state')]
             _table = [self._pretty_vlanlist(_stpstate, 'blocking')]
             _str += tabulate(_table, _header, numalign='left')
         return _str
