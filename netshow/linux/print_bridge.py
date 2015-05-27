@@ -33,15 +33,12 @@ class PrintBridgeMember(PrintIface):
             return self.trunk_summary()
         return self.access_summary()
 
-    def _pretty_vlanlist(self, stpstate, category):
+    @classmethod
+    def _pretty_vlanlist(cls, bridgelist):
         """
         :return: list of vlans that match category. First list of \
             native ports, then vlan ids of tagged bridgers
         """
-        if not stpstate:
-            return
-
-        bridgelist = stpstate.get(category)
         _native_vlans = []
         _tagged_vlans = []
         for _bridge in bridgelist:
@@ -60,18 +57,12 @@ class PrintBridgeMember(PrintIface):
         """
         _str = ''
         _stpstate = self.iface.stp.state
-        if _stpstate.get('stp_disabled'):
-            _header = [_('vlans in stp disabled state')]
-            _table = [self._pretty_vlanlist(_stpstate, 'stp_disabled')]
-            _str += tabulate(_table, _header, numalign='left') + self.new_line()
-        if _stpstate.get('forwarding'):
-            _header = [_('vlans in forwarding state')]
-            _table = [self._pretty_vlanlist(_stpstate, 'forwarding')]
-            _str += tabulate(_table, _header, numalign='left') + self.new_line()
-        if _stpstate.get('blocking'):
-            _header = [_('vlans in blocking state')]
-            _table = [self._pretty_vlanlist(_stpstate, 'blocking')]
-            _str += tabulate(_table, _header, numalign='left')
+        for _category, _bridgelist in _stpstate.items():
+            if _stpstate.get(_category):
+                _header = [_("vlans in $_category state")]
+                _table = [self._pretty_vlanlist(_bridgelist)]
+                _str += tabulate(_table, _header, numalign="left") + \
+                    self.new_line()
         return _str
 
     def cli_output(self):

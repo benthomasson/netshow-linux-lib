@@ -3,6 +3,7 @@
 related to linux bridge and bridge member interfaces """
 import netshowlib.linux.iface as linux_iface
 import os
+from collections import OrderedDict
 
 # store cache of bridge instances
 # used by KernelStpBridgeMember method.
@@ -70,13 +71,12 @@ class KernelStpBridge(object):
 
     def _initialize_state(self):
         """ initialize state """
-        self._member_state = {
-            'disabled': [],
-            'blocking': [],
-            'forwarding': [],
-            'root': [],
-            'intransition': []
-        }
+        self._member_state = OrderedDict([
+            ('root', []),
+            ('forwarding', []),
+            ('blocking', []),
+            ('disabled', []),
+            ('intransition', [])])
 
     def is_root(self):
         """
@@ -157,14 +157,13 @@ class KernelStpBridgeMember(object):
 
     def _initialize_state(self):
         """ initialize state """
-        self._state = {
-            'disabled': [],
-            'blocking': [],
-            'forwarding': [],
-            'root': [],
-            'intransition': [],
-            'stp_disabled': []
-        }
+        self._state = OrderedDict([
+            ('root', []),
+            ('forwarding', []),
+            ('blocking', []),
+            ('intransition', []),
+            ('disabled', []),
+            ('stp_disabled', [])])
 
     @property
     def state(self):
