@@ -15,7 +15,8 @@ def update_stp_state(stp_hash, iface_to_add, iface_under_test):
     """
     iface_stp_state = iface_under_test.read_from_sys('brport/state')
     if iface_stp_state == '0':
-        bridge_state = iface_under_test.read_from_sys('brport/bridge/bridge/stp_state')
+        bridge_state = iface_under_test.read_from_sys(
+            'brport/bridge/bridge/stp_state')
         if bridge_state == '0':
             stp_hash.get('stp_disabled').append(iface_to_add)
             return
@@ -27,7 +28,8 @@ def update_stp_state(stp_hash, iface_to_add, iface_under_test):
         stp_hash.get('forwarding').append(iface_to_add)
     elif iface_stp_state == '4':
         stp_hash.get('blocking').append(iface_to_add)
-    root_port_id = iface_under_test.read_from_sys('brport/bridge/bridge/root_port')
+    root_port_id = iface_under_test.read_from_sys(
+        'brport/bridge/bridge/root_port')
     port_id = iface_under_test.read_from_sys('brport/port_id')
     if root_port_id == port_id and iface_stp_state != '0':
         stp_hash.get('root').append(iface_to_add)
@@ -106,8 +108,6 @@ class KernelStpBridge(object):
             self._bridge_priority = str(int(_priority.split('.')[0], 16))
 
         return self._bridge_priority
-
-
 
     @property
     def member_state(self):
@@ -250,7 +250,8 @@ class BridgeMember(linux_iface.Iface):
     @property
     def vlan_list(self):
         """
-        :return: list that first has the name of the untagged vlan followed by a list \
+        :return: list that first has the name of the
+        untagged vlan followed by a list \
         of vlans the trunk supports
         :return: empty list if no vlan list found.
         """
@@ -263,8 +264,8 @@ class BridgeMember(linux_iface.Iface):
                 # insert at the beginning of the array
                 _vlanlist.insert(0, _bridge.name)
         return _vlanlist
-
 # ======================================================================= #
+
 
 class Bridge(linux_iface.Iface):
     """ Linux Bridge interface attributes
@@ -273,7 +274,8 @@ class Bridge(linux_iface.Iface):
     * **untagged_members**: list of untagged bridge members *(access)*
     * **members**: all bridge members
     * **vlan_tag**: vlan ID tag if applicable. empty string means no tag.
-    * **stp**: pointer to :class:`KernelStpBridge` instance. If set to ``None``, \
+    * **stp**: pointer to :class:`KernelStpBridge` instance.
+    If set to ``None``, \
     then bridge has STP disabled.
     """
 
@@ -287,7 +289,6 @@ class Bridge(linux_iface.Iface):
         self._stp = None
 
     # -----------------
-
     def _memberlist_str(self):
         """
         :return: list of bridge member names. both tagged and untagged
@@ -301,7 +302,8 @@ class Bridge(linux_iface.Iface):
 
     def _get_members(self, bridgemem=BridgeMember):
         """
-        :return: get the members of a bridge into the tagged , untagged and total \
+        :return: get the members of a bridge into the tagged ,
+        untagged and total \
             member names and number structures
         """
         member_list_from_kernel = self._memberlist_str()
@@ -327,7 +329,6 @@ class Bridge(linux_iface.Iface):
             self._members[membername_arr[0]] = bdgmem
 
     # ---------------------------
-
     @property
     def stp(self):
         """
@@ -375,7 +376,8 @@ class Bridge(linux_iface.Iface):
         For the classic/default bridge driver, if a tagged bridge member \
         is provided then the function will use the tag as the vlan id
 
-        :return: vlan ID if applicable. If multiple tags found, possibly indicating \
+        :return: vlan ID if applicable. If multiple tags found,
+        possibly indicating \
             vlan translation, then all tags are printed as a list \
             Empty array means no tag
         """
@@ -384,10 +386,11 @@ class Bridge(linux_iface.Iface):
         # is doing vlan translation. If string is empty('') then no tag is found
         # ----------------------
         # the messy looking function below is doing the following:
-        # take a list of members ['eth1.100', 'eth2', 'eth3.100'], remove all untagged
-        #   iface
+        # take a list of members ['eth1.100', 'eth2', 'eth3.100'],
+        # remove all untagged iface
         # take list of tagged members for example [ eth1.100', 'eth3.100']
-        # strip off tag with list comprehension & put in array so it is ['100',100']
+        # strip off tag with list comprehension &
+        # put in array so it is ['100',100']
         # apply set() to the array so it removes all non-unique values. becomes
         # set([100])
         # then convert back to a list
