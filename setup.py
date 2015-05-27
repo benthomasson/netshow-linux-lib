@@ -11,7 +11,7 @@ except ImportError:
 from distutils.command.install_data import install_data
 from distutils.command.build import build
 from distutils import log
-
+from setuptools import setup, find_packages
 
 class BuildWithI18n(build):
     sub_commands = build.sub_commands + [('build_i18n', None)]
@@ -41,7 +41,6 @@ class PostInstall(install_data):
             except OSError as _exception:
                 log.info("Directory failed to copy. Error: %s" % _exception)
 
-from setuptools import setup, find_packages
 setup(
     name='netshow-linux-lib',
     version=get_version(),
