@@ -139,8 +139,8 @@ class PrintBridge(PrintIface):
         """
         return: list with label saying 'vlan id' and vlan tag
         """
-        _arr = [_('802.1q_tag') + ':', self.vlan_id()]
-        return _arr
+        _str = "%s: %s" % (_('802.1q_tag'), self.vlan_id())
+        return _str
 
     def stp_summary(self):
         """
@@ -184,7 +184,7 @@ class PrintBridge(PrintIface):
         _table.append([_('root_port') + ':', ', '.join(self.root_port())])
         _table.append([_('root_priority') + ':', self.iface.stp.root_priority])
         _table.append([_('bridge_priority') + ':', self.iface.stp.bridge_priority])
-        _table.append(self.vlan_id_field())
+        _table.append(self.vlan_id_field().split())
         return tabulate(_table, _header)
 
     def no_stp_details(self):
@@ -194,7 +194,7 @@ class PrintBridge(PrintIface):
         _header = ['', '']
         _table = []
         _table.append([_('stp_mode') + ':', _('disabled')])
-        _table.append(self.vlan_id_field())
+        _table.append(self.vlan_id_field().split())
         return tabulate(_table, _header) + self.new_line()
 
     def ports_in_fwd_state(self):
