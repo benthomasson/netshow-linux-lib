@@ -149,15 +149,16 @@ class PrintIface(object):
         """
         :return: basic IP info about the interface for single iface info
         """
-        if not self.iface.is_l3():
-            return ''
-
         _header = [_('ip_details'), '']
         _table = []
-        _table.append(["%s:" % (_('ip')),
-                       ', '.join(self.iface.ip_address.allentries)])
-        _table.append(["%s:" % (_('arp_entries')),
-                       len(self.iface.ip_neighbor.allentries)])
+        if not self.iface.is_l3():
+            _table.append([_('no_l3_ip')])
+        else:
+            _table.append(["%s:" % (_('ip')),
+                           ', '.join(self.iface.ip_address.allentries)])
+            _table.append(["%s:" % (_('arp_entries')),
+                           len(self.iface.ip_neighbor.allentries)])
+
         return tabulate(_table, _header)
 
     def lldp_details(self):

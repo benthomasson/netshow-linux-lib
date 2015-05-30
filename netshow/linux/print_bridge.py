@@ -201,7 +201,8 @@ class PrintBridge(PrintIface):
         _header_str = "_port_in_%s_state" % (statename)
         _header = [_("$_header_str")]
         _table = []
-        _portlist = [_x.name for _x in self.iface.stp.member_state.get(statename)]
+        _portlist = [_x.name for _x in
+                     self.iface.stp.member_state.get(statename)]
         if _portlist:
             _table.append(common.group_ports(_portlist))
             return tabulate(_table, _header)

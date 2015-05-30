@@ -130,7 +130,10 @@ class TestPrintIface(object):
     def test_ip_details(self, mock_is_l3):
         # if not l3.. print empty string
         mock_is_l3.return_value = False
-        assert_equals(self.piface.ip_details(), '')
+        _output = self.piface.ip_details()
+        _outputtable = _output.split('\n')
+        assert_equals(_outputtable[0], 'ip_details')
+        assert_equals(_outputtable[2], 'no_l3_ip')
         # if l3, print ip details
         mock_is_l3.return_value = True
         self.piface.iface.ip_address.ipv4 = ['10.1.1.1/24']
