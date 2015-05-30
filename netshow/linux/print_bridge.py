@@ -197,27 +197,13 @@ class PrintBridge(PrintIface):
         _table.append(self.vlan_id_field().split())
         return tabulate(_table, _header) + self.new_line()
 
-    def ports_in_fwd_state(self):
-        """
-        :return: string output of lists of ports in forwarding state
-        """
-        _header = [_('ports_in_fwding_state'), '']
+    def ports_of_some_kind_of_state(self, statename):
+        _header_str = "_port_in_%s_state" % (statename)
+        _header = [_("$_header_str")]
         _table = []
-        _portlist = [_x.name for _x in self.iface.stp.member_state.get('forwarding')]
+        _portlist = [_x.name for _x in self.iface.stp.member_state.get(statename)]
         if _portlist:
-            _table.append(common.group_ports(_portlist))
-            return tabulate(_table, _header)
-        return ''
-
-    def ports_in_blocking_state(self):
-        """
-        :return: string output of lists of ports in blocking state
-        """
-        _header = [_('ports_in_blocking_state'), '']
-        _table = []
-        _portlist = [_x.name for _x in self.iface.stp.member_state.get('blocking')]
-        if _portlist:
-            _table.append(common.group_ports(_portlist))
+            _table.append(common.groups_ports(_portlist))
             return tabulate(_table, _header)
         return ''
 
@@ -229,8 +215,9 @@ class PrintBridge(PrintIface):
         _str += self.ip_details() + self.new_line()
         if self.iface.stp:
             _str += self.stp_details() + self.new_line()
-            _str += self.ports_in_fwd_state() + self.new_line()
-            _str += self.ports_in_blocking_state() + self.new_line()
+            for _state in ['forwarding', 'blocking']:
+                _str += self.ports_of_some_kind_of_state(_state) + \
+                    self.new_line()
         else:
             _str += self.no_stp_details() + self.new_line()
 
