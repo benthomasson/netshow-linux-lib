@@ -198,8 +198,7 @@ class PrintBridge(PrintIface):
         return tabulate(_table, _header) + self.new_line()
 
     def ports_of_some_kind_of_state(self, statename):
-        _header_str = "_port_in_%s_state" % (statename)
-        _header = [_("$_header_str")]
+        _header = [_("ports in $statename state")]
         _table = []
         _portlist = [_x.name for _x in
                      self.iface.stp.member_state.get(statename)]
