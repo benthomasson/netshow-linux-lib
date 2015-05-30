@@ -22,6 +22,7 @@ def parse_ip_cache(fileio):
     :return: has of ip addresses with iface names as keys
     """
     ip_cache = {}
+    scope = None
     for line in fileio:
         if len(line.strip()) <= 0 or re.search(r'\s+mtu\s+', line):
             continue
