@@ -105,7 +105,6 @@ class Iface(object):
         self._linkstate = 0
         self._sys_path_root = common.SYS_PATH_ROOT
         self._port_type = 0
-        self._feature_cache = cache
         self._ip_address = ip_address.IpAddress(name, cache)
         self._ip_neighbor = ip_neighbor.IpNeighbor(name, cache)
         self._ip_addr_assign = 0
