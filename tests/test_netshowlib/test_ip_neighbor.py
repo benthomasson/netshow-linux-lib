@@ -61,3 +61,7 @@ class TestIpNeighbor(object):
         assert_equals(self.ipneigh.allentries,
                       {'10.1.1.1': '11:22:33:44:55:66',
                        '10:1:1::1': '11:22:33:44:55:66'})
+
+        # port that doesn't have a value
+        self.ipneigh = ip_neighbor.IpNeighbor('eth2')
+        assert_equals(self.ipneigh.allentries, {})

@@ -76,7 +76,7 @@ class IpNeighbor(object):
             self._cache = None
         self.ipv4 = {}
         self.ipv6 = {}
-        self._all_neighbors = None
+        self._all_neighbors = {}
         self.name = name
 
     def run(self):
