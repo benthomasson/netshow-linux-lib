@@ -252,7 +252,9 @@ class PrintBond(PrintIface):
         """
         _str = self.cli_header() + self.new_line()
         _str += self.bond_details() + self.new_line()
-        _str += self.ip_details() + self.new_line()
+        _ip_details = self.ip_details()
+        if _ip_details:
+            _str += _ip_details + self.new_line()
         _str += self.bondmem_details() + self.new_line()
         _str += self.lldp_details() + self.new_line()
         return _str
