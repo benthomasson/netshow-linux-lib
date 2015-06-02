@@ -248,6 +248,7 @@ class BondMember(linux_iface.Iface):
         self._master = master
         self._linkfailures = 0
         self._bondstate = None
+        self.bond_class = Bond
 
     # -------------------
     # Get link failure count.
@@ -305,7 +306,7 @@ class BondMember(linux_iface.Iface):
         """
         if not self._master:
             bondname = self.read_symlink('master')
-            self._master = Bond(bondname)
+            self._master = self.bond_class(bondname)
         return self._master
 
     @property
