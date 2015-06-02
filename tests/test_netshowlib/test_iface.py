@@ -52,6 +52,7 @@ def test_iface_type(mock_bridgemem,
     mock_bridgemem.return_value = True
     mock_bridge.return_value = False
     mock_bond.return_value = False
+    mock_bondmem.return_value = False
     bridgemem = linux_iface.iface('eth2')
     assert_equals(isinstance(bridgemem, linux_bridge.BridgeMember), True)
     # port is bondmem
