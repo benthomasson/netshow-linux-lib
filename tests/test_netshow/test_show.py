@@ -13,17 +13,15 @@
 # pylint: disable=E0611
 # pylint: disable=W0611
 
-from asserts import assert_equals, mod_args_generator
+from asserts import assert_equals
 import netshow.linux.show as show
-from nose.tools import set_trace
 import mock
-from mock import MagicMock
 
 
 def test_interface_related():
-    for _val in ['trunk', 'access', 'l3',
-                 'l2', 'bridge', 'bond', 'bondmem',
-                 'bridgemem', 'interface']:
+    for _val in ['trunks', 'access', 'l3',
+                 'l2', 'bridges', 'bonds', 'bondmems',
+                 'bridgemems', 'interface']:
 
         results = {_val: True}
         assert_equals(show._interface_related(results), True)
@@ -36,6 +34,7 @@ def test_run_show_interfaces(mock_showint, mock_docopt):
     mock_docopt.return_value = {'trunk': True}
     show.run()
     assert_equals(mock_showint.call_count, 1)
+
 
 @mock.patch('netshow.linux.show.docopt')
 @mock.patch('netshow.linux.show.ShowSystem')

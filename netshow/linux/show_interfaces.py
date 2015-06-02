@@ -28,14 +28,13 @@ class ShowInterfaces(object):
         self.use_json = kwargs.get('--json') or kwargs.get('-j')
         self.show_all = True
         self.show_mgmt = kwargs.get('mgmt')
-        self.show_bridge = kwargs.get('bridge')
-        self.show_bond = kwargs.get('bond')
-        self.show_bondmem = kwargs.get('bondmem')
+        self.show_bridge = kwargs.get('bridges')
+        self.show_bond = kwargs.get('bonds')
+        self.show_bondmem = kwargs.get('bondmems')
         self.show_access = kwargs.get('access')
-        self.show_trunk = kwargs.get('trunk')
+        self.show_trunk = kwargs.get('trunks')
         self.show_l3 = kwargs.get('l3')
         self.show_l2 = kwargs.get('l2')
-        self.show_phy = kwargs.get('phy')
         self.single_iface = kwargs.get('<iface>')
         if kwargs.get('all') or self.single_iface is not None:
             self.show_up = False

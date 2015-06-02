@@ -6,17 +6,17 @@ Usage:
     netshow neighbors [--json | -j ]
     netshow system [--json | -j ]
     netshow interface [all] [ -m | --mac ] [ --oneline | -1 | -j | --json ]
-    netshow [interface] [ access | bridge | bond | bondmem | mgmt | l2 | l3 | trunk | <iface> ] [all] [--mac | -m ] [--oneline | -1  | --json | -j]
+    netshow [interface] [ access | bridges | bonds | bondmems | mgmt | l2 | l3 | trunks | <iface> ] [all] [--mac | -m ] [--oneline | -1  | --json | -j]
     netshow (--version | -v)
 
 Help:
     * default is to show intefaces only in the UP state.
     interface                 summary info of all interfaces
     interface access          summary of physical ports with l2 or l3 config
-    interface bond            summary of bonds
-    interface bondmem         summary of bond members
-    interface bridge          summary of ports with bridge members
-    interface trunk           summary of trunk interfaces
+    interface bonds           summary of bonds
+    interface bondmems        summary of bond members
+    interface bridges         summary of ports with bridge members
+    interface trunks          summary of trunk interfaces
     interface mgmt            summary of mgmt ports
     interface l3              summary of ports with an IP.
     interface l2              summary of access, trunk and bridge interfaces
@@ -49,11 +49,11 @@ def _interface_related(results):
             results.get('access') or \
             results.get('l3') or \
             results.get('l2') or \
-            results.get('phy') or \
-            results.get('bridge') or \
-            results.get('bond') or \
-            results.get('bondmem') or \
-            results.get('bridgemem') or \
+            results.get('bridges') or \
+            results.get('bonds') or \
+            results.get('bondmems') or \
+            results.get('bridgemems') or \
+            results.get('trunks') or \
             results.get('mgmt') or \
             results.get('interface'):
         return True
