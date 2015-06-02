@@ -25,15 +25,15 @@ def iface(name, cache=None):
     if test_iface.is_bridge():
         bridge = nn.import_module('netshow.linux.print_bridge')
         return bridge.PrintBridge(test_iface)
-    elif test_iface.is_bridgemem():
-        bridge = nn.import_module('netshow.linux.print_bridge')
-        return bridge.PrintBridgeMember(test_iface)
     elif test_iface.is_bond():
         bond = nn.import_module('netshow.linux.print_bond')
         return bond.PrintBond(test_iface)
     elif test_iface.is_bondmem():
         bondmem = nn.import_module('netshow.linux.print_bond')
         return bondmem.PrintBondMember(test_iface)
+    elif test_iface.is_bridgemem():
+        bridge = nn.import_module('netshow.linux.print_bridge')
+        return bridge.PrintBridgeMember(test_iface)
     return PrintIface(test_iface)
 
 
