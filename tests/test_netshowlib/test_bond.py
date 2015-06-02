@@ -7,13 +7,13 @@
 # pylint: disable=W0212
 # pylint: disable=W0201
 # pylint: disable=F0401
+import netshowlib.linux.lacp as linux_lacp
 import netshowlib.linux.bond as linux_bond
 import netshowlib.linux.bridge as linux_bridge
 import netshowlib.linux.common as common
 import mock
 from mock import MagicMock
 from asserts import assert_equals, mock_open_str, mod_args_generator
-from nose.tools import set_trace
 
 
 class TestLinuxBondMember(object):
@@ -216,14 +216,12 @@ class TestLinuxBond(object):
         mock_file_oneline.return_value = None
         assert_equals(self.iface.hash_policy, None)
 
-    @mock.patch('netshowlib.linux.lacp.Lacp')
     @mock.patch('netshowlib.linux.common.read_file_oneline')
-    def test_get_lacp_instance(self, mock_file_oneline, mock_lacp):
+    def test_get_lacp_instance(self, mock_file_oneline):
         # test that calling iface.lacp and if iface is LACP
         # creates new Lacp instance
-        mock_lacp_instance = mock_lacp.return_value
         mock_file_oneline.return_value = '802.3ad 4'
-        assert_equals(self.iface.lacp, mock_lacp_instance)
+        assert_equals(isinstance(self.iface.lacp, linux_lacp.Lacp), True)
         mock_file_oneline.assert_called_with(
             '/sys/class/net/bond0/bonding/mode')
         # if bond is not using lacp

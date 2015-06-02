@@ -47,6 +47,10 @@ class Bond(linux_iface.Iface):
         self._stp = None
         self._bridge_masters = {}
         self._cache = cache
+        self.bondmem_class = BondMember
+        self.lacp_class = lacp.Lacp
+
+
 
     # -------------------
 
@@ -141,7 +145,7 @@ class Bond(linux_iface.Iface):
             if set(fileoutput.split()) != set(self._members.keys()):
                 self._members = OrderedDict()
                 for i in fileoutput.split():
-                    self._members[i] = BondMember(i, master=self)
+                    self._members[i] = self.bondmem_class(i, master=self)
         else:
             self._members = {}
 
@@ -187,7 +191,7 @@ class Bond(linux_iface.Iface):
         """
         if self.mode == '4':
             if not self._lacp:
-                self._lacp = lacp.Lacp(self.name)
+                self._lacp = self.lacp_class(self.name)
             return self._lacp
         return None
 
