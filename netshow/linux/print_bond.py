@@ -256,5 +256,8 @@ class PrintBond(PrintIface):
         if _ip_details:
             _str += _ip_details + self.new_line()
         _str += self.bondmem_details() + self.new_line()
+        _bridgemems = self.bridgemem_details()
+        if _bridgemems:
+            _str += _bridgemems
         _str += self.lldp_details() + self.new_line()
         return _str

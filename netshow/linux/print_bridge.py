@@ -33,38 +33,6 @@ class PrintBridgeMember(PrintIface):
             return self.trunk_summary()
         return self.access_summary()
 
-    @classmethod
-    def _pretty_vlanlist(cls, bridgelist):
-        """
-        :return: list of vlans that match category. First list of \
-            native ports, then vlan ids of tagged bridgers
-        """
-        _native_vlans = []
-        _tagged_vlans = []
-        for _bridge in bridgelist:
-            _vlantag = _bridge.vlan_tag
-            if _vlantag:
-                _tagged_vlans += _vlantag
-            else:
-                _native_vlans.append(_bridge.name)
-        _vlanlist = common.group_ports(_native_vlans) +  \
-            common.create_range('', _tagged_vlans)
-        return [', '.join(_vlanlist)]
-
-    def bridgemem_details(self):
-        """
-        :return: list vlans or bridge names of various stp states
-        """
-        _str = ''
-        _stpstate = self.iface.stp.state
-        for _category, _bridgelist in _stpstate.items():
-            if _stpstate.get(_category):
-                _header = [_("vlans in $_category state")]
-                _table = [self._pretty_vlanlist(_bridgelist)]
-                _str += tabulate(_table, _header, numalign="left") + \
-                    self.new_line()
-        return _str
-
     def cli_output(self):
         """
         :return: output for 'netshow interface <ifacename> for a bridge interface'
