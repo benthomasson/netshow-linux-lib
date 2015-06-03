@@ -171,14 +171,14 @@ class TestPrintBond(object):
         assert_equals(_outputtable[4].split(), ['minimum_links:', '2'])
         assert_equals(_outputtable[5].split(), ['lacp_sys_priority:', '65535'])
         assert_equals(_outputtable[6].split(), ['lacp_rate:', 'fast_lacp'])
-        assert_equals(len(_output.split('\n')), 7)
+        assert_equals(len(_output.split('\n')), 9)
         # without lacp
         values1 = {'bonding/mode': 'something_else 2',
                    'bonding/xmit_hash_policy': 'layer3+4 2',
                    'bonding/min_links': '2'}
         mock_read_from_sys.side_effect = mod_args_generator(values1)
         _output = self.piface.bond_details()
-        assert_equals(len(_output.split('\n')), 5)
+        assert_equals(len(_output.split('\n')), 7)
 
     @mock.patch('netshowlib.linux.iface.Iface.read_from_sys')
     def test_hash_policy(self, mock_read_from_sys):

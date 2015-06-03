@@ -196,7 +196,7 @@ class PrintBond(PrintIface):
         if _lacp_info:
             _table.append([_('lacp_sys_priority') + ':', self.iface.lacp.sys_priority])
             _table.append([_('lacp_rate') + ':', self.lacp_rate()])
-        return tabulate(_table, _header)
+        return tabulate(_table, _header) + self.new_line()
 
     def bondmem_details(self):
         """
