@@ -181,7 +181,7 @@ class TestPrintIface(object):
         linux_bridge.BRIDGE_CACHE['br10'] = br10
         _output = self.piface.access_summary()
         # Untagged: br0
-        assert_equals(_output, ['untagged:', 'br10'])
+        assert_equals(_output, ['untagged: br10'])
 
     @mock.patch('netshowlib.linux.iface.Iface.is_trunk')
     @mock.patch('netshowlib.linux.bridge.os.listdir')
@@ -238,8 +238,8 @@ class TestPrintIface(object):
         linux_bridge.BRIDGE_CACHE['br11'] = br11
         linux_bridge.BRIDGE_CACHE['br30'] = br30
         _output = self.piface.trunk_summary()
-        assert_equals(_output[0], ['tagged:', '11,30'])
-        assert_equals(_output[1], ['untagged:', 'br10'])
+        assert_equals(_output[0], 'tagged: 11,30')
+        assert_equals(_output[1], 'untagged: br10')
 
     @mock.patch('netshowlib.linux.iface.Iface.read_from_sys')
     def test_abbrev_linksummary(self, mock_read_from_sys):

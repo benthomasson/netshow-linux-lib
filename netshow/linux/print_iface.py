@@ -195,12 +195,12 @@ class PrintIface(object):
                 native_vlans.append(_str)
         _strlist = []
         if tagged_vlans:
-            _strlist.append([_('tagged') + ':',
-                             ','.join(common.create_range('', tagged_vlans))])
+            _strlist.append(_('tagged') + ': ' +
+                            ','.join(common.create_range('', tagged_vlans)))
 
         if native_vlans:
-            _strlist.append([_('untagged') + ':',
-                             ','.join(common.group_ports(native_vlans))])
+            _strlist.append(_('untagged') + ': ' +
+                            ','.join(common.group_ports(native_vlans)))
 
         return _strlist
 
@@ -209,7 +209,7 @@ class PrintIface(object):
         :return: summary info for an access port
         """
         _bridgename = ','.join(self.iface.bridge_masters.keys())
-        return [_('untagged') + ':', _bridgename]
+        return [_('untagged') + ': ' + _bridgename]
 
     @classmethod
     def abbrev_linksummary(cls, linuxiface):
