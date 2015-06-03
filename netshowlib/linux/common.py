@@ -40,11 +40,15 @@ def sys_path(attr, iface_name):
     return '%s/%s/%s' % (SYS_PATH_ROOT, iface_name, attr)
 
 
-def read_from_sys(attr, iface_name):
-    """ reads an attribute found in the
+def read_from_sys(attr, iface_name, oneline=True):
+    """ reads an attribute found in thev
     ``/sys/class/net/[iface_name]/`` directory
     """
-    return read_file_oneline(sys_path(attr, iface_name))
+    _path = sys_path(attr, iface_name)
+    if oneline:
+        return read_file_oneline(_path)
+    else:
+        return read_file(_path)
 
 
 def generate_cidr_ip(addr):

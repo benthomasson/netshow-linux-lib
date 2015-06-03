@@ -142,12 +142,12 @@ class Iface(object):
             return common.sys_path(attr, iface_name)
         return common.sys_path(attr, self.name)
 
-    def read_from_sys(self, attr):
+    def read_from_sys(self, attr, oneline=True):
         """
         reads an attribute found in the
         ``/sys/class/net/[iface_name]/`` directory
         """
-        return common.read_from_sys(attr, self.name)
+        return common.read_from_sys(attr, self.name, oneline)
 
     def get_sub_interfaces(self):
         """
