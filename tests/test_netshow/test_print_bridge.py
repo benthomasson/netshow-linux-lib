@@ -82,6 +82,10 @@ class TestPrintBridgeMember(object):
         self.piface.iface.get_sub_interfaces = mock_subint
         # bridgemember is trunk port
         values = {
+            '/sys/class/net/eth22/brport/bridge/bridge/stp_state': True,
+            '/sys/class/net/eth22.11/brport/bridge/bridge/stp_state': True,
+            '/sys/class/net/eth22.30/brport/bridge/bridge/stp_state': True,
+            '/sys/class/net/eth22.40/brport/bridge/bridge/stp_state': True,
             '/sys/class/net/eth22/brport': True,
             '/sys/class/net/eth22.11/brport': True,
             '/sys/class/net/eth22.20/brport': False,

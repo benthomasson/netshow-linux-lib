@@ -354,6 +354,16 @@ class Iface(object):
         self.is_loopback_initial_test()
         return common.check_bit(self._port_type, LOOPBACK_INT)
 
+    def stp_state(self):
+        """
+        :return stp state of a particular bridge member.
+        If not a bridge member returns None
+        """
+        _attrlocation = 'brport/bridge/bridge/stp_state'
+        _path = self.sys_path(_attrlocation)
+        if os.path.exists(_path):
+            return self.read_from_sys(_attrlocation)
+        return None
 
 # Properties
 # -------------

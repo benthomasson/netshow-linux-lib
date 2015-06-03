@@ -16,8 +16,7 @@ def update_stp_state(stp_hash, iface_to_add, iface_under_test):
     """
     iface_stp_state = iface_under_test.read_from_sys('brport/state')
     if iface_stp_state == '0':
-        bridge_state = iface_under_test.read_from_sys(
-            'brport/bridge/bridge/stp_state')
+        bridge_state = iface_under_test.stp_state()
         if bridge_state == '0':
             stp_hash.get('stp_disabled').append(iface_to_add)
             return

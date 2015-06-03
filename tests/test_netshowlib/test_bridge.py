@@ -62,6 +62,10 @@ class TestKernelStpBridgeMem(object):
         self.iface.get_sub_interfaces = mock_subint
         # bridgemember is trunk port
         values = {
+            '/sys/class/net/eth1/brport/bridge/bridge/stp_state': True,
+            '/sys/class/net/eth1.11/brport/bridge/bridge/stp_state': True,
+            '/sys/class/net/eth1.20/brport/bridge/bridge/stp_state': True,
+            '/sys/class/net/eth1.30/brport/bridge/bridge/stp_state': True,
             '/sys/class/net/eth1/brport': True,
             '/sys/class/net/eth1.11/brport': True,
             '/sys/class/net/eth1.20/brport': False,
@@ -142,6 +146,8 @@ class TestKernelStpBridge(object):
         # bridge has only untagged ports
         mock_listdir.return_value = ['eth1', 'eth2']
         values = {
+            '/sys/class/net/eth1/brport/bridge/bridge/stp_state': True,
+            '/sys/class/net/eth2/brport/bridge/bridge/stp_state': True,
             '/sys/class/net/eth1/brport': True,
             '/sys/class/net/eth2/brport': True,
         }
@@ -170,6 +176,8 @@ class TestKernelStpBridge(object):
         # bridge has only tagged ports
         mock_listdir.return_value = ['eth1.1', 'eth2.1']
         values = {
+            '/sys/class/net/eth1.1/brport/bridge/bridge/stp_state': True,
+            '/sys/class/net/eth2.1/brport/bridge/bridge/stp_state': True,
             '/sys/class/net/eth1/brport': True,
             '/sys/class/net/eth2/brport': True,
         }
@@ -198,6 +206,9 @@ class TestKernelStpBridge(object):
         # bridge has mix of tagged and untagged ports
         mock_listdir.return_value = ['eth1.1', 'eth2.1', 'eth3']
         values = {
+            '/sys/class/net/eth1.1/brport/bridge/bridge/stp_state': True,
+            '/sys/class/net/eth2.1/brport/bridge/bridge/stp_state': True,
+            '/sys/class/net/eth3.1/brport/bridge/bridge/stp_state': True,
             '/sys/class/net/eth1/brport': True,
             '/sys/class/net/eth2/brport': True,
             '/sys/class/net/eth3/brport': True,
