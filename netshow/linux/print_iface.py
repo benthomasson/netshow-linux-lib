@@ -133,16 +133,16 @@ class PrintIface(object):
             self.speed,
             self.iface.mtu,
             self.port_category]]
-        return tabulate(_table, _header)
+        return tabulate(_table, _header) + self.new_line()
 
     def cli_output(self):
         """
         Each PrintIface child should define their own  of this function
         :return: output for 'netshow interface <ifacename>'
         """
-        _str = self.cli_header() + self.new_line()
-        _str += self.ip_details() + self.new_line()
-        _str += self.lldp_details() + self.new_line()
+        _str = self.cli_header()
+        _str += self.ip_details()
+        _str += self.lldp_details()
         return _str
 
     def ip_details(self):
@@ -152,14 +152,14 @@ class PrintIface(object):
         _header = [_('ip_details'), '']
         _table = []
         if not self.iface.is_l3():
-            _table.append([_('no_l3_ip')])
+            return ''
         else:
             _table.append(["%s:" % (_('ip')),
                            ', '.join(self.iface.ip_address.allentries)])
             _table.append(["%s:" % (_('arp_entries')),
                            len(self.iface.ip_neighbor.allentries)])
 
-        return tabulate(_table, _header)
+        return tabulate(_table, _header) + self.new_line()
 
     def lldp_details(self):
         """
@@ -179,7 +179,7 @@ class PrintIface(object):
                            "%s(%s)" % (_entry.get('adj_port'),
                                        _entry.get('adj_hostname'))])
 
-        return tabulate(_table, _header)
+        return tabulate(_table, _header) + self.new_line()
 
     def trunk_summary(self):
         """

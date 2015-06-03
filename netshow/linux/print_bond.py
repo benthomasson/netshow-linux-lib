@@ -217,7 +217,7 @@ class PrintBond(PrintIface):
                            _printbondmem.speed,
                            _bondmem.linkfailures])
 
-        return tabulate(_table, _header)
+        return tabulate(_table, _header) + self.new_line()
 
     def lldp_details(self):
         """
@@ -250,14 +250,14 @@ class PrintBond(PrintIface):
         cli output of the linux bond interface
         :return: output for 'netshow interface <ifacename>'
         """
-        _str = self.cli_header() + self.new_line()
-        _str += self.bond_details() + self.new_line()
+        _str = self.cli_header()
+        _str += self.bond_details()
         _ip_details = self.ip_details()
         if _ip_details:
-            _str += _ip_details + self.new_line()
-        _str += self.bondmem_details() + self.new_line()
-        _bridgemems = self.bridgemem_details()
-        if _bridgemems:
-            _str += _bridgemems
-        _str += self.lldp_details() + self.new_line()
+            _str += _ip_details
+        _str += self.bondmem_details()
+        _bridgemem_info = self.bridgemem_details()
+        if _bridgemem_info:
+            _str += _bridgemem_info
+        _str += self.lldp_details()
         return _str

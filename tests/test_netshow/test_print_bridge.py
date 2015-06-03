@@ -35,7 +35,7 @@ class TestPrintBridgeMember(object):
         mock_cli_header.return_value = 'cli_header'
         mock_details.return_value = 'bridgemem_details'
         mock_lldp.return_value = 'lldp'
-        assert_equals(self.piface.cli_output(), 'cli_header\n\nbridgemem_details\n\nlldp\n\n')
+        assert_equals(self.piface.cli_output(), 'cli_headerbridgemem_detailslldp')
 
 
 

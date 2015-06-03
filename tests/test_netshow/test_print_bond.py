@@ -109,7 +109,7 @@ class TestPrintBond(object):
         mock_cli_header.return_value = 'cli header'
         _output = self.piface.cli_output()
         assert_equals(_output,
-                      'cli header\n\nbond details\n\nip output\n\nbondmem output\n\nno_lldp_entries\n\n')
+                      'cli headerbond detailsip outputbondmem outputno_lldp_entries')
 
     @mock.patch('netshowlib.linux.lldp.interface')
     @mock.patch('netshowlib.linux.common.read_file_oneline')

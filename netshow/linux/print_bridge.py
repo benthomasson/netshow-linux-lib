@@ -37,9 +37,9 @@ class PrintBridgeMember(PrintIface):
         """
         :return: output for 'netshow interface <ifacename> for a bridge interface'
         """
-        _str = self.cli_header() + self.new_line()
-        _str += self.bridgemem_details() + self.new_line()
-        _str += self.lldp_details() + self.new_line()
+        _str = self.cli_header()
+        _str += self.bridgemem_details()
+        _str += self.lldp_details()
 
         return _str
 
