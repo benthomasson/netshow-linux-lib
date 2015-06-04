@@ -182,16 +182,43 @@ class ShowInterfaces(object):
         _headers = self.summary_header
         _table = []
         for _piface in self.ifacelist.get(port_type).values():
-            _table.append([_piface.linkstate,
-                           _piface.name,
-                           _piface.speed,
-                           _piface.iface.mtu,
-                           _piface.port_category,
-                           _piface.summary[0]])
-
-            if len(_piface.summary) > 1:
-                for i in range(1, len(_piface.summary)):
-                    _table.append(['', '',
-                                   '', '', '', _piface.summary[i]])
-
+            if self.oneline:
+                _table += self.cli_append_oneline(_piface)
+            else:
+                _table += self.cli_append_multiline(_piface)
         return tabulate(_table, _headers)
+
+    @classmethod
+    def cli_append_oneline(cls, piface):
+        """
+        prints summary netshow information one line per interface
+        """
+        _table = []
+        _table.append([piface.linkstate,
+                       piface.name,
+                       piface.speed,
+                       piface.iface.mtu,
+                       piface.port_category,
+                       ', '.join(piface.summary)])
+
+        return _table
+
+    @classmethod
+    def cli_append_multiline(cls, piface):
+        """
+        prints summary netshow information multiple lines per interface
+        """
+        _table = []
+        _table.append([piface.linkstate,
+                       piface.name,
+                       piface.speed,
+                       piface.iface.mtu,
+                       piface.port_category,
+                       piface.summary[0]])
+
+        if len(piface.summary) > 1:
+            for i in range(1, len(piface.summary)):
+                _table.append(['', '',
+                               '', '', '', piface.summary[i]])
+
+        return _table
