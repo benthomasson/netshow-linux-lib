@@ -8,7 +8,7 @@ from netshowlib.linux import iface as linux_iface
 from netshowlib.linux import common
 from tabulate import tabulate
 from netshow.linux.common import _
-
+import inflection
 
 def iface(name, cache=None):
     """
@@ -250,7 +250,8 @@ class PrintIface(object):
         _stpstate = self.iface.stp.state
         for _category, _bridgelist in _stpstate.items():
             if _stpstate.get(_category):
-                _header = [_("vlans in %s state") % (_category)]
+                _header = [_("vlans in %s state") %
+                           (inflection.titleize(_category))]
                 _table = [self._pretty_vlanlist(_bridgelist)]
                 _str += tabulate(_table, _header, numalign="left") + \
                     self.new_line()

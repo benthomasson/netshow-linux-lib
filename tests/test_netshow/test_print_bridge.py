@@ -126,13 +126,13 @@ class TestPrintBridgeMember(object):
         linux_bridge.BRIDGE_CACHE['br30'] = br30
         _output = self.piface.bridgemem_details()
         _outputtable = _output.split('\n')
-        assert_equals(_outputtable[0], 'vlans in root state')
+        assert_equals(_outputtable[0], 'vlans in Root state')
         assert_equals(_outputtable[2], 'br10')
-        assert_equals(_outputtable[4], 'vlans in forwarding state')
+        assert_equals(_outputtable[4], 'vlans in Forwarding state')
         assert_equals(_outputtable[6], 'br10, 40')
-        assert_equals(_outputtable[8], 'vlans in blocking state')
+        assert_equals(_outputtable[8], 'vlans in Blocking state')
         assert_equals(_outputtable[10], '11')
-        assert_equals(_outputtable[12], 'vlans in stp_disabled state')
+        assert_equals(_outputtable[12], 'vlans in Stp Disabled state')
         assert_equals(_outputtable[14], '30')
 
 

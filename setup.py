@@ -58,7 +58,8 @@ setup(
         'netshow',
         'netshow-lib',
         'docopt',
-        'tabulate'
+        'tabulate',
+        'inflection'
     ],
     classifiers=[
         'Topic :: System :: Networking',
