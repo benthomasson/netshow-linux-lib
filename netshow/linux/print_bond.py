@@ -4,9 +4,8 @@ Print and Analysis Module for Linux bond interfaces
 
 from netshow.linux.print_iface import PrintIface
 
-from flufl.i18n import initialize
+from netshow.linux.common import _
 from tabulate import tabulate
-_ = initialize('netshow-linux-lib')
 
 
 class PrintBondMember(PrintIface):

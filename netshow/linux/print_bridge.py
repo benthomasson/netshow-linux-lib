@@ -5,10 +5,8 @@ Print and Analysis Module for Linux bridge interfaces
 from netshow.linux.print_iface import PrintIface
 from netshowlib.linux import common
 
-from flufl.i18n import initialize
+from netshow.linux.common import _
 from tabulate import tabulate
-
-_ = initialize('netshow-linux-lib')
 
 
 class PrintBridgeMember(PrintIface):

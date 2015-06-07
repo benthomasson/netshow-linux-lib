@@ -3,12 +3,11 @@
 """
 
 from netshowlib.linux.system_summary import SystemSummary
-from flufl.i18n import initialize
 from datetime import timedelta
 import json
 from netshow.linux.netjson_encoder import NetEncoder
+from netshow.linux.common import _
 
-_ = initialize('netshow-linux-lib')
 
 
 class ShowSystem(object):
