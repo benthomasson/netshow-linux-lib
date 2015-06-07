@@ -25,7 +25,6 @@ class PostInstall(install_data):
         # run through the regular install data
         # now install the translation stuff
         # run "setup.py build_i18n -m" first first before executing
-
         install_data.run(self)
         # not sure why this is only required for stdeb..
         # when doing python setup.py bdist_wheel it just grabs the mo files
@@ -49,6 +48,7 @@ setup(
     author='Cumulus Networks',
     author_email='ce-ceng@cumulusnetworks.com',
     packages=find_packages(),
+    install_package_data=True,
     zip_safe=False,
     license='GPLv2',
     cmdclass={"install_data": PostInstall,
@@ -58,8 +58,7 @@ setup(
         'netshow',
         'netshow-lib',
         'docopt',
-        'tabulate',
-        'flufl.i18n'
+        'tabulate'
     ],
     classifiers=[
         'Topic :: System :: Networking',

@@ -13,9 +13,7 @@ from netshowlib.linux import iface as linux_iface
 import netshow.linux.print_iface as print_iface
 import json
 from netshow.linux.netjson_encoder import NetEncoder
-from flufl.i18n import initialize
-
-_ = initialize('netshow-linux-lib')
+from netshow.linux.common import _
 
 
 class ShowInterfaces(object):

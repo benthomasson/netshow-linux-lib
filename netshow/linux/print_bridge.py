@@ -4,11 +4,8 @@ Print and Analysis Module for Linux bridge interfaces
 """
 from netshow.linux.print_iface import PrintIface
 from netshowlib.linux import common
-
-from flufl.i18n import initialize
 from tabulate import tabulate
-
-_ = initialize('netshow-linux-lib')
+from netshow.linux.common import _
 
 
 class PrintBridgeMember(PrintIface):
@@ -166,7 +163,7 @@ class PrintBridge(PrintIface):
         return tabulate(_table, _header) + self.new_line()
 
     def ports_of_some_kind_of_state(self, statename):
-        _header = [_("ports in $statename state")]
+        _header = [_("ports in %s state") % (statename)]
         _table = []
         _portlist = [_x.name for _x in
                      self.iface.stp.member_state.get(statename)]
