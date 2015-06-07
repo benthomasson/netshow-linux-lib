@@ -186,37 +186,57 @@ class ShowInterfaces(object):
                 _table += self.cli_append_multiline(_piface)
         return tabulate(_table, _headers)
 
-    @classmethod
-    def cli_append_oneline(cls, piface):
+    def cli_append_oneline(self, piface):
         """
         prints summary netshow information one line per interface
         """
         _table = []
-        _table.append([piface.linkstate,
-                       piface.name,
-                       piface.speed,
-                       piface.iface.mtu,
-                       piface.port_category,
-                       ', '.join(piface.summary)])
+        if self.show_mac:
+            _table.append([piface.linkstate,
+                           piface.iface.mac,
+                           piface.name,
+                           piface.speed,
+                           piface.iface.mtu,
+                           piface.port_category,
+                           ', '.join(piface.summary)])
+        else:
+            _table.append([piface.linkstate,
+                           piface.name,
+                           piface.speed,
+                           piface.iface.mtu,
+                           piface.port_category,
+                           ', '.join(piface.summary)])
 
         return _table
 
-    @classmethod
-    def cli_append_multiline(cls, piface):
+    def cli_append_multiline(self, piface):
         """
         prints summary netshow information multiple lines per interface
         """
         _table = []
-        _table.append([piface.linkstate,
-                       piface.name,
-                       piface.speed,
-                       piface.iface.mtu,
-                       piface.port_category,
-                       piface.summary[0]])
+        if self.show_mac:
+            _table.append([piface.linkstate,
+                           piface.iface.mac,
+                           piface.name,
+                           piface.speed,
+                           piface.iface.mtu,
+                           piface.port_category,
+                           piface.summary[0]])
+        else:
+            _table.append([piface.linkstate,
+                           piface.name,
+                           piface.speed,
+                           piface.iface.mtu,
+                           piface.port_category,
+                           piface.summary[0]])
 
         if len(piface.summary) > 1:
             for i in range(1, len(piface.summary)):
-                _table.append(['', '',
-                               '', '', '', piface.summary[i]])
+                if self.show_mac:
+                    _table.append(['', '', '',
+                                   '', '', '', piface.summary[i]])
+                else:
+                    _table.append(['', '',
+                                   '', '', '', piface.summary[i]])
 
         return _table
