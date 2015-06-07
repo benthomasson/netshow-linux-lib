@@ -3,7 +3,6 @@ Print and Analysis Module for Linux bond interfaces
 """
 
 from netshow.linux.print_iface import PrintIface
-
 from netshow.linux.common import _
 from tabulate import tabulate
 

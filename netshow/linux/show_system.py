@@ -9,7 +9,6 @@ from netshow.linux.netjson_encoder import NetEncoder
 from netshow.linux.common import _
 
 
-
 class ShowSystem(object):
     """
     Class responsible for printing out basic linux system summary info

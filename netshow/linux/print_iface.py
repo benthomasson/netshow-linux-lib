@@ -6,10 +6,8 @@ Linux Iface module with print functions
 import netshowlib.netshowlib as nn
 from netshowlib.linux import iface as linux_iface
 from netshowlib.linux import common
-from flufl.i18n import initialize
 from tabulate import tabulate
-
-_ = initialize('netshow-linux-lib')
+from netshow.linux.common import _
 
 
 def iface(name, cache=None):
@@ -50,6 +48,7 @@ class PrintIface(object):
         :return: name of the interface
         """
         return self.iface.name
+
     @classmethod
     def new_line(cls):
         """
@@ -240,7 +239,6 @@ class PrintIface(object):
             common.create_range('', _tagged_vlans)
         return [', '.join(_vlanlist)]
 
-
     def bridgemem_details(self):
         """
         :return: list vlans or bridge names of various stp states
@@ -252,7 +250,7 @@ class PrintIface(object):
         _stpstate = self.iface.stp.state
         for _category, _bridgelist in _stpstate.items():
             if _stpstate.get(_category):
-                _header = [_("vlans in $_category state")]
+                _header = [_("vlans in %s state") % (_category)]
                 _table = [self._pretty_vlanlist(_bridgelist)]
                 _str += tabulate(_table, _header, numalign="left") + \
                     self.new_line()

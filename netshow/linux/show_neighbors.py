@@ -7,11 +7,7 @@ import netshowlib.linux.cache as linux_cache
 from collections import OrderedDict
 import json
 from tabulate import tabulate
-from flufl.i18n import initialize
-
-
-_ = initialize('netshow-linux-lib')
-
+from netshow.linux.common import _
 
 class ShowNeighbors(object):
     """
