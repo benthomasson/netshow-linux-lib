@@ -15,9 +15,8 @@
 # pylint: disable=E0611
 # pylint: disable=W0611
 
-from asserts import assert_equals, mod_args_generator
+from asserts import assert_equals
 import netshow.linux.show_system as show_system
-from nose.tools import set_trace
 import mock
 import json
 import re
@@ -41,7 +40,7 @@ class TestShowSystem(object):
         results = {'--json': True}
         _systemsum = show_system.ShowSystem(**results)
         _output = _systemsum.run()
-        assert_equals(json.loads(_output).get('system_obj').get('version'),
+        assert_equals(json.loads(_output).get('system_dict').get('version'),
                       '14.04')
         # not using json
         results = {'--json': False}
