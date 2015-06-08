@@ -53,7 +53,8 @@ setup(
     license='GPLv2',
     cmdclass={"install_data": PostInstall,
               "build": BuildWithI18n},
-    namespace_packages=['netshowlib', 'netshowlib.linux'],
+    namespace_packages=['netshowlib', 'netshowlib.linux',
+                        'netshow', 'netshow.linux'],
     install_requires=[
         'netshow',
         'netshow-lib',
