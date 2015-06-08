@@ -73,7 +73,7 @@ class TestLinuxBond(object):
     @mock.patch('netshowlib.linux.iface.os.path.exists')
     @mock.patch('netshowlib.linux.common.read_symlink')
     def test_get_vlan_list(self, mock_symlink, mock_os_path,
-                                mock_oneline, mock_os_listdir):
+                           mock_oneline, mock_os_listdir):
         mock_subint = MagicMock()
         mock_subint.return_value = ['bond0.11', 'bond0.20', 'bond0.30']
         self.iface.get_sub_interfaces = mock_subint
@@ -126,9 +126,62 @@ class TestLinuxBond(object):
                 tagged_vlans.append(_str)
             else:
                 native_vlans.append(_str)
-        vlanlist = common.group_ports(native_vlans) + common.create_range('', tagged_vlans)
+        vlanlist = common.group_ports(native_vlans) + \
+            common.create_range('', tagged_vlans)
         assert_equals(vlanlist, ['br10', '11', '30'])
 
+    @mock.patch('netshowlib.linux.bridge.os.listdir')
+    @mock.patch('netshowlib.linux.common.read_file_oneline')
+    @mock.patch('netshowlib.linux.iface.os.path.exists')
+    @mock.patch('netshowlib.linux.common.read_symlink')
+    def test_native_vlan(self, mock_symlink, mock_os_path,
+                         mock_oneline, mock_os_listdir):
+        mock_subint = MagicMock()
+        mock_subint.return_value = ['bond0.11', 'bond0.20', 'bond0.30']
+        self.iface.get_sub_interfaces = mock_subint
+        # bridgemember is trunk port
+        values = {
+            '/sys/class/net/bond0/brport': True,
+            '/sys/class/net/bond0.11/brport': True,
+            '/sys/class/net/bond0.20/brport': False,
+            '/sys/class/net/bond0.30/brport': True,
+        }
+        values2 = {
+            '/sys/class/net/bond0/brport/state': '3',
+            '/sys/class/net/bond0/brport/bridge/bridge/root_port': 'aaa',
+            '/sys/class/net/bond0/brport/port_id': 'aaa',
+            '/sys/class/net/bond0.11/brport/state': '0',
+            '/sys/class/net/bond0.11/brport/bridge/bridge/stp_state': '1',
+            '/sys/class/net/bond0.11/brport/bridge/bridge/root_port': 'aaa',
+            '/sys/class/net/bond0.11/brport/port_id': 'aaa',
+            '/sys/class/net/bond0.30/brport/state': '0',
+            '/sys/class/net/bond0.30/brport/bridge/bridge/stp_state': '0'
+
+        }
+        values3 = {
+            '/sys/class/net/bond0/brport/bridge': 'br10',
+            '/sys/class/net/bond0.11/brport/bridge': 'br11',
+            '/sys/class/net/bond0.20/brport/bridge': None,
+            '/sys/class/net/bond0.30/brport/bridge': 'br30'
+        }
+        values4 = {
+            '/sys/class/net/br30/brif': ['bond0.30'],
+            '/sys/class/net/br11/brif': ['bond0.11'],
+            '/sys/class/net/br10/brif': []
+        }
+
+        mock_os_listdir.side_effect = mod_args_generator(values4)
+        mock_symlink.side_effect = mod_args_generator(values3)
+        mock_oneline.side_effect = mod_args_generator(values2)
+        mock_os_path.side_effect = mod_args_generator(values)
+        br10 = linux_bridge.Bridge('br10')
+        br11 = linux_bridge.Bridge('br11')
+        br30 = linux_bridge.Bridge('br30')
+        linux_bridge.BRIDGE_CACHE['br10'] = br10
+        linux_bridge.BRIDGE_CACHE['br11'] = br11
+        linux_bridge.BRIDGE_CACHE['br30'] = br30
+        vlanlist = self.iface.native_vlan
+        assert_equals(vlanlist, ['br10'])
 
     @mock.patch('netshowlib.linux.common.read_file_oneline')
     @mock.patch('netshowlib.linux.iface.os.path.exists')
@@ -172,8 +225,8 @@ class TestLinuxBond(object):
         linux_bridge.BRIDGE_CACHE['br10'] = br10
         linux_bridge.BRIDGE_CACHE['br11'] = br11
         linux_bridge.BRIDGE_CACHE['br30'] = br30
-        assert_equals(sorted(list(self.iface.bridge_masters.keys())), ['br10', 'br11', 'br30'])
-
+        assert_equals(sorted(list(self.iface.bridge_masters.keys())),
+                      ['br10', 'br11', 'br30'])
 
     @mock.patch('netshowlib.linux.common.read_file_oneline')
     def test_getting_bond_members(self, mock_file_oneline):

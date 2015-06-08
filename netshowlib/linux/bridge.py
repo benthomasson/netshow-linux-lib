@@ -262,6 +262,17 @@ class BridgeMember(linux_iface.Iface):
                 # insert at the beginning of the array
                 _vlanlist.insert(0, _bridge.name)
         return _vlanlist
+
+    @property
+    def native_vlan(self):
+        """
+        Get the name of the native vlan of the trunk port
+        """
+        _vlanlist = self.vlan_list
+        if _vlanlist and not _vlanlist[0].isdigit():
+            return [self.vlan_list[0]]
+
+
 # ======================================================================= #
 
 

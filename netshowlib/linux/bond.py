@@ -98,6 +98,16 @@ class Bond(linux_iface.Iface):
         return _vlanlist
 
     @property
+    def native_vlan(self):
+        """
+        Get the name of the native vlan of the trunk port
+        """
+        _vlanlist = self.vlan_list[0]
+        if _vlanlist and not _vlanlist[0].isdigit():
+            return [self.vlan_list[0]]
+
+
+    @property
     def stp(self):
         """
         :return: KernelStpBridgeMember instance
