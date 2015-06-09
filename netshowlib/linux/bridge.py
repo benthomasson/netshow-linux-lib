@@ -27,7 +27,12 @@ def update_stp_state(stp_hash, iface_to_add, iface_under_test):
     elif iface_stp_state == '3':
         stp_hash.get('forwarding').append(iface_to_add)
     elif iface_stp_state == '4':
-        stp_hash.get('blocking').append(iface_to_add)
+        bridge_state = iface_under_test.stp_state()
+        if bridge_state == '0':
+            stp_hash.get('stp_disabled').append(iface_to_add)
+            return
+        else:
+            stp_hash.get('blocking').append(iface_to_add)
     root_port_id = iface_under_test.read_from_sys(
         'brport/bridge/bridge/root_port')
     port_id = iface_under_test.read_from_sys('brport/port_id')
