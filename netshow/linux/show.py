@@ -5,7 +5,6 @@
 Usage:
     netshow neighbors [--json | -j ]
     netshow system [--json | -j ]
-    netshow interface [all] [ -m | --mac ] [ --oneline | -1 | -j | --json ]
     netshow [interface] [ access | bridges | bonds | bondmems | mgmt | l2 | l3 | trunks | <iface> ] [all] [--mac | -m ] [--oneline | -1  | --json | -j]
     netshow (--version | -v)
 
@@ -33,7 +32,8 @@ Options:
     --json     print output in json
 """
 
-from docopt import docopt, printable_usage
+import sys
+from network_docopt import NetworkDocopt
 from netshow.linux._version import get_version
 from netshow.linux.show_interfaces import ShowInterfaces
 from netshow.linux.show_neighbors import ShowNeighbors
@@ -45,34 +45,38 @@ def _interface_related(results):
     interface related commands without the interface keyword
     """
 
-    if results.get('trunk') or \
-            results.get('access') or \
-            results.get('l3') or \
-            results.get('l2') or \
-            results.get('bridges') or \
-            results.get('bonds') or \
-            results.get('bondmems') or \
-            results.get('bridgemems') or \
-            results.get('trunks') or \
-            results.get('mgmt') or \
-            results.get('interface'):
-        return True
+    for _result in ('access', 'bondmems', 'bonds',
+                    'bridges', 'interface', 'l2',
+                    'l3', 'mgmt', 'phy', 'trunks',
+                    '<iface>'):
+        if results.get(_result):
+            return True
     return False
 
 
 def run():
     """ run linux netshow version """
-    _results = docopt(__doc__)
-    if _interface_related(_results):
-        _showint = ShowInterfaces(**_results)
-        print(_showint.run())
-    elif _results.get('system'):
-        _showsys = ShowSystem(**_results)
-        print(_showsys.run())
-    elif _results.get('neighbors'):
-        _shownei = ShowNeighbors(**_results)
-        print(_shownei.run())
-    elif _results.get('--version') or _results.get('-v'):
-        print(get_version())
+    if sys.argv[-1] == 'options':
+        print_options = True
+        sys.argv = sys.argv[0:-1]
     else:
-        print(printable_usage(__doc__))
+        print_options = False
+
+    cl = NetworkDocopt(__doc__)
+    if print_options:
+        cl.print_options()
+    else:
+
+        if _interface_related(cl):
+            _showint = ShowInterfaces(cl)
+            print(_showint.run())
+        elif cl.get('system'):
+            _showsys = ShowSystem(cl)
+            print(_showsys.run())
+        elif cl.get('neighbors'):
+            _shownei = ShowNeighbors(cl)
+            print(_shownei.run())
+        elif cl.get('--version') or cl.get('-v'):
+            print(get_version())
+        else:
+            print(__doc__)

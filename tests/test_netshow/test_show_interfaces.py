@@ -20,7 +20,6 @@ from asserts import assert_equals, mod_args_generator
 import netshow.linux.show_interfaces as showint
 import netshow.linux.print_bridge as print_bridge
 import netshow.linux.print_bond as print_bond
-from nose.tools import set_trace
 import mock
 import re
 import json
@@ -30,7 +29,7 @@ class TestShowInterfaces(object):
 
     def setup(self):
         results = {'l2': True}
-        self.showint = showint.ShowInterfaces(**results)
+        self.showint = showint.ShowInterfaces(results)
 
     @mock.patch('netshow.linux.print_iface.linux_iface.Iface.exists')
     @mock.patch('netshow.linux.show_interfaces.linux_iface.portname_list')
