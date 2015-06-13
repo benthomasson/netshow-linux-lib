@@ -9,12 +9,13 @@ import json
 from tabulate import tabulate
 from netshow.linux.common import _
 
+
 class ShowNeighbors(object):
     """
     Class responsible for printing out basic linux device neighbor info
     """
-    def __init__(self, **kwargs):
-        self.use_json = kwargs.get('--json') or kwargs.get('-j')
+    def __init__(self, cl):
+        self.use_json = cl.get('--json') or cl.get('-j')
         self.ifacelist = OrderedDict()
 
     def run(self):

@@ -26,7 +26,7 @@ class TestShowSystem(object):
 
     def setup(self):
         results = {'json': False}
-        self.system = show_system.ShowSystem(**results)
+        self.system = show_system.ShowSystem(results)
 
     @mock.patch('netshowlib.linux.system_summary.common.distro_info')
     @mock.patch('netshowlib.linux.system_summary.common.read_file_oneline')
@@ -38,13 +38,13 @@ class TestShowSystem(object):
         # using json
         mock_read_file.return_value = '100'
         results = {'--json': True}
-        _systemsum = show_system.ShowSystem(**results)
+        _systemsum = show_system.ShowSystem(results)
         _output = _systemsum.run()
         assert_equals(json.loads(_output).get('system_dict').get('version'),
                       '14.04')
         # not using json
         results = {'--json': False}
-        _systemsum = show_system.ShowSystem(**results)
+        _systemsum = show_system.ShowSystem(results)
         _output = _systemsum.run()
         assert_equals(_output.split('\n')[0].split(), ['Ubuntu', '14.04'])
         assert_equals(re.split(r':\s+',

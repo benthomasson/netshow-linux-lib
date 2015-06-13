@@ -16,39 +16,39 @@
 from asserts import assert_equals
 import netshow.linux.show as show
 import mock
+import sys
 
 
 def test_interface_related():
     for _val in ['trunks', 'access', 'l3',
                  'l2', 'bridges', 'bonds', 'bondmems',
-                 'bridgemems', 'interface']:
+                 'interface']:
 
         results = {_val: True}
         assert_equals(show._interface_related(results), True)
 
 
-@mock.patch('netshow.linux.show.docopt')
 @mock.patch('netshow.linux.show.ShowInterfaces')
-def test_run_show_interfaces(mock_showint, mock_docopt):
+def test_run_show_interfaces(mock_showint):
     # netshow interfaces
-    mock_docopt.return_value = {'trunk': True}
+    sys.argv = ['netshow', 'trunk']
     show.run()
     assert_equals(mock_showint.call_count, 1)
 
 
-@mock.patch('netshow.linux.show.docopt')
+@mock.patch('netshow.linux.show.NetworkDocopt')
 @mock.patch('netshow.linux.show.ShowSystem')
-def test_run_show_system(mock_showsys, mock_docopt):
+def test_run_show_system(mock_showsys, mock_NetworkDocopt):
     # netshow system
-    mock_docopt.return_value = {'system': True}
+    mock_NetworkDocopt.return_value = {'system': True}
+    sys.argv = ['netshow', 'system']
     show.run()
     assert_equals(mock_showsys.call_count, 1)
 
 
-@mock.patch('netshow.linux.show.docopt')
 @mock.patch('netshow.linux.show.ShowNeighbors')
-def test_run_show_neighbors(mock_shownei, mock_docopt):
+def test_run_show_neighbors(mock_shownei):
     # netshow system
-    mock_docopt.return_value = {'neighbors': True}
+    sys.argv = ['netshow', 'neighbors']
     show.run()
     assert_equals(mock_shownei.call_count, 1)

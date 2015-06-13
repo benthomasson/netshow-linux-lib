@@ -20,21 +20,21 @@ class ShowInterfaces(object):
     """ Class responsible for the 'netshow interfaces' printout for \
         the linux provider
     """
-    def __init__(self, **kwargs):
+    def __init__(self, cl):
         self._ifacelist = {}
-        self.show_mac = kwargs.get('--mac') or kwargs.get('-m')
-        self.use_json = kwargs.get('--json') or kwargs.get('-j')
+        self.show_mac = cl.get('--mac') or cl.get('-m')
+        self.use_json = cl.get('--json') or cl.get('-j')
         self.show_all = True
-        self.show_mgmt = kwargs.get('mgmt')
-        self.show_bridge = kwargs.get('bridges')
-        self.show_bond = kwargs.get('bonds')
-        self.show_bondmem = kwargs.get('bondmems')
-        self.show_access = kwargs.get('access')
-        self.show_trunk = kwargs.get('trunks')
-        self.show_l3 = kwargs.get('l3')
-        self.show_l2 = kwargs.get('l2')
-        self.single_iface = kwargs.get('<iface>')
-        if kwargs.get('all') or self.single_iface is not None:
+        self.show_mgmt = cl.get('mgmt')
+        self.show_bridge = cl.get('bridges')
+        self.show_bond = cl.get('bonds')
+        self.show_bondmem = cl.get('bondmems')
+        self.show_access = cl.get('access')
+        self.show_trunk = cl.get('trunks')
+        self.show_l3 = cl.get('l3')
+        self.show_l2 = cl.get('l2')
+        self.single_iface = cl.get('<iface>')
+        if cl.get('all') or self.single_iface is not None:
             self.show_up = False
         else:
             self.show_up = True
@@ -42,7 +42,7 @@ class ShowInterfaces(object):
                 or self.show_access or self.show_trunk \
                 or self.show_bridge or self.show_mgmt:
             self.show_all = False
-        self.oneline = kwargs.get('--oneline') or kwargs.get('-1')
+        self.oneline = cl.get('--oneline') or cl.get('-1')
         self.iface_categories = ['bond', 'bondmem',
                                  'bridge', 'trunk', 'access', 'l3',
                                  'l2']
