@@ -11,7 +11,6 @@ import netshowlib.linux.bridge as linux_bridge
 from netshowlib.linux import common
 import mock
 from asserts import assert_equals, mod_args_generator
-from nose.tools import set_trace
 from mock import MagicMock
 
 
@@ -32,11 +31,13 @@ class TestKernelStpBridgeMem(object):
         mock_subint = []
         mock_symlink.return_value = 'br10'
         values = {
-            '/sys/class/net/eth1/brport': True
+            '/sys/class/net/eth1/brport': True,
+            '/sys/class/net/eth1/brport/bridge/bridge/stp_state': '1'
         }
         values2 = {
             '/sys/class/net/eth1/brport/state': '3',
             '/sys/class/net/eth1/brport/bridge/bridge/root_port': 'aaa',
+            '/sys/class/net/eth1/brport/bridge/bridge/stp_state': '1',
             '/sys/class/net/eth1/brport/port_id': 'aaa'
         }
         mock_oneline.side_effect = mod_args_generator(values2)
@@ -74,6 +75,7 @@ class TestKernelStpBridgeMem(object):
         values2 = {
             '/sys/class/net/eth1/brport/state': '3',
             '/sys/class/net/eth1/brport/bridge/bridge/root_port': 'aaa',
+            '/sys/class/net/eth1/brport/bridge/bridge/stp_state': '1',
             '/sys/class/net/eth1/brport/port_id': 'aaa',
             '/sys/class/net/eth1.11/brport/state': '0',
             '/sys/class/net/eth1.11/brport/bridge/bridge/stp_state': '1',
@@ -153,6 +155,7 @@ class TestKernelStpBridge(object):
         }
         values2 = {
             '/sys/class/net/eth1/brport/state': '3',
+            '/sys/class/net/eth1/brport/bridge/bridge/stp_state': '1',
             '/sys/class/net/eth1/brport/bridge/bridge/root_port': '1',
             '/sys/class/net/eth1/brport/port_id': '1',
             '/sys/class/net/eth2/brport/state': '0',
@@ -183,6 +186,7 @@ class TestKernelStpBridge(object):
         }
         values2 = {
             '/sys/class/net/eth1.1/brport/state': '3',
+            '/sys/class/net/eth1.1/brport/bridge/bridge/stp_state': '1',
             '/sys/class/net/eth1.1/brport/bridge/bridge/root_port': '2',
             '/sys/class/net/eth1.1/brport/port_id': '2',
             '/sys/class/net/eth2.1/brport/state': '0',
@@ -206,6 +210,7 @@ class TestKernelStpBridge(object):
         # bridge has mix of tagged and untagged ports
         mock_listdir.return_value = ['eth1.1', 'eth2.1', 'eth3']
         values = {
+            '/sys/class/net/eth3/brport/bridge/bridge/stp_state': True,
             '/sys/class/net/eth1.1/brport/bridge/bridge/stp_state': True,
             '/sys/class/net/eth2.1/brport/bridge/bridge/stp_state': True,
             '/sys/class/net/eth3.1/brport/bridge/bridge/stp_state': True,
@@ -215,6 +220,7 @@ class TestKernelStpBridge(object):
         }
         values2 = {
             '/sys/class/net/eth1.1/brport/state': '3',
+            '/sys/class/net/eth2.1/brport/bridge/bridge/stp_state': '0',
             '/sys/class/net/eth1.1/brport/bridge/bridge/root_port': '1',
             '/sys/class/net/eth1.1/brport/port_id': '1',
             '/sys/class/net/eth2.1/brport/state': '0',
@@ -224,6 +230,9 @@ class TestKernelStpBridge(object):
             '/sys/class/net/eth3/brport/state': '3',
             '/sys/class/net/eth3/brport/bridge/bridge/root_port': '1',
             '/sys/class/net/eth3/brport/port_id': '5',
+            '/sys/class/net/eth3/brport/bridge/bridge/stp_state': '1',
+            '/sys/class/net/eth1.1/brport/bridge/bridge/stp_state': '1',
+            '/sys/class/net/eth3/brport/bridge/bridge/stp_state': '1',
         }
 
         mock_os_path.side_effect = mod_args_generator(values)
