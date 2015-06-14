@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-06-07 10:18+0000\n"
+"POT-Creation-Date: 2015-06-14 04:57+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -131,8 +131,8 @@ msgstr ""
 msgid "P"
 msgstr ""
 
-#: ../netshow/linux/print_bond.py:154 ../netshow/linux/print_iface.py:222
-msgid "D"
+#: ../netshow/linux/print_bond.py:154
+msgid "N"
 msgstr ""
 
 #: ../netshow/linux/print_bond.py:167
@@ -158,7 +158,7 @@ msgstr ""
 #: ../netshow/linux/print_bond.py:204 ../netshow/linux/print_iface.py:127
 #: ../netshow/linux/show_interfaces.py:163
 #: ../netshow/linux/show_interfaces.py:166
-#: ../netshow/linux/show_neighbors.py:39
+#: ../netshow/linux/show_neighbors.py:40
 msgid "speed"
 msgstr ""
 
@@ -292,7 +292,7 @@ msgstr ""
 
 #: ../netshow/linux/print_iface.py:127 ../netshow/linux/show_interfaces.py:164
 #: ../netshow/linux/show_interfaces.py:167
-#: ../netshow/linux/show_neighbors.py:39
+#: ../netshow/linux/show_neighbors.py:40
 msgid "mode"
 msgstr ""
 
@@ -312,6 +312,10 @@ msgstr ""
 msgid "U"
 msgstr ""
 
+#: ../netshow/linux/print_iface.py:222
+msgid "D"
+msgstr ""
+
 #: ../netshow/linux/print_iface.py:253
 #, python-format
 msgid "vlans in %s state"
@@ -323,19 +327,19 @@ msgstr ""
 
 #: ../netshow/linux/show_interfaces.py:164
 #: ../netshow/linux/show_interfaces.py:167
-#: ../netshow/linux/show_neighbors.py:40
+#: ../netshow/linux/show_neighbors.py:41
 msgid "summary"
 msgstr ""
 
-#: ../netshow/linux/show_neighbors.py:39
+#: ../netshow/linux/show_neighbors.py:40
 msgid "local"
 msgstr ""
 
-#: ../netshow/linux/show_neighbors.py:40
+#: ../netshow/linux/show_neighbors.py:41
 msgid "remote"
 msgstr ""
 
-#: ../netshow/linux/show_neighbors.py:40
+#: ../netshow/linux/show_neighbors.py:41
 msgid "sw/hostname"
 msgstr ""
 

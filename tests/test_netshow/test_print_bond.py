@@ -219,7 +219,7 @@ class TestPrintBond(object):
         bondmem._bondstate = 1
         assert_equals(self.piface.abbrev_bondstate(bondmem), 'P')
         bondmem._bondstate = 0
-        assert_equals(self.piface.abbrev_bondstate(bondmem), 'D')
+        assert_equals(self.piface.abbrev_bondstate(bondmem), 'N')
 
     @mock.patch('netshowlib.linux.common.read_file_oneline')
     @mock.patch('netshowlib.linux.iface.Iface.read_from_sys')
@@ -236,7 +236,7 @@ class TestPrintBond(object):
         assert_equals(_output.split(), ['bondmems:', 'eth22(UP),', 'eth24(UP)'])
         # ports up but not in bond
         values = {'bonding/slaves': 'eth22 eth24',
-                  'carrier': '1',
+                  'carrier': '0',
                   'bonding/mode': '802.3ad 4'}
         values2 = {}
         mock_read_from_sys.side_effect = mod_args_generator(values)
@@ -244,7 +244,7 @@ class TestPrintBond(object):
         for _bondmem in self.piface.iface.members.values():
             _bondmem._bondstate = 0
         _output = self.piface.print_bondmems()
-        assert_equals(_output.split(), ['bondmems:', 'eth22(UD),', 'eth24(UD)'])
+        assert_equals(_output.split(), ['bondmems:', 'eth22(DN),', 'eth24(DN)'])
         # no ports in bond
         values = {'bonding/slaves': None}
         mock_read_from_sys.side_effect = mod_args_generator(values)

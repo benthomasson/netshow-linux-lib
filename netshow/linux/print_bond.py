@@ -146,12 +146,12 @@ class PrintBond(PrintIface):
         """
         :param bondmem: :class:`netshowlib.linux.BondMember` instance
         :return: 'P' if bondmem in bond
-        :return: 'D' if bondmem is not in bond
+        :return: 'N' if bondmem is not in bond
         """
         if bondmem.bondstate == 1:
             return _('P')
         else:
-            return _('D')
+            return _('N')
 
     def print_bondmems(self):
         """
