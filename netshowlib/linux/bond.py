@@ -102,6 +102,9 @@ class Bond(linux_iface.Iface):
         """
         Get the name of the native vlan of the trunk port
         """
+        # if vlan list is empty, which is can be.. L3 bond!
+        if not self.vlan_list:
+            return []
         _vlanlist = self.vlan_list[0]
         if _vlanlist and not _vlanlist[0].isdigit():
             return [self.vlan_list[0]]

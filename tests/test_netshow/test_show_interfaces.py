@@ -190,6 +190,22 @@ class TestShowInterfaces(object):
         self.showint.print_single_iface()
         assert_equals(mock_cli_output.call_count, 1)
 
+    @mock.patch('netshowlib.linux.iface.Iface.is_bond')
+    @mock.patch('netshow.linux.show_interfaces.print_iface.linux_iface.Iface.exists')
+    def test_print_single_iface_json_bond(self, mock_exists, mock_is_bond):
+        # test problem reporte where if vlan_list is not used,
+        # json fails to be printed
+        mock_exists.return_value = True
+        mock_is_bond.return_value = True
+        self.showint.single_iface = 'bond0'
+        self.showint.use_json = True
+        assert_equals(json.loads(
+            self.showint.print_single_iface()).get('port_category'), 'bond')
+
+
+
+
+
     @mock.patch('netshow.linux.show_interfaces.ShowInterfaces.print_json_many_ifaces')
     @mock.patch('netshow.linux.show_interfaces.ShowInterfaces.print_cli_many_ifaces')
     def test_many_ifaces_cli_output(self, mock_cli_ifaces, mock_json_ifaces):
