@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: netshow-linux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-06-07 10:18+0000\n"
+"POT-Creation-Date: 2015-06-14 04:57+0000\n"
 "PO-Revision-Date: \n"
 "Last-Translator: stanley karunditu <stanleyk@cumulusnetworks.com>\n"
 "Language-Team: Customer Engineering <ce-ceng@cumulusnetworks.com>\n"
@@ -127,9 +127,9 @@ msgstr "Balance-RR"
 msgid "P"
 msgstr "P"
 
-#: ../netshow/linux/print_bond.py:154 ../netshow/linux/print_iface.py:222
-msgid "D"
-msgstr "D"
+#: ../netshow/linux/print_bond.py:154
+msgid "N"
+msgstr "N"
 
 #: ../netshow/linux/print_bond.py:167
 msgid "bondmems"
@@ -154,7 +154,7 @@ msgstr "Port"
 #: ../netshow/linux/print_bond.py:204 ../netshow/linux/print_iface.py:127
 #: ../netshow/linux/show_interfaces.py:163
 #: ../netshow/linux/show_interfaces.py:166
-#: ../netshow/linux/show_neighbors.py:39
+#: ../netshow/linux/show_neighbors.py:40
 msgid "speed"
 msgstr "Speed"
 
@@ -294,7 +294,7 @@ msgstr "MTU"
 
 #: ../netshow/linux/print_iface.py:127 ../netshow/linux/show_interfaces.py:164
 #: ../netshow/linux/show_interfaces.py:167
-#: ../netshow/linux/show_neighbors.py:39
+#: ../netshow/linux/show_neighbors.py:40
 msgid "mode"
 msgstr "Mode"
 
@@ -314,6 +314,10 @@ msgstr "IP Neighbor(ARP) Entries"
 msgid "U"
 msgstr "U"
 
+#: ../netshow/linux/print_iface.py:222
+msgid "D"
+msgstr "D"
+
 #: ../netshow/linux/print_iface.py:253
 #, python-format
 msgid "vlans in %s state"
@@ -325,19 +329,19 @@ msgstr "Interface Does Not Exist"
 
 #: ../netshow/linux/show_interfaces.py:164
 #: ../netshow/linux/show_interfaces.py:167
-#: ../netshow/linux/show_neighbors.py:40
+#: ../netshow/linux/show_neighbors.py:41
 msgid "summary"
 msgstr "Summary"
 
-#: ../netshow/linux/show_neighbors.py:39
+#: ../netshow/linux/show_neighbors.py:40
 msgid "local"
 msgstr "Local"
 
-#: ../netshow/linux/show_neighbors.py:40
+#: ../netshow/linux/show_neighbors.py:41
 msgid "remote"
 msgstr "Remote"
 
-#: ../netshow/linux/show_neighbors.py:40
+#: ../netshow/linux/show_neighbors.py:41
 msgid "sw/hostname"
 msgstr "Sw/Hostname"
 
