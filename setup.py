@@ -56,8 +56,8 @@ setup(
     namespace_packages=['netshowlib', 'netshowlib.linux',
                         'netshow', 'netshow.linux'],
     install_requires=[
-        'netshow',
-        'netshow-lib',
+        'netshow-core-lib',
+        'netshow-core',
         'docopt',
         'tabulate',
         'inflection'
