@@ -13,3 +13,4 @@ https://launchpad.net/python-distutils-extra/trunk/2.38/+download/python-distuti
 git+ssh://git@github.com/CumulusNetworks/netshow-lib.git@test
 git+ssh://git@github.com/CumulusNetworks/netshow@devel
 git+ssh://git@github.com/CumulusNetworks/netshow-linux-lib@devel
+git+ssh://github.com/skamithi/NetworkDocopt
