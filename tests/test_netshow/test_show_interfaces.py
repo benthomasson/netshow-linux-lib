@@ -20,6 +20,7 @@ from asserts import assert_equals, mod_args_generator
 import netshow.linux.show_interfaces as showint
 import netshow.linux.print_bridge as print_bridge
 import netshow.linux.print_bond as print_bond
+import netshow.linux.print_iface as print_iface
 import mock
 import re
 import json
@@ -30,6 +31,34 @@ class TestShowInterfaces(object):
     def setup(self):
         results = {'l2': True}
         self.showint = showint.ShowInterfaces(results)
+
+    @mock.patch('netshowlib.linux.iface.portname_list')
+    @mock.patch('netshow.linux.print_iface.linux_iface.Iface.exists')
+    def test_multiple_ifaces_show_only_up(self, mock_exists,
+                                          mock_portname_list):
+        # test that when 'netshow interface' is run
+        # that only interfaces that are UP are shown
+        mock_portname_list.return_value = ['eth10', 'eth11']
+        mock_exists.return_value = True
+        self.showint.show_l2 = False
+        assert_equals(self.showint.show_up, True)
+        with mock.patch('netshowlib.linux.iface.Iface.linkstate',
+                        new_callable=mock.PropertyMock) as mock_linkstate:
+            mock_linkstate.return_value = 2
+            self.showint.show_l2 = False
+            _output = self.showint.print_many_ifaces(),
+            _otable = _output[0].split('\n')
+            assert_equals(len(_otable), 4)
+
+        with mock.patch('netshowlib.linux.iface.Iface.linkstate',
+                        new_callable=mock.PropertyMock) as mock_linkstate:
+            mock_linkstate.return_value = 0
+            self.showint._ifacelist = {'all': OrderedDict()}
+            _output = self.showint.print_many_ifaces(),
+            _otable = _output[0].split('\n')
+            assert_equals(len(_otable), 2)
+
+
 
     @mock.patch('netshow.linux.print_iface.linux_iface.Iface.exists')
     @mock.patch('netshow.linux.show_interfaces.linux_iface.portname_list')
@@ -54,6 +83,7 @@ class TestShowInterfaces(object):
         # test to see if bridge is probably placed
         mock_is_bridge.return_value = True
         mock_portname_list.return_value = ['br0']
+        self.showint.show_up = False
         assert_equals(isinstance(
             self.showint.ifacelist.get('all').get('br0'),
             print_bridge.PrintBridge), True)
@@ -77,6 +107,7 @@ class TestShowInterfaces(object):
         mock_is_bond.return_value = True
         mock_is_l3.return_value = True
         mock_portname_list.return_value = ['bond0']
+        self.showint.show_up = False
         assert_equals(isinstance(
             self.showint.ifacelist.get('all').get('bond0'),
             print_bond.PrintBond), True)
@@ -102,6 +133,7 @@ class TestShowInterfaces(object):
         mock_is_trunk.return_value = True
         mock_is_bridgemem.return_value = True
         mock_portname_list.return_value = ['eth22']
+        self.showint.show_up = False
         assert_equals(isinstance(
             self.showint.ifacelist.get('all').get('eth22'),
             print_bridge.PrintBridgeMember), True)
@@ -128,6 +160,7 @@ class TestShowInterfaces(object):
         mock_is_access.return_value = True
         mock_is_bridgemem.return_value = True
         mock_portname_list.return_value = ['eth22']
+        self.showint.show_up = False
         assert_equals(isinstance(
             self.showint.ifacelist.get('all').get('eth22'),
             print_bridge.PrintBridgeMember), True)
@@ -147,6 +180,7 @@ class TestShowInterfaces(object):
         mock_exists.return_value = True
         mock_is_bondmem.return_value = True
         mock_portname_list.return_value = ['eth22']
+        self.showint.show_up = False
         assert_equals(isinstance(
             self.showint.ifacelist.get('all').get('eth22'),
             print_bond.PrintBondMember), True)
@@ -242,6 +276,7 @@ class TestShowInterfaces(object):
                   'carrier': '0',
                   'speed': '1000'}
         mock_read_from_sys.side_effect = mod_args_generator(values)
+        self.showint.show_up = False
         _table = self.showint.print_cli_many_ifaces('all')
         assert_equals(re.split(r'\s+', _table.split('\n')[0]),
                       ['', 'name', 'speed', 'mtu', 'mode', 'summary'])
@@ -266,6 +301,7 @@ class TestShowInterfaces(object):
                   'address': '11:22:33:44:55:66'}
         mock_read_from_sys.side_effect = mod_args_generator(values)
         self.showint.use_json = True
+        self.showint.show_up = False
         _output = self.showint.print_json_many_ifaces('all')
         _testjson = json.loads(_output)
         assert_equals(_testjson['eth10']['speed'], '1G')
