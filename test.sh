@@ -4,6 +4,7 @@ set -e
 
 echo "starting up"
 
+GIT_BRANCH=devel
 PATH=$WORKSPACE/venv/bin:/usr/local/bin:$PATH
 if [ ! -d "venv" ]; then
         virtualenv venv
@@ -36,13 +37,11 @@ echo "Go into temp install directory"
 cd .temp
 
 echo "Install netshow-core repo"
-git clone ssh://git@github.com/CumulusNetworks/netshow-core.git netshow-core
+git clone -b $GIT_BRANCH ssh://git@github.com/CumulusNetworks/netshow-core.git netshow-core
 
 echo " Install netshow-core-lib"
 cd netshow-core/netshow-lib
 
-echo "Move into devel branch"
-git checkout devel
 echo "Create wheel for netshow-core-lib"
 python setup.py bdist_wheel
 echo "Install wheel in wheel directory"
