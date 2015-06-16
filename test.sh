@@ -10,8 +10,6 @@ if [ ! -d "venv" ]; then
 fi
 . venv/bin/activate
 
-pip install -r requirements_develop.txt
-
 # install test requirements like tox
 pip install --upgrade -r requirements_develop.txt
 
@@ -50,9 +48,8 @@ python setup.py bdist_wheel
 echo "Install wheel in wheel directory"
 cp dist/* ../../../wheel_dir/
 
-echo " Install netshow-core-lib"
+echo "Create wheel for netshow-core"
 cd ../netshow
-echo "Create wheel for netshow-core-lib"
 python setup.py bdist_wheel
 echo "Install wheel in wheel directory"
 cp dist/* ../../../wheel_dir/
