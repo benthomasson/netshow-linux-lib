@@ -34,7 +34,7 @@ Options:
 
 import sys
 from network_docopt import NetworkDocopt
-from netshow.linux._version import get_version
+from netshowlib._version import get_version
 from netshow.linux.show_interfaces import ShowInterfaces
 from netshow.linux.show_neighbors import ShowNeighbors
 from netshow.linux.show_system import ShowSystem
