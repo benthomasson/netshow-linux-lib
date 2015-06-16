@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-06-14 04:57+0000\n"
+"POT-Creation-Date: 2015-06-16 20:11+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -156,8 +156,8 @@ msgid "port"
 msgstr ""
 
 #: ../netshow/linux/print_bond.py:204 ../netshow/linux/print_iface.py:127
-#: ../netshow/linux/show_interfaces.py:163
 #: ../netshow/linux/show_interfaces.py:166
+#: ../netshow/linux/show_interfaces.py:169
 #: ../netshow/linux/show_neighbors.py:40
 msgid "speed"
 msgstr ""
@@ -276,22 +276,22 @@ msgstr ""
 msgid "dhcp"
 msgstr ""
 
-#: ../netshow/linux/print_iface.py:126 ../netshow/linux/show_interfaces.py:163
-#: ../netshow/linux/show_interfaces.py:166
+#: ../netshow/linux/print_iface.py:126 ../netshow/linux/show_interfaces.py:166
+#: ../netshow/linux/show_interfaces.py:169
 msgid "name"
 msgstr ""
 
-#: ../netshow/linux/print_iface.py:126 ../netshow/linux/show_interfaces.py:163
+#: ../netshow/linux/print_iface.py:126 ../netshow/linux/show_interfaces.py:166
 msgid "mac"
 msgstr ""
 
-#: ../netshow/linux/print_iface.py:127 ../netshow/linux/show_interfaces.py:164
-#: ../netshow/linux/show_interfaces.py:167
+#: ../netshow/linux/print_iface.py:127 ../netshow/linux/show_interfaces.py:167
+#: ../netshow/linux/show_interfaces.py:170
 msgid "mtu"
 msgstr ""
 
-#: ../netshow/linux/print_iface.py:127 ../netshow/linux/show_interfaces.py:164
-#: ../netshow/linux/show_interfaces.py:167
+#: ../netshow/linux/print_iface.py:127 ../netshow/linux/show_interfaces.py:167
+#: ../netshow/linux/show_interfaces.py:170
 #: ../netshow/linux/show_neighbors.py:40
 msgid "mode"
 msgstr ""
@@ -325,8 +325,8 @@ msgstr ""
 msgid "interface_does_not_exist"
 msgstr ""
 
-#: ../netshow/linux/show_interfaces.py:164
 #: ../netshow/linux/show_interfaces.py:167
+#: ../netshow/linux/show_interfaces.py:170
 #: ../netshow/linux/show_neighbors.py:41
 msgid "summary"
 msgstr ""
