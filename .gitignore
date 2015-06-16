@@ -1,3 +1,6 @@
+wheel_dir
+.temp/
+RELEASE-VERSION
 venv
 *.egg
 *.zip

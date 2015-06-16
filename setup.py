@@ -1,6 +1,6 @@
 # pylint: disable=c0111
 
-from netshowlib.linux._version import get_version
+from _gitversion import get_version
 import os
 import shutil
 try:
@@ -56,13 +56,15 @@ setup(
     namespace_packages=['netshowlib', 'netshowlib.linux',
                         'netshow', 'netshow.linux'],
     install_requires=[
+        'setuptools',
         'netshow-core-lib',
         'netshow-core',
-        'docopt',
+        'network-docopt',
         'tabulate',
         'inflection'
     ],
     classifiers=[
+        'Development Status :: 4 - Beta',
         'Topic :: System :: Networking',
         'Intended Audience :: Developers',
         'Intended Audience :: System Administrators',
