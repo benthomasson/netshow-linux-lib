@@ -1,0 +1,153 @@
+lease {
+  interface "eth0";
+  fixed-address 192.168.122.64;
+  option subnet-mask 255.255.255.0;
+  option routers 192.168.122.1;
+  option dhcp-lease-time 3600;
+  option dhcp-message-type 5;
+  option domain-name-servers 192.168.122.1;
+  option dhcp-server-identifier 192.168.122.1;
+  option dhcp-renewal-time 1631;
+  option broadcast-address 192.168.122.255;
+  option dhcp-rebinding-time 2981;
+  option host-name "testvm";
+  renew 3 2014/10/15 14:21:05;
+  rebind 3 2014/10/15 14:44:14;
+  expire 3 2014/10/15 14:54:33;
+}
+lease {
+  interface "eth0";
+  fixed-address 192.168.122.64;
+  option subnet-mask 255.255.255.0;
+  option routers 192.168.122.1;
+  option dhcp-lease-time 3600;
+  option dhcp-message-type 5;
+  option domain-name-servers 192.168.122.1;
+  option dhcp-server-identifier 192.168.122.1;
+  option dhcp-renewal-time 1675;
+  option broadcast-address 192.168.122.255;
+  option dhcp-rebinding-time 3025;
+  option host-name "testvm";
+  renew 3 2014/10/15 14:46:46;
+  rebind 3 2014/10/15 15:11:30;
+  expire 3 2014/10/15 15:21:05;
+}
+lease {
+  interface "eth0";
+  fixed-address 192.168.122.64;
+  option subnet-mask 255.255.255.0;
+  option routers 192.168.122.1;
+  option dhcp-lease-time 3600;
+  option dhcp-message-type 5;
+  option domain-name-servers 192.168.122.1;
+  option dhcp-server-identifier 192.168.122.1;
+  option dhcp-renewal-time 1649;
+  option broadcast-address 192.168.122.255;
+  option dhcp-rebinding-time 2999;
+  option host-name "testvm";
+  renew 3 2014/10/15 15:11:17;
+  rebind 3 2014/10/15 15:36:45;
+  expire 3 2014/10/15 15:46:46;
+}
+lease {
+  interface "eth0";
+  fixed-address 192.168.122.64;
+  option subnet-mask 255.255.255.0;
+  option routers 192.168.122.1;
+  option dhcp-lease-time 3600;
+  option dhcp-message-type 5;
+  option domain-name-servers 192.168.122.1;
+  option dhcp-server-identifier 192.168.122.1;
+  option dhcp-renewal-time 1653;
+  option broadcast-address 192.168.122.255;
+  option dhcp-rebinding-time 3003;
+  option host-name "testvm";
+  renew 3 2014/10/15 15:33:14;
+  rebind 3 2014/10/15 16:01:20;
+  expire 3 2014/10/15 16:11:17;
+}
+lease {
+  interface "eth0";
+  fixed-address 192.168.122.64;
+  option subnet-mask 255.255.255.0;
+  option routers 192.168.122.1;
+  option dhcp-lease-time 3600;
+  option dhcp-message-type 5;
+  option domain-name-servers 192.168.122.1;
+  option dhcp-server-identifier 192.168.122.1;
+  option dhcp-renewal-time 1592;
+  option broadcast-address 192.168.122.255;
+  option dhcp-rebinding-time 2942;
+  option host-name "testvm";
+  renew 3 2014/10/15 15:57:20;
+  rebind 3 2014/10/15 16:22:16;
+  expire 3 2014/10/15 16:33:14;
+}
+lease {
+  interface "eth0";
+  fixed-address 192.168.122.64;
+  option subnet-mask 255.255.255.0;
+  option routers 192.168.122.1;
+  option dhcp-lease-time 3600;
+  option dhcp-message-type 5;
+  option domain-name-servers 192.168.122.1;
+  option dhcp-server-identifier 192.168.122.1;
+  option dhcp-renewal-time 1684;
+  option broadcast-address 192.168.122.255;
+  option dhcp-rebinding-time 3034;
+  option host-name "testvm";
+  renew 3 2014/10/15 16:25:16;
+  rebind 3 2014/10/15 16:47:54;
+  expire 3 2014/10/15 16:57:20;
+}
+lease {
+  interface "eth0";
+  fixed-address 192.168.122.64;
+  option subnet-mask 255.255.255.0;
+  option routers 192.168.122.1;
+  option dhcp-lease-time 3600;
+  option dhcp-message-type 5;
+  option domain-name-servers 192.168.122.1;
+  option dhcp-server-identifier 192.168.122.1;
+  option dhcp-renewal-time 1610;
+  option broadcast-address 192.168.122.255;
+  option dhcp-rebinding-time 2960;
+  option host-name "testvm";
+  renew 3 2014/10/15 16:50:45;
+  rebind 3 2014/10/15 17:14:36;
+  expire 3 2014/10/15 17:25:16;
+}
+lease {
+  interface "eth0";
+  fixed-address 192.168.122.64;
+  option subnet-mask 255.255.255.0;
+  option routers 192.168.122.1;
+  option dhcp-lease-time 3600;
+  option dhcp-message-type 5;
+  option domain-name-servers 192.168.122.1;
+  option dhcp-server-identifier 192.168.122.1;
+  option dhcp-renewal-time 1646;
+  option broadcast-address 192.168.122.255;
+  option dhcp-rebinding-time 2996;
+  option host-name "testvm";
+  renew 3 2014/10/15 17:12:40;
+  rebind 3 2014/10/15 17:40:41;
+  expire 3 2014/10/15 17:50:45;
+}
+lease {
+  interface "eth0";
+  fixed-address 192.168.122.64;
+  option subnet-mask 255.255.255.0;
+  option routers 192.168.122.1;
+  option dhcp-lease-time 3600;
+  option dhcp-message-type 5;
+  option domain-name-servers 192.168.122.1;
+  option dhcp-server-identifier 192.168.122.1;
+  option dhcp-renewal-time 1593;
+  option broadcast-address 192.168.122.255;
+  option dhcp-rebinding-time 2943;
+  option host-name "testvm";
+  renew 3 2014/10/15 17:36:26;
+  rebind 3 2014/10/15 18:01:43;
+  expire 3 2250/10/15 18:12:40;
+}
