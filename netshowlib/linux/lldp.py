@@ -36,7 +36,7 @@ def cacheinfo():
     for _interface in lldp_element.iter('interface'):
         local_port = _interface.get('name')
         lldpobj = {}
-        lldpobj['adj_port'] = _interface.findtext('port/descr')
+        lldpobj['adj_port'] = _interface.findtext('port/id')
         lldpobj['adj_hostname'] = _interface.findtext('chassis/name')
         lldpobj['adj_mgmt_ip'] = _interface.findtext('chassis/mgmt-ip')
         if not lldp_hash.get(local_port):
@@ -44,13 +44,15 @@ def cacheinfo():
         lldp_hash[local_port].append(lldpobj)
     return lldp_hash
 
+
 def interface(ifacename, cache):
     """
     Will use the cache provided first to get lldp information. If not found
     will run :meth:`cacheinfo()` and generate new lldp information
 
     :param ifacename: name of the interface
-    :param cache: instance of a :class:`netshowlib.linux.cache.Cache` that may have LLDP information
+    :param cache: instance of a :class:`netshowlib.linux.cache.Cache`
+                  that may have LLDP information
     :return: array of lldp information regarding a single interface.
     """
     if cache:
