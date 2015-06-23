@@ -177,12 +177,11 @@ class Iface(object):
                     break
         return _bridgemem_type
 
-    def check_port_dhcp_assignment(self):
+    def check_port_dhcp_assignment(self, leasesfile):
         """
         sets ``self._ip_addr_assign`` to ``1`` if port is
         a DHCP enabled interface
         """
-        leasesfile = '/var/lib/dhcp/dhclient.%s.leases' % (self.name)
         try:
             filehandler = open(leasesfile)
             lines = filehandler.read()
@@ -469,5 +468,6 @@ class Iface(object):
         """
         :return: ``1`` if port is DHCP enabled else returns ``0``
         """
-        self.check_port_dhcp_assignment()
+        leasesfile = '/var/lib/dhcp/dhclient.%s.leases' % (self.name)
+        self.check_port_dhcp_assignment(leasesfile)
         return self._ip_addr_assign
