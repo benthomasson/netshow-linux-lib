@@ -191,7 +191,7 @@ class TestLinuxIface(object):
     @mock.patch('netshowlib.linux.iface.os.path.exists')
     def test_is_bridge(self, mock_path_exists):
         self.iface._name = 'br0'
-        values = {'/sys/class/net/br0/brif': True}
+        values = {'/sys/class/net/br0/bridge': True}
         mock_path_exists.side_effect = mod_args_generator(values)
         assert_equals(self.iface.is_bridge(), True)
 

@@ -233,7 +233,7 @@ class Iface(object):
         """
         self._port_type = common.clear_bit(self._port_type, BRIDGE_INT)
         self._port_type = common.clear_bit(self._port_type, L2_INT)
-        if os.path.exists(self.sys_path('brif')):
+        if os.path.exists(self.sys_path('bridge')):
             self._port_type = common.set_bit(self._port_type, BRIDGE_INT)
             self._port_type = common.set_bit(self._port_type, L2_INT)
 
