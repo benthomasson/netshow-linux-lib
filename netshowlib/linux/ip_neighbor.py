@@ -21,7 +21,7 @@ def cacheinfo():
     for _iptype in ['4', '6']:
         try:
             _table = common.exec_command("/sbin/ip -%s neighbor show" % (_iptype))
-            _parse_info(table=_table.decode('utf-8'),
+            parse_info(table=_table.decode('utf-8'),
                         iptype="ipv%s" % (_iptype),
                         ip_neigh_dict=ip_dict)
         except common.ExecCommandException:
@@ -29,7 +29,7 @@ def cacheinfo():
     return ip_dict
 
 
-def _parse_info(table, iptype, ip_neigh_dict):
+def parse_info(table, iptype, ip_neigh_dict):
     """
     parse ip neighbor information from either ipv4 or ipv6
 
