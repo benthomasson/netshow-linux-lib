@@ -109,6 +109,7 @@ class Iface(object):
         self._ip_neighbor = ip_neighbor.IpNeighbor(name, cache)
         self._ip_addr_assign = 0
         self._cache = cache
+        self._lldp = lldp
 
 # ----------------------
 # Class methods
@@ -437,7 +438,7 @@ class Iface(object):
 
         :return: array of hash entries that contain lldp information
         """
-        return lldp.interface(self.name, self._cache)
+        return self._lldp.interface(self.name, self._cache)
 
     @property
     def ip_address(self):

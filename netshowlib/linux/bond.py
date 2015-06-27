@@ -10,6 +10,7 @@ try:
 except ImportError:
     from io import StringIO
 
+
 class Bond(linux_iface.Iface):
     """ Linux Bond attributes
 
@@ -49,8 +50,6 @@ class Bond(linux_iface.Iface):
         self._cache = cache
         self.bondmem_class = BondMember
         self.lacp_class = lacp.Lacp
-
-
 
     # -------------------
 
@@ -108,7 +107,6 @@ class Bond(linux_iface.Iface):
         _vlanlist = self.vlan_list[0]
         if _vlanlist and not _vlanlist[0].isdigit():
             return [self.vlan_list[0]]
-
 
     @property
     def stp(self):
