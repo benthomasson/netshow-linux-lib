@@ -42,7 +42,7 @@ class TestPrintBondMember(object):
         mock_file_oneline.side_effect = mod_args_generator(values2)
         assert_equals(self.piface.summary, ['master: bond0(UP)'])
 
-    @mock.patch('netshowlib.linux.lldp.interface')
+    @mock.patch('netshowlib.linux.lldp.Lldp.run')
     @mock.patch('netshowlib.linux.common.read_file_oneline')
     @mock.patch('netshowlib.linux.iface.Iface.read_from_sys')
     def test_bondmem_details(self, mock_read_from_sys, mock_file_oneline,
@@ -111,7 +111,7 @@ class TestPrintBond(object):
         assert_equals(_output,
                       'cli headerbond detailsip outputbondmem outputno_lldp_entries')
 
-    @mock.patch('netshowlib.linux.lldp.interface')
+    @mock.patch('netshowlib.linux.lldp.Lldp.run')
     @mock.patch('netshowlib.linux.common.read_file_oneline')
     @mock.patch('netshowlib.linux.iface.Iface.read_from_sys')
     def test_lldp_details(self, mock_read_from_sys, mock_file_oneline,

@@ -143,7 +143,7 @@ class TestPrintIface(object):
         assert_equals(_outputtable[2].split(), ['ip:', '10.1.1.1/24'])
         assert_equals(_outputtable[3].split(), ['arp_entries:', '2'])
 
-    @mock.patch('netshowlib.linux.lldp.interface')
+    @mock.patch('netshowlib.linux.lldp.Lldp.run')
     def test_lldp_details(self, mock_lldp):
         mock_lldp.return_value = [{'adj_port': 'eth2',
                                    'adj_hostname': 'switch1'},

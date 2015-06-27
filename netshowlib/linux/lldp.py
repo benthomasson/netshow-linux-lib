@@ -45,23 +45,20 @@ def cacheinfo():
     return lldp_hash
 
 
-def interface(ifacename, cache):
+class Lldp(object):
     """
-    Will use the cache provided first to get lldp information. If not found
-    will run :meth:`cacheinfo()` and generate new lldp information
-
-    :param ifacename: name of the interface
-    :param cache: instance of a :class:`netshowlib.linux.cache.Cache`
-                  that may have LLDP information
-    :return: array of lldp information regarding a single interface.
+    lldp option.
     """
-    if cache:
-        lldp_cache = cache.lldp
-    else:
-        lldp_cache = cacheinfo()
+    def __init__(self, name, cache):
+        self.ifacename = name
+        if cache and cache.lldp:
+            self.lldp_cache = cache.lldp
+        else:
+            self.lldp_cache = cacheinfo()
 
-    ifacelldp = lldp_cache.get(ifacename)
-    if ifacelldp:
-        return ifacelldp
-    else:
-        return None
+    def run(self):
+        lldp_iface = self.lldp_cache.get(self.ifacename)
+        if lldp_iface:
+            return lldp_iface
+        else:
+            return None
