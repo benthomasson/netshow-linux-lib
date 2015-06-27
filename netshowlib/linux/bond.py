@@ -50,6 +50,7 @@ class Bond(linux_iface.Iface):
         self._cache = cache
         self.bondmem_class = BondMember
         self.lacp_class = lacp.Lacp
+        self.bondfileloc = '/proc/net/bonding'
 
     # -------------------
 
@@ -212,7 +213,7 @@ class Bond(linux_iface.Iface):
         :return: bond system mac
         """
         self._system_mac = None
-        bond_proc_file = "/proc/net/bonding/%s" % (self.name)
+        bond_proc_file = "%s/%s" % (self.bondfileloc, self.name)
         self._parse_proc_net_bonding(bond_proc_file)
         return self._system_mac
 
