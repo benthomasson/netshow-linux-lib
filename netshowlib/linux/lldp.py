@@ -49,7 +49,7 @@ class Lldp(object):
     """
     lldp option.
     """
-    def __init__(self, name, cache):
+    def __init__(self, name, cache=None):
         self.ifacename = name
         if cache and cache.lldp:
             self.lldp_cache = cache.lldp
