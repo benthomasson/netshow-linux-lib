@@ -17,12 +17,13 @@ class ShowNeighbors(object):
     def __init__(self, cl):
         self.use_json = cl.get('--json') or cl.get('-j')
         self.ifacelist = OrderedDict()
+        self.cache = linux_cache
 
     def run(self):
         """
         :return: basic neighbor information based on data obtained on netshow-lib
         """
-        feature_cache = linux_cache.Cache()
+        feature_cache = self.cache.Cache()
         feature_cache.run()
         for _ifacename in feature_cache.lldp.keys():
             self.ifacelist[_ifacename] = print_iface.iface(_ifacename, feature_cache)
