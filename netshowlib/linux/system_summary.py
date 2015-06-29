@@ -60,7 +60,7 @@ class SystemSummary(object):
                 self.os_name = _line.split('=')[1]
             elif _line.startswith('DISTRIB_RELEASE'):
                 self.version = _line.split('=')[1]
-            elif _line.startswith('DESCRIB_DESCRIPTION'):
+            elif _line.startswith('DISTRIB_DESCRIPTION'):
                 self.os_build = _line.split('=')[1]
 
     def parse_lsb_release_exec(self):
