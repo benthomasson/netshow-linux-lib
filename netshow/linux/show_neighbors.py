@@ -18,6 +18,7 @@ class ShowNeighbors(object):
         self.use_json = cl.get('--json') or cl.get('-j')
         self.ifacelist = OrderedDict()
         self.cache = linux_cache
+        self.print_iface = print_iface
 
     def run(self):
         """
@@ -26,7 +27,7 @@ class ShowNeighbors(object):
         feature_cache = self.cache.Cache()
         feature_cache.run()
         for _ifacename in feature_cache.lldp.keys():
-            self.ifacelist[_ifacename] = print_iface.iface(_ifacename, feature_cache)
+            self.ifacelist[_ifacename] = self.print_iface.iface(_ifacename, feature_cache)
 
         if self.use_json:
             return json.dumps(self.ifacelist,
