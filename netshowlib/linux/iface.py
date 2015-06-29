@@ -407,7 +407,10 @@ class Iface(object):
         :return: port speed in MB
         """
         if not self._speed:
-            self._speed = self.read_from_sys('speed')
+            try:
+                self._speed = int(self.read_from_sys('speed'))
+            except ValueError:
+                self._speed = None
         return self._speed
 
     @property

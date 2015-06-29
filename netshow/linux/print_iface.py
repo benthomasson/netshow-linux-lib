@@ -95,7 +95,7 @@ class PrintIface(object):
         if _speed_value is None or int(_speed_value) > 4294967200:
             return _str
         elif int(_speed_value) < 1000:
-            _str = _speed_value + 'M'
+            _str = str(_speed_value) + 'M'
         else:
             # Python3 supports this true division thing so 40/10 gives you 4.0
             # To not have the .0, have to do double _'/'_
