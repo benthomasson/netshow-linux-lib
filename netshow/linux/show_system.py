@@ -25,6 +25,7 @@ class ShowSystem(object):
             return json.dumps(self,
                               cls=NetEncoder, indent=4)
         else:
+            self.system.run()
             return self.cli_output()
 
     def cli_output(self):

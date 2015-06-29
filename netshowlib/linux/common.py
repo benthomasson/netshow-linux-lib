@@ -3,7 +3,6 @@
 # pylint: disable=W0612
 """ Linux common module
 """
-import sys
 import subprocess
 import re
 from itertools import groupby
@@ -17,15 +16,6 @@ class ExecCommandException(Exception):
     Exception when a  exec command fails
     """
     pass
-
-# Load lsb_release from system modules if it exists
-if sys.modules.get('lsb_release'):
-    import lsb_release
-else:
-    # else import lsb_release from within this package.
-    # Useful for testing on systems with no lsb_release
-    from netshowlib import lsb_release
-
 
 # ### Common Functions used in this project
 
@@ -70,11 +60,6 @@ def read_symlink(filepath):
         return os.readlink(filepath).split('/')[-1]
     except OSError:
         return None
-
-
-def distro_info():
-    """ return /etc/lsb-release distro information """
-    return lsb_release.get_distro_information()
 
 
 def check_bit(int_type, offset):
