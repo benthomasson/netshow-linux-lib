@@ -7,10 +7,14 @@
 # pylint: disable=C0103
 from asserts import assert_equals
 import netshowlib.linux.common as common
-from nose.tools import set_trace
 
 # # Tests for common.py
 
+def test_sort_ports():
+    ports = ['vlan115', 'swp1', 'vlan115-v0', 'BondQObb', 'swp46.21', 'swp46', 'swp2', 'swp2.1', 'swp2.10', 'swp2.100']
+    from nose.tools import set_trace; set_trace()
+    _output = common.sort_ports(ports)
+    assert_equals(_output, '')
 
 # test printing out range of numbers"
 def test_group_ports_just_numbers():

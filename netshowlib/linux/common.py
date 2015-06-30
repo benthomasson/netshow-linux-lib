@@ -266,7 +266,7 @@ def group_ports(list_of_ports):
     return final_list
 
 
-def change_str_to_int(match0):
+def munge_str(match0):
     """
     sorting by string that is int,
     produces wrong sort..so change str that
@@ -278,10 +278,6 @@ def change_str_to_int(match0):
         for i in range(2, 5):
             _match = match0.group(i)
             if _match:
-                try:
-                    _match = int(_match)
-                except ValueError:
-                    pass
                 tvar.append(_match)
             else:
                 tvar.append('')
@@ -300,8 +296,8 @@ def sort_ports(list_of_ports):
     tuple_array = []
     sorted_array = []
     for i in list_of_ports:
-        _match = re.match(r'(\w+[a-z])(\d+)?(.?)(\d+)?', i)
-        tvar = change_str_to_int(_match)
+        _match = re.match(r'(\w+[a-z])(\d+)?([.-]?v?)(\d+)?', i)
+        tvar = munge_str(_match)
         tuple_array.append(tuple(tvar))
     sorted_tuple_array = sorted(tuple_array, key=itemgetter(0, 1, 3))
     for i in sorted_tuple_array:
