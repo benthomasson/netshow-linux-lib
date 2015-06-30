@@ -408,7 +408,7 @@ class Iface(object):
         """
         if not self._speed:
             try:
-                self._speed = int(self.read_from_sys('speed'))
+                self._speed = self.read_from_sys('speed')
             except ValueError:
                 self._speed = None
         return self._speed
