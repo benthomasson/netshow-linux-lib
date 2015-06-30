@@ -208,6 +208,8 @@ class BridgeMember(linux_iface.Iface):
         self._stp = None
         self._cache = cache
         self._bridge_masters = {}
+        self.iface_mod = linux_iface
+        self.bridge_class = Bridge
 
     @property
     def stp(self):
@@ -230,17 +232,17 @@ class BridgeMember(linux_iface.Iface):
             if BRIDGE_CACHE.get(bridgename):
                 bridgeiface = BRIDGE_CACHE.get(bridgename)
             else:
-                bridgeiface = Bridge(bridgename, cache=self._cache)
+                bridgeiface = self.bridge_class(bridgename, cache=self._cache)
             self._bridge_masters[bridgeiface.name] = bridgeiface
 
         for subintname in self.get_sub_interfaces():
-            subiface = linux_iface.Iface(subintname)
+            subiface = self.iface_mod.Iface(subintname)
             bridgename = subiface.read_symlink('brport/bridge')
             if bridgename:
                 if BRIDGE_CACHE.get(bridgename):
                     bridgeiface = BRIDGE_CACHE.get(bridgename)
                 else:
-                    bridgeiface = Bridge(bridgename, cache=self._cache)
+                    bridgeiface = self.bridge_class(bridgename, cache=self._cache)
                 self._bridge_masters[bridgeiface.name] = bridgeiface
 
         return self._bridge_masters
