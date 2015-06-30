@@ -10,6 +10,7 @@ import netshow.linux.print_bridge as print_bridge
 import netshow.linux.print_bond as print_bond
 import netshowlib.linux.cache as linux_cache
 from netshowlib.linux import iface as linux_iface
+from netshowlib.linux import common
 import netshow.linux.print_iface as print_iface
 import json
 from netshow.linux.netjson_encoder import NetEncoder
@@ -98,7 +99,7 @@ class ShowInterfaces(object):
             return self._ifacelist
 
         self._initialize_ifacelist()
-        list_of_ports = linux_iface.portname_list()
+        list_of_ports = common.sort_ports(linux_iface.portname_list())
         feature_cache = linux_cache.Cache()
         feature_cache.run()
         for _portname in list_of_ports:
