@@ -26,7 +26,7 @@ class ShowNeighbors(object):
         """
         feature_cache = self.cache.Cache()
         feature_cache.run()
-        for _ifacename in feature_cache.lldp.keys():
+        for _ifacename in sorted(feature_cache.lldp.keys()):
             self.ifacelist[_ifacename] = self.print_iface.iface(_ifacename, feature_cache)
 
         if self.use_json:
