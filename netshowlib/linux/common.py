@@ -3,7 +3,6 @@
 # pylint: disable=W0612
 """ Linux common module
 """
-import sys
 import subprocess
 import re
 from itertools import groupby
@@ -17,15 +16,6 @@ class ExecCommandException(Exception):
     Exception when a  exec command fails
     """
     pass
-
-# Load lsb_release from system modules if it exists
-if sys.modules.get('lsb_release'):
-    import lsb_release
-else:
-    # else import lsb_release from within this package.
-    # Useful for testing on systems with no lsb_release
-    from netshowlib import lsb_release
-
 
 # ### Common Functions used in this project
 
@@ -70,11 +60,6 @@ def read_symlink(filepath):
         return os.readlink(filepath).split('/')[-1]
     except OSError:
         return None
-
-
-def distro_info():
-    """ return /etc/lsb-release distro information """
-    return lsb_release.get_distro_information()
 
 
 def check_bit(int_type, offset):
@@ -281,7 +266,7 @@ def group_ports(list_of_ports):
     return final_list
 
 
-def change_str_to_int(match0):
+def munge_str(match0):
     """
     sorting by string that is int,
     produces wrong sort..so change str that
@@ -293,14 +278,30 @@ def change_str_to_int(match0):
         for i in range(2, 5):
             _match = match0.group(i)
             if _match:
-                try:
-                    _match = int(_match)
-                except ValueError:
-                    pass
                 tvar.append(_match)
             else:
                 tvar.append('')
     return tvar
+
+def create_sort_tuple(result):
+    """
+    returns tuple value used for sorting. Example
+    ('bond', '0', '.' , '1') converts it to
+    ('bond', 0, 0, 1) for the sort
+    another example
+    ('vlan', '10', '-v', '0') converts to
+    ('vlan', 10, 0, 0) for the sort.
+    """
+    new_tuple = []
+    for i in result:
+        try:
+            new_tuple.append(int(i))
+        except ValueError:
+            if i == '' or i.startswith('.') or i.startswith('-'):
+                new_tuple.append(0)
+            else:
+                new_tuple.append(i)
+    return tuple(new_tuple)
 
 
 # Given a port list ['swp1', 'bond10.100', 'swp3.100']
@@ -315,17 +316,20 @@ def sort_ports(list_of_ports):
     tuple_array = []
     sorted_array = []
     for i in list_of_ports:
-        _match = re.match(r'(\w+[a-z])(\d+)?(.?)(\d+)?', i)
-        tvar = change_str_to_int(_match)
+        _match = re.match(r'(\w+[A-Za-z])(\d+)?([.-]?v?)(\d+)?', i)
+        if _match:
+            tvar = munge_str(_match)
+        else:
+            tvar = [i]
         tuple_array.append(tuple(tvar))
-    sorted_tuple_array = sorted(tuple_array, key=itemgetter(0, 1, 3))
+    sorted_tuple_array = sorted(tuple_array, key=create_sort_tuple)
     for i in sorted_tuple_array:
         entry = []
         # join doesnt work with int type. convert int to str
         entry.append(str(i[0]))
-        if i[1] != '':
+        if len(i) > 1 and i[1] != '':
             entry.append(str(i[1]))
-        if i[2] != '':
+        if len(i) > 2 and i[2] != '':
             entry.append(str(i[2]))
             entry.append(str(i[3]))
         sorted_array.append(''.join(entry))

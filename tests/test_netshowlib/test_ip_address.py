@@ -60,6 +60,7 @@ class TestLinuxIpAddress(object):
         assert_equals(
             result,
             {
+                'vnet-v0': {'ipv6': [], 'ipv4': ['192.168.1.1/23']},
                 'lo': {
                     'ipv4': ['127.0.0.1/8'],
                     'ipv6': ['::1/128']

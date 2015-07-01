@@ -13,7 +13,6 @@ import xml.etree.ElementTree as ET
 import mock
 from asserts import assert_equals, mod_args_generator, \
     mock_open_str, touch
-from nose.tools import set_trace
 
 
 @mock.patch('netshowlib.linux.iface.os.path.islink')
@@ -86,11 +85,11 @@ class TestLinuxIface(object):
         mock_path_exists.return_value = False
         assert_equals(self.iface.exists(), False)
 
-
     @mock.patch('netshowlib.linux.lldp._exec_lldp')
     def test_lldp(self, mock_lldp):
         lldp_out = open('tests/test_netshowlib/lldp_output.txt').read()
         mock_lldp.return_value = ET.fromstring(lldp_out)
+        self.iface = linux_iface.Iface('eth1')
         lldp_output = self.iface.lldp
         # confirm correct number of lldp enabled ports
         assert_equals(len(lldp_output), 2)
@@ -191,7 +190,7 @@ class TestLinuxIface(object):
     @mock.patch('netshowlib.linux.iface.os.path.exists')
     def test_is_bridge(self, mock_path_exists):
         self.iface._name = 'br0'
-        values = {'/sys/class/net/br0/brif': True}
+        values = {'/sys/class/net/br0/bridge': True}
         mock_path_exists.side_effect = mod_args_generator(values)
         assert_equals(self.iface.is_bridge(), True)
 

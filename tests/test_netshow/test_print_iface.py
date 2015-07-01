@@ -27,6 +27,19 @@ class TestPrintIface(object):
         iface = linux_iface.Iface('eth22')
         self.piface = print_iface.PrintIface(iface)
 
+    @mock.patch('netshowlib.linux.iface.Iface.read_from_sys')
+    def test_name_with_alias(self, mock_read_from_sys):
+        values = {'ifalias': 'meme'}
+        mock_read_from_sys.side_effect = mod_args_generator(values)
+        _output = self.piface.name
+        assert_equals(_output, 'eth22 (meme)')
+
+    @mock.patch('netshowlib.linux.iface.Iface.read_from_sys')
+    def test_name_no_alias(self, mock_read_from_sys):
+        # when ifalias is none
+        mock_read_from_sys.return_value = None
+        assert_equals(self.piface.name, 'eth22')
+
     @mock.patch('netshow.linux.print_iface.PrintIface.cli_header')
     @mock.patch('netshow.linux.print_iface.PrintIface.ip_details')
     @mock.patch('netshow.linux.print_iface.PrintIface.lldp_details')
@@ -40,7 +53,6 @@ class TestPrintIface(object):
                           mock.call.ip_details(),
                           mock.call.lldp_details()]
         assert_equals(manager.method_calls, expected_calls)
-
 
     @mock.patch('netshow.linux.print_iface.linux_iface.Iface.read_from_sys')
     def test_linkstate(self, mock_read_from_sys):
@@ -116,7 +128,8 @@ class TestPrintIface(object):
         values = {'carrier': '1',
                   'address': '11:22:33:44:55:66',
                   'speed': '1000',
-                  'mtu': '9000'}
+                  'mtu': '9000',
+                  'ifalias': None}
         mock_read_from_sys.side_effect = mod_args_generator(values)
         _output = self.piface.cli_header()
         assert_equals(_output.split('\n')[0].split(),
@@ -143,7 +156,7 @@ class TestPrintIface(object):
         assert_equals(_outputtable[2].split(), ['ip:', '10.1.1.1/24'])
         assert_equals(_outputtable[3].split(), ['arp_entries:', '2'])
 
-    @mock.patch('netshowlib.linux.lldp.interface')
+    @mock.patch('netshowlib.linux.lldp.Lldp.run')
     def test_lldp_details(self, mock_lldp):
         mock_lldp.return_value = [{'adj_port': 'eth2',
                                    'adj_hostname': 'switch1'},
@@ -159,7 +172,7 @@ class TestPrintIface(object):
     @mock.patch('netshowlib.linux.iface.os.path.exists')
     @mock.patch('netshowlib.linux.common.read_symlink')
     def test_access_summary(self, mock_symlink, mock_os_path,
-                                mock_oneline):
+                            mock_oneline):
         self.piface.iface = linux_bridge.BridgeMember('eth22')
         mock_subint = mock.MagicMock()
         mock_subint.return_value = []
@@ -189,8 +202,8 @@ class TestPrintIface(object):
     @mock.patch('netshowlib.linux.iface.os.path.exists')
     @mock.patch('netshowlib.linux.common.read_symlink')
     def test_trunk_summary(self, mock_symlink, mock_os_path,
-                                mock_oneline, mock_os_listdir,
-                            mock_is_trunk):
+                           mock_oneline, mock_os_listdir,
+                           mock_is_trunk):
         mock_is_trunk.return_value = True
         mock_subint = mock.MagicMock()
         mock_subint.return_value = ['eth22.11', 'eth22.20', 'eth22.30']

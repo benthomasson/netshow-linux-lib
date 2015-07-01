@@ -5,3 +5,5 @@
 4: net2compute    inet 192.168.50.1/24 brd 192.168.50.255 scope global net2compute\       valid_lft forever preferred_lft forever
 6: virbr0    inet 192.168.122.1/24 brd 192.168.122.255 scope global virbr0\       valid_lft forever preferred_lft forever
 8: vnet0    inet6 fe80::fc54:ff:feb9:55ef/64 scope link \       valid_lft forever preferred_lft forever
+12: vnet-v0@vnet0    inet 192.168.1.1/23 brd 192.168.1.0 scope global \       valid_lft forever preferred_lft forever
+
