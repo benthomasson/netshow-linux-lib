@@ -7,7 +7,7 @@ import netshowlib.linux.cache as linux_cache
 from collections import OrderedDict
 import json
 from tabulate import tabulate
-from netshow.linux.common import _
+from netshow.linux.common import _, bondmem_key_with_carrier
 
 
 class ShowNeighbors(object):
@@ -56,4 +56,4 @@ class ShowNeighbors(object):
                                    _entry.get('adj_port'),
                                    _entry.get('adj_hostname')])
 
-        return tabulate(_table, _header)
+        return bondmem_key_with_carrier() + tabulate(_table, _header)
