@@ -317,16 +317,19 @@ def sort_ports(list_of_ports):
     sorted_array = []
     for i in list_of_ports:
         _match = re.match(r'(\w+[a-z])(\d+)?([.-]?v?)(\d+)?', i)
-        tvar = munge_str(_match)
+        if _match:
+            tvar = munge_str(_match)
+        else:
+            tvar = [i]
         tuple_array.append(tuple(tvar))
     sorted_tuple_array = sorted(tuple_array, key=create_sort_tuple)
     for i in sorted_tuple_array:
         entry = []
         # join doesnt work with int type. convert int to str
         entry.append(str(i[0]))
-        if i[1] != '':
+        if len(i) > 1 and i[1] != '':
             entry.append(str(i[1]))
-        if i[2] != '':
+        if len(i) > 2 and i[2] != '':
             entry.append(str(i[2]))
             entry.append(str(i[3]))
         sorted_array.append(''.join(entry))
