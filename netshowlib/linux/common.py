@@ -316,7 +316,7 @@ def sort_ports(list_of_ports):
     tuple_array = []
     sorted_array = []
     for i in list_of_ports:
-        _match = re.match(r'(\w+[a-z])(\d+)?([.-]?v?)(\d+)?', i)
+        _match = re.match(r'(\w+[A-Za-z])(\d+)?([.-]?v?)(\d+)?', i)
         if _match:
             tvar = munge_str(_match)
         else:
