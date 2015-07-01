@@ -51,12 +51,16 @@ class Lldp(object):
     """
     def __init__(self, name, cache=None):
         self.ifacename = name
-        if cache and cache.lldp:
-            self.lldp_cache = cache.lldp
+        self.cache = cache
+        self.lldp_cache = None
+
+    def run(self):
+        if self.cache and self.cache.lldp:
+            self.lldp_cache = self.cache.lldp
         else:
             self.lldp_cache = cacheinfo()
 
-    def run(self):
+
         lldp_iface = self.lldp_cache.get(self.ifacename)
         if lldp_iface:
             return lldp_iface
