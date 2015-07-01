@@ -274,7 +274,8 @@ class TestShowInterfaces(object):
         mock_trunk.return_value = False
         values = {'mtu': '1500',
                   'carrier': '0',
-                  'speed': '1000'}
+                  'speed': '1000',
+                  'ifalias': None}
         mock_read_from_sys.side_effect = mod_args_generator(values)
         self.showint.show_up = False
         _table = self.showint.print_cli_many_ifaces('all')

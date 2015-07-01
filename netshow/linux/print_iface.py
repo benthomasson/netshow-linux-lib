@@ -47,7 +47,10 @@ class PrintIface(object):
         """
         :return: name of the interface
         """
-        return self.iface.name
+        if self.iface.description:
+            return "%s (%s)" % (self.iface.name, self.iface.description)
+        else:
+            return self.iface.name
 
     @classmethod
     def new_line(cls):

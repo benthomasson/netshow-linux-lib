@@ -140,7 +140,8 @@ class TestPrintBond(object):
         values1 = {'bonding/slaves': 'eth20 eth30',
                    'carrier': '1',
                    'bonding/mode': 'something 2',
-                   'speed': '1000'}
+                   'speed': '1000',
+                   'ifalias': None}
         values2 = {}
         mock_read_from_sys.side_effect = mod_args_generator(values1)
         mock_file_oneline.side_effect = mod_args_generator(values2)
