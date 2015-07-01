@@ -19,19 +19,10 @@ import mock
 import sys
 
 
-def test_interface_related():
-    for _val in ['trunks', 'access', 'l3',
-                 'l2', 'bridges', 'bonds', 'bondmems',
-                 'interface']:
-
-        results = {_val: True}
-        assert_equals(show._interface_related(results), True)
-
-
 @mock.patch('netshow.linux.show.ShowInterfaces')
 def test_run_show_interfaces(mock_showint):
     # netshow interfaces
-    sys.argv = ['netshow', 'trunk']
+    sys.argv = ['netshow', 'interface', 'trunk']
     show.run()
     assert_equals(mock_showint.call_count, 1)
 
