@@ -37,3 +37,12 @@ def test_get_running_exec_lldp(mock_lldp):
     mock_lldp.return_value = lldp_out
     linux_lldp._exec_lldp()
     mock_lldp.assert_called_with('/usr/sbin/lldpctl -f xml')
+
+
+@mock.patch('netshowlib.linux.lldp.common.exec_command')
+def test_using_lldp_obj(mock_lldp):
+    lldp_out = open('tests/test_netshowlib/lldp_output.txt').read()
+    mock_lldp.return_value = lldp_out
+    _output = linux_lldp.Lldp('eth2').run()
+    assert_equals(_output, [{'adj_hostname': 'right', 'adj_port': 'swp2', 'adj_mgmt_ip': '192.168.0.15'}])
+

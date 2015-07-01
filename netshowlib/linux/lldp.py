@@ -53,12 +53,13 @@ class Lldp(object):
         self.ifacename = name
         self.cache = cache
         self.lldp_cache = None
+        self.cacheinfo = cacheinfo
 
     def run(self):
         if self.cache and self.cache.lldp:
             self.lldp_cache = self.cache.lldp
         else:
-            self.lldp_cache = cacheinfo()
+            self.lldp_cache = self.cacheinfo()
 
 
         lldp_iface = self.lldp_cache.get(self.ifacename)
