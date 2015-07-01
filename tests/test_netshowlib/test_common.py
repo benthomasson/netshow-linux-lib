@@ -10,11 +10,16 @@ import netshowlib.linux.common as common
 
 # # Tests for common.py
 
+
 def test_sort_ports():
-    ports = ['vlan115', 'swp1', 'vlan115-v0', 'BondQObb', 'swp46.21', 'swp46', 'swp2', 'swp2.1', 'swp2.10', 'swp2.100']
-    from nose.tools import set_trace; set_trace()
+    ports = ['vlan115', 'swp1', 'vlan115-v0', 'BondQObb',
+             'swp46.1', 'swp46.2', 'swp46.22',
+             'swp46', 'swp3', 'swp33', 'swp2', 'swp22']
     _output = common.sort_ports(ports)
-    assert_equals(_output, '')
+    assert_equals(_output,
+                  ['BondQObb', 'swp1', 'swp2', 'swp3', 'swp22',
+                   'swp33', 'swp46', 'swp46.1',
+                   'swp46.2', 'swp46.22', 'vlan115', 'vlan115-v0'])
 
 # test printing out range of numbers"
 def test_group_ports_just_numbers():

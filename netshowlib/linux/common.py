@@ -283,6 +283,26 @@ def munge_str(match0):
                 tvar.append('')
     return tvar
 
+def create_sort_tuple(result):
+    """
+    returns tuple value used for sorting. Example
+    ('bond', '0', '.' , '1') converts it to
+    ('bond', 0, 0, 1) for the sort
+    another example
+    ('vlan', '10', '-v', '0') converts to
+    ('vlan', 10, 0, 0) for the sort.
+    """
+    new_tuple = []
+    for i in result:
+        try:
+            new_tuple.append(int(i))
+        except ValueError:
+            if i == '' or i.startswith('.') or i.startswith('-'):
+                new_tuple.append(0)
+            else:
+                new_tuple.append(i)
+    return tuple(new_tuple)
+
 
 # Given a port list ['swp1', 'bond10.100', 'swp3.100']
 # sort it to it looks like this
@@ -299,7 +319,7 @@ def sort_ports(list_of_ports):
         _match = re.match(r'(\w+[a-z])(\d+)?([.-]?v?)(\d+)?', i)
         tvar = munge_str(_match)
         tuple_array.append(tuple(tvar))
-    sorted_tuple_array = sorted(tuple_array, key=itemgetter(0, 1, 3))
+    sorted_tuple_array = sorted(tuple_array, key=create_sort_tuple)
     for i in sorted_tuple_array:
         entry = []
         # join doesnt work with int type. convert int to str
