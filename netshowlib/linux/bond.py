@@ -271,11 +271,12 @@ class BondMember(linux_iface.Iface):
     # grabbing it from /sys/class/net is not super reliable
     # eventually everything can be grabbed from netlink, which will be done
     # in a future release.
-    def _parse_proc_net_bonding(self, bondfile):
+    def _parse_proc_net_bonding(self):
         """
         parse /proc/net/bonding to get link failure and agg_id info
         """
         # open proc/net/bonding
+        bondfile = "%s/%s" % (self.bondfileloc, self.master.name)
         try:
             result = open(bondfile).read()
         except (ValueError, IOError):
@@ -327,8 +328,7 @@ class BondMember(linux_iface.Iface):
         """
         # if LACP check /proc/net/bonding for agg matching state
         if self.master.mode == '4':
-            bondfile = "%s/%s" % (self.bondfileloc, self.master.name)
-            self._parse_proc_net_bonding(bondfile)
+            self._parse_proc_net_bonding()
         else:
             self._bondstate = 1 if self.linkstate == 2 else 0
 
