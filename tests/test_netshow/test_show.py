@@ -22,7 +22,7 @@ import sys
 @mock.patch('netshow.linux.show.ShowInterfaces')
 def test_run_show_interfaces(mock_showint):
     # netshow interfaces
-    sys.argv = ['netshow', 'interface', 'trunk']
+    sys.argv = ['netshow', 'trunk']
     show.run()
     assert_equals(mock_showint.call_count, 1)
 
@@ -40,6 +40,6 @@ def test_run_show_system(mock_showsys, mock_NetworkDocopt):
 @mock.patch('netshow.linux.show.ShowNeighbors')
 def test_run_show_neighbors(mock_shownei):
     # netshow system
-    sys.argv = ['netshow', 'neighbors']
+    sys.argv = ['netshow', 'lldp']
     show.run()
     assert_equals(mock_shownei.call_count, 1)
