@@ -10,6 +10,7 @@ try:
 except ImportError:
     from io import StringIO
 
+
 class Bond(linux_iface.Iface):
     """ Linux Bond attributes
 
@@ -49,8 +50,7 @@ class Bond(linux_iface.Iface):
         self._cache = cache
         self.bondmem_class = BondMember
         self.lacp_class = lacp.Lacp
-
-
+        self.bondfileloc = '/proc/net/bonding'
 
     # -------------------
 
@@ -108,7 +108,6 @@ class Bond(linux_iface.Iface):
         _vlanlist = self.vlan_list[0]
         if _vlanlist and not _vlanlist[0].isdigit():
             return [self.vlan_list[0]]
-
 
     @property
     def stp(self):
@@ -214,7 +213,7 @@ class Bond(linux_iface.Iface):
         :return: bond system mac
         """
         self._system_mac = None
-        bond_proc_file = "/proc/net/bonding/%s" % (self.name)
+        bond_proc_file = "%s/%s" % (self.bondfileloc, self.name)
         self._parse_proc_net_bonding(bond_proc_file)
         return self._system_mac
 
@@ -262,7 +261,7 @@ class BondMember(linux_iface.Iface):
         self._linkfailures = 0
         self._bondstate = None
         self.bond_class = Bond
-
+        self.bondfileloc = '/proc/net/bonding'
     # -------------------
     # Get link failure count.
     # determine if member is in bond by checking agg ID
@@ -277,7 +276,7 @@ class BondMember(linux_iface.Iface):
         parse /proc/net/bonding to get link failure and agg_id info
         """
         # open proc/net/bonding
-        bondfile = "/proc/net/bonding/%s" % (self.master.name)
+        bondfile = "%s/%s" % (self.bondfileloc, self.master.name)
         try:
             result = open(bondfile).read()
         except (ValueError, IOError):

@@ -10,22 +10,12 @@
 from netshowlib.linux import system_summary
 import mock
 from asserts import assert_equals
-from nose.tools import set_trace
 
 
 class TestSystemSummary(object):
 
-    @mock.patch('netshowlib.linux.system_summary.common.distro_info')
-    def setup(self, mock_distro_info):
-        mock_distro_info.return_value = {'RELEASE': '14.04',
-                                         'ID': 'Ubuntu',
-                                         'DESCRIPTION': 'Ubuntu 14.04.1 LTS'}
+    def setup(self):
         self.systemsummary = system_summary.SystemSummary()
-
-    def test_init(self):
-        assert_equals(self.systemsummary.os_name, 'Ubuntu')
-        assert_equals(self.systemsummary.os_build, 'Ubuntu 14.04.1 LTS')
-        assert_equals(self.systemsummary.version, '14.04')
 
     @mock.patch('netshowlib.linux.system_summary.common.read_file_oneline')
     def test_uptime(self, mock_read_file):

@@ -18,17 +18,18 @@ def cacheinfo():
     """
     # return empty ip neighbor dict
     ip_dict = {}
-    _parse_ip_info(command='/sbin/ip -4 neighbor show',
-                   iptype='ipv4',
-                   ip_neigh_dict=ip_dict)
-    _parse_ip_info(command='/sbin/ip -6 neighbor show',
-                   iptype='ipv6',
-                   ip_neigh_dict=ip_dict)
-
+    for _iptype in ['4', '6']:
+        try:
+            _table = common.exec_command("/sbin/ip -%s neighbor show" % (_iptype))
+            parse_info(table=_table.decode('utf-8'),
+                        iptype="ipv%s" % (_iptype),
+                        ip_neigh_dict=ip_dict)
+        except common.ExecCommandException:
+            continue
     return ip_dict
 
 
-def _parse_ip_info(command, iptype, ip_neigh_dict):
+def parse_info(table, iptype, ip_neigh_dict):
     """
     parse ip neighbor information from either ipv4 or ipv6
 
@@ -36,13 +37,7 @@ def _parse_ip_info(command, iptype, ip_neigh_dict):
     :params iptype: can be ``ipv4`` or ``ipv6``
     :params ip_neigh_dict: dict to update neighbor table
     """
-    try:
-        neighbor_table = common.exec_command(command)
-    except:
-        return
-
-    decoded_str = neighbor_table.decode('utf-8')
-    fileio = StringIO(decoded_str)
+    fileio = StringIO(table)
     for line in fileio:
         if len(line.strip()) <= 0:
             continue

@@ -109,6 +109,7 @@ class Iface(object):
         self._ip_neighbor = ip_neighbor.IpNeighbor(name, cache)
         self._ip_addr_assign = 0
         self._cache = cache
+        self._lldp = lldp.Lldp(name, cache)
 
 # ----------------------
 # Class methods
@@ -177,12 +178,11 @@ class Iface(object):
                     break
         return _bridgemem_type
 
-    def check_port_dhcp_assignment(self):
+    def check_port_dhcp_assignment(self, leasesfile):
         """
         sets ``self._ip_addr_assign`` to ``1`` if port is
         a DHCP enabled interface
         """
-        leasesfile = '/var/lib/dhcp/dhclient.%s.leases' % (self.name)
         try:
             filehandler = open(leasesfile)
             lines = filehandler.read()
@@ -234,7 +234,7 @@ class Iface(object):
         """
         self._port_type = common.clear_bit(self._port_type, BRIDGE_INT)
         self._port_type = common.clear_bit(self._port_type, L2_INT)
-        if os.path.exists(self.sys_path('brif')):
+        if os.path.exists(self.sys_path('bridge')):
             self._port_type = common.set_bit(self._port_type, BRIDGE_INT)
             self._port_type = common.set_bit(self._port_type, L2_INT)
 
@@ -407,7 +407,10 @@ class Iface(object):
         :return: port speed in MB
         """
         if not self._speed:
-            self._speed = self.read_from_sys('speed')
+            try:
+                self._speed = self.read_from_sys('speed')
+            except ValueError:
+                self._speed = None
         return self._speed
 
     @property
@@ -438,7 +441,7 @@ class Iface(object):
 
         :return: array of hash entries that contain lldp information
         """
-        return lldp.interface(self.name, self._cache)
+        return self._lldp.run()
 
     @property
     def ip_address(self):
@@ -469,5 +472,6 @@ class Iface(object):
         """
         :return: ``1`` if port is DHCP enabled else returns ``0``
         """
-        self.check_port_dhcp_assignment()
+        leasesfile = '/var/lib/dhcp/dhclient.%s.leases' % (self.name)
+        self.check_port_dhcp_assignment(leasesfile)
         return self._ip_addr_assign

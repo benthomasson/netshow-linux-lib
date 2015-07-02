@@ -5,7 +5,7 @@
 Usage:
     netshow neighbors [--json | -j ]
     netshow system [--json | -j ]
-    netshow [interface] [ access | bridges | bonds | bondmems | mgmt | l2 | l3 | trunks | <iface> ] [all] [--mac | -m ] [--oneline | -1  | --json | -j]
+    netshow interface [ access | bridges | bonds | bondmems | mgmt | l2 | l3 | trunks | <iface> ] [all] [--mac | -m ] [--oneline | -1  | --json | -j]
     netshow (--version | -v)
 
 Help:
@@ -14,7 +14,6 @@ Help:
     interface access          summary of physical ports with l2 or l3 config
     interface bonds           summary of bonds
     interface bondmems        summary of bond members
-    interface bridges         summary of ports with bridge members
     interface trunks          summary of trunk interfaces
     interface mgmt            summary of mgmt ports
     interface l3              summary of ports with an IP.
@@ -24,7 +23,7 @@ Help:
     neighbors                 physical device neighbor information
 
 Options:
-    all        show all ports include those are down or admin down
+    all        show all ports including those are down or admin down
     --mac      show inteface MAC in output
     --version  netshow software version
     --oneline  output each entry on one line
@@ -34,24 +33,10 @@ Options:
 
 import sys
 from network_docopt import NetworkDocopt
-from netshowlib._version import get_version
+from netshow.netshow import print_version
 from netshow.linux.show_interfaces import ShowInterfaces
 from netshow.linux.show_neighbors import ShowNeighbors
 from netshow.linux.show_system import ShowSystem
-
-
-def _interface_related(results):
-    """ give user ability to issue `show bridge` and other
-    interface related commands without the interface keyword
-    """
-
-    for _result in ('access', 'bondmems', 'bonds',
-                    'bridges', 'interface', 'l2',
-                    'l3', 'mgmt', 'phy', 'trunks',
-                    '<iface>'):
-        if results.get(_result):
-            return True
-    return False
 
 
 def run():
@@ -62,21 +47,20 @@ def run():
     else:
         print_options = False
 
-    cl = NetworkDocopt(__doc__)
+    _nd = NetworkDocopt(__doc__)
     if print_options:
-        cl.print_options()
+        _nd.print_options()
     else:
-
-        if _interface_related(cl):
-            _showint = ShowInterfaces(cl)
+        if _nd.get('interface'):
+            _showint = ShowInterfaces(_nd)
             print(_showint.run())
-        elif cl.get('system'):
-            _showsys = ShowSystem(cl)
+        elif _nd.get('system'):
+            _showsys = ShowSystem(_nd)
             print(_showsys.run())
-        elif cl.get('neighbors'):
-            _shownei = ShowNeighbors(cl)
+        elif _nd.get('neighbors'):
+            _shownei = ShowNeighbors(_nd)
             print(_shownei.run())
-        elif cl.get('--version') or cl.get('-v'):
-            print(get_version())
+        elif _nd.get('--version') or _nd.get('-v'):
+            print(print_version())
         else:
             print(__doc__)

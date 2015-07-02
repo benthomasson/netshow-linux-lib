@@ -7,7 +7,7 @@ import netshowlib.linux.cache as linux_cache
 from collections import OrderedDict
 import json
 from tabulate import tabulate
-from netshow.linux.common import _
+from netshow.linux.common import _, bondmem_key_with_carrier
 
 
 class ShowNeighbors(object):
@@ -17,15 +17,17 @@ class ShowNeighbors(object):
     def __init__(self, cl):
         self.use_json = cl.get('--json') or cl.get('-j')
         self.ifacelist = OrderedDict()
+        self.cache = linux_cache
+        self.print_iface = print_iface
 
     def run(self):
         """
         :return: basic neighbor information based on data obtained on netshow-lib
         """
-        feature_cache = linux_cache.Cache()
+        feature_cache = self.cache.Cache()
         feature_cache.run()
-        for _ifacename in feature_cache.lldp.keys():
-            self.ifacelist[_ifacename] = print_iface.iface(_ifacename, feature_cache)
+        for _ifacename in sorted(feature_cache.lldp.keys()):
+            self.ifacelist[_ifacename] = self.print_iface.iface(_ifacename, feature_cache)
 
         if self.use_json:
             return json.dumps(self.ifacelist,
@@ -54,4 +56,4 @@ class ShowNeighbors(object):
                                    _entry.get('adj_port'),
                                    _entry.get('adj_hostname')])
 
-        return tabulate(_table, _header)
+        return bondmem_key_with_carrier() + tabulate(_table, _header)

@@ -28,7 +28,8 @@ def parse_ip_cache(fileio):
             continue
         # determine interface name
         split_line = line.split()
-        foundname = split_line[1]
+        # account for interfaces that have '<X@Y' like subints
+        foundname = split_line[1].split('@')[0]
         inet_type = split_line[2]
         ip_addr = split_line[3]
         for _pos in range(4, len(split_line)):

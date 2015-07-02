@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-06-16 20:11+0000\n"
+"POT-Creation-Date: 2015-07-01 15:50+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,6 +17,50 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
+
+#: ../netshow/linux/common.py:12 ../netshow/linux/common.py:24
+msgid "bondmember key"
+msgstr ""
+
+#: ../netshow/linux/common.py:13 ../netshow/linux/print_bond.py:152
+msgid "P"
+msgstr ""
+
+#: ../netshow/linux/common.py:13
+msgid "in bond"
+msgstr ""
+
+#: ../netshow/linux/common.py:14 ../netshow/linux/print_bond.py:154
+msgid "N"
+msgstr ""
+
+#: ../netshow/linux/common.py:14
+msgid "not in bond"
+msgstr ""
+
+#: ../netshow/linux/common.py:25
+msgid "UP"
+msgstr ""
+
+#: ../netshow/linux/common.py:25
+msgid "carrier up, in bond"
+msgstr ""
+
+#: ../netshow/linux/common.py:26
+msgid "UN"
+msgstr ""
+
+#: ../netshow/linux/common.py:26
+msgid "carrier up, not in bond"
+msgstr ""
+
+#: ../netshow/linux/common.py:27
+msgid "DN"
+msgstr ""
+
+#: ../netshow/linux/common.py:27
+msgid "carrier down, not in bond"
+msgstr ""
 
 #: ../netshow/linux/print_bond.py:19
 msgid "bondmem"
@@ -127,14 +171,6 @@ msgstr ""
 msgid "balance-rr"
 msgstr ""
 
-#: ../netshow/linux/print_bond.py:152
-msgid "P"
-msgstr ""
-
-#: ../netshow/linux/print_bond.py:154
-msgid "N"
-msgstr ""
-
 #: ../netshow/linux/print_bond.py:167
 msgid "bondmems"
 msgstr ""
@@ -155,14 +191,14 @@ msgstr ""
 msgid "port"
 msgstr ""
 
-#: ../netshow/linux/print_bond.py:204 ../netshow/linux/print_iface.py:127
+#: ../netshow/linux/print_bond.py:204 ../netshow/linux/print_iface.py:130
 #: ../netshow/linux/show_interfaces.py:166
 #: ../netshow/linux/show_interfaces.py:169
-#: ../netshow/linux/show_neighbors.py:40
+#: ../netshow/linux/show_neighbors.py:42
 msgid "speed"
 msgstr ""
 
-#: ../netshow/linux/print_bond.py:224 ../netshow/linux/print_iface.py:170
+#: ../netshow/linux/print_bond.py:224 ../netshow/linux/print_iface.py:177
 msgid "lldp"
 msgstr ""
 
@@ -187,11 +223,11 @@ msgid "bridge/l2"
 msgstr ""
 
 #: ../netshow/linux/print_bridge.py:75 ../netshow/linux/print_bridge.py:100
-#: ../netshow/linux/print_iface.py:201 ../netshow/linux/print_iface.py:211
+#: ../netshow/linux/print_iface.py:208 ../netshow/linux/print_iface.py:218
 msgid "untagged"
 msgstr ""
 
-#: ../netshow/linux/print_bridge.py:86 ../netshow/linux/print_iface.py:197
+#: ../netshow/linux/print_bridge.py:86 ../netshow/linux/print_iface.py:204
 msgid "tagged"
 msgstr ""
 
@@ -240,83 +276,83 @@ msgstr ""
 msgid "ports in %s state"
 msgstr ""
 
-#: ../netshow/linux/print_iface.py:66
+#: ../netshow/linux/print_iface.py:69
 msgid "admdn"
 msgstr ""
 
-#: ../netshow/linux/print_iface.py:68
+#: ../netshow/linux/print_iface.py:71
 msgid "dn"
 msgstr ""
 
-#: ../netshow/linux/print_iface.py:70
+#: ../netshow/linux/print_iface.py:73
 msgid "up"
 msgstr ""
 
-#: ../netshow/linux/print_iface.py:79
+#: ../netshow/linux/print_iface.py:82
 msgid "loopback"
 msgstr ""
 
-#: ../netshow/linux/print_iface.py:82
+#: ../netshow/linux/print_iface.py:85
 msgid "subint/l3"
 msgstr ""
 
-#: ../netshow/linux/print_iface.py:84
+#: ../netshow/linux/print_iface.py:87
 msgid "access/l3"
 msgstr ""
 
-#: ../netshow/linux/print_iface.py:86
+#: ../netshow/linux/print_iface.py:89
 msgid "access"
 msgstr ""
 
-#: ../netshow/linux/print_iface.py:93
+#: ../netshow/linux/print_iface.py:96
 msgid "n/a"
 msgstr ""
 
-#: ../netshow/linux/print_iface.py:113
+#: ../netshow/linux/print_iface.py:116
 msgid "dhcp"
 msgstr ""
 
-#: ../netshow/linux/print_iface.py:126 ../netshow/linux/show_interfaces.py:166
+#: ../netshow/linux/print_iface.py:129 ../netshow/linux/show_interfaces.py:166
 #: ../netshow/linux/show_interfaces.py:169
 msgid "name"
 msgstr ""
 
-#: ../netshow/linux/print_iface.py:126 ../netshow/linux/show_interfaces.py:166
+#: ../netshow/linux/print_iface.py:129 ../netshow/linux/show_interfaces.py:166
 msgid "mac"
 msgstr ""
 
-#: ../netshow/linux/print_iface.py:127 ../netshow/linux/show_interfaces.py:167
+#: ../netshow/linux/print_iface.py:130 ../netshow/linux/show_interfaces.py:167
 #: ../netshow/linux/show_interfaces.py:170
 msgid "mtu"
 msgstr ""
 
-#: ../netshow/linux/print_iface.py:127 ../netshow/linux/show_interfaces.py:167
+#: ../netshow/linux/print_iface.py:130 ../netshow/linux/show_interfaces.py:167
 #: ../netshow/linux/show_interfaces.py:170
-#: ../netshow/linux/show_neighbors.py:40
+#: ../netshow/linux/show_neighbors.py:42
 msgid "mode"
 msgstr ""
 
-#: ../netshow/linux/print_iface.py:151
+#: ../netshow/linux/print_iface.py:158
 msgid "ip_details"
 msgstr ""
 
-#: ../netshow/linux/print_iface.py:156
+#: ../netshow/linux/print_iface.py:163
 msgid "ip"
 msgstr ""
 
-#: ../netshow/linux/print_iface.py:158
+#: ../netshow/linux/print_iface.py:165
 msgid "arp_entries"
 msgstr ""
 
-#: ../netshow/linux/print_iface.py:220
+#: ../netshow/linux/print_iface.py:227
 msgid "U"
 msgstr ""
 
-#: ../netshow/linux/print_iface.py:222
+#: ../netshow/linux/print_iface.py:229
 msgid "D"
 msgstr ""
 
-#: ../netshow/linux/print_iface.py:253
+#: ../netshow/linux/print_iface.py:260
 #, python-format
 msgid "vlans in %s state"
 msgstr ""
@@ -327,26 +363,26 @@ msgstr ""
 
 #: ../netshow/linux/show_interfaces.py:167
 #: ../netshow/linux/show_interfaces.py:170
-#: ../netshow/linux/show_neighbors.py:41
+#: ../netshow/linux/show_neighbors.py:43
 msgid "summary"
 msgstr ""
 
-#: ../netshow/linux/show_neighbors.py:40
+#: ../netshow/linux/show_neighbors.py:42
 msgid "local"
 msgstr ""
 
-#: ../netshow/linux/show_neighbors.py:41
+#: ../netshow/linux/show_neighbors.py:43
 msgid "remote"
 msgstr ""
 
-#: ../netshow/linux/show_neighbors.py:41
+#: ../netshow/linux/show_neighbors.py:43
 msgid "sw/hostname"
 msgstr ""
 
-#: ../netshow/linux/show_system.py:37
+#: ../netshow/linux/show_system.py:38
 msgid "build"
 msgstr ""
 
-#: ../netshow/linux/show_system.py:38
+#: ../netshow/linux/show_system.py:39
 msgid "uptime"
 msgstr ""
