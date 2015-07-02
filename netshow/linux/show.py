@@ -33,7 +33,7 @@ Options:
 
 import sys
 from network_docopt import NetworkDocopt
-from netshowlib._version import get_version
+from netshow.netshow import print_version
 from netshow.linux.show_interfaces import ShowInterfaces
 from netshow.linux.show_neighbors import ShowNeighbors
 from netshow.linux.show_system import ShowSystem
@@ -61,6 +61,6 @@ def run():
             _shownei = ShowNeighbors(_nd)
             print(_shownei.run())
         elif _nd.get('--version') or _nd.get('-v'):
-            print(get_version())
+            print(print_version())
         else:
             print(__doc__)
