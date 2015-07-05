@@ -50,22 +50,22 @@ Inspiration and code for which these ideas were copied from exist under
 Public Domain licenses.
 """
 
-#--------------------------------------------------------------------
+# --------------------------------------------------------------------
 # Internal stuff
 #
 
 __all__ = ("list_files", "get_version")
 
 import string
-import locale
 import subprocess
 
 
-#--------------------------------------------------------------------
+# --------------------------------------------------------------------
 # Internal variables & support functions
 #
 
-ENCODING = locale.getpreferredencoding()
+ENCODING = 'utf-8'
+
 
 def _read_release_version(filename):
     """
@@ -81,6 +81,7 @@ def _read_release_version(filename):
     except:
         return None
 
+
 def _write_release_version(filename, version):
     """
     write the version string to the file filename
@@ -88,6 +89,7 @@ def _write_release_version(filename, version):
     f = open(filename, "w")
     f.write(u"%s\n" % version.encode(ENCODING))
     f.close()
+
 
 def _call_git_describe(abbrev=7):
     """
@@ -106,6 +108,7 @@ def _call_git_describe(abbrev=7):
         # ignore all errors
         return None
 
+
 def _pep386adapt(version):
     """
     Adapt git-describe version to be in line with PEP 386.
@@ -118,9 +121,10 @@ def _pep386adapt(version):
         version = version.lstrip(prefix)
     return version
 
-#--------------------------------------------------------------------
+# --------------------------------------------------------------------
 # Public functions
 #
+
 
 def list_files(dirname=""):
     """
@@ -138,6 +142,7 @@ def list_files(dirname=""):
     files = p.stdout.readlines()
     p.wait()
     return [f.strip().decode(ENCODING) for f in files]
+
 
 def get_version(abbrev=0, filename="RELEASE-VERSION".encode(ENCODING)):
     """
