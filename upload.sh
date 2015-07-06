@@ -18,4 +18,4 @@ fi
 
 # install test requirements like tox
 pip install --upgrade -r requirements_develop.txt
-python setup.py bdist_wheel
+python setup.py bdist_wheel sdist upload -r testing
