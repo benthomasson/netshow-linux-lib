@@ -7,6 +7,7 @@
 # pylint: disable=C0103
 from asserts import assert_equals
 import netshowlib.linux.common as common
+import sys
 
 # # Tests for common.py
 
@@ -22,12 +23,15 @@ def test_sort_ports():
                    'swp46.2', 'swp46.22', 'vlan115', 'vlan115-v0'])
 
 # test printing out range of numbers"
+
+
 def test_group_ports_just_numbers():
     a = ['1', '2', '3', '4', '5', '10']
     assert_equals(common.create_range('', a), ['1-5', '10'])
 
-
 # common - test group ports with no subifaces"
+
+
 def test_group_port_no_subiface():
     a = ['swp1', 'swp2', 'swp3', 'swp4',
          'swp10', 'swp11', 'swp12', 'swp20']
@@ -60,3 +64,11 @@ def test_block_to_cidr_netmask():
     assert_equals(common.netmask_dot_notation_to_cidr(ipv6mask), 127)
     ipv4mask = '255.255.254.0'
     assert_equals(common.netmask_dot_notation_to_cidr(ipv4mask), 23)
+
+
+def test_exec_command():
+    _output = common.exec_command('ls')
+    if sys.version_info < (3, 0, 0):
+        assert_equals(isinstance(_output, unicode), True)
+    else:
+        assert_equals(isinstance(_output, str), True)

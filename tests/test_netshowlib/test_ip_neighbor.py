@@ -7,18 +7,18 @@
 # pylint: disable=F0401
 # pylint: disable=E0611
 from asserts import assert_equals, mod_args_generator
-from nose.tools import set_trace
 import mock
 from netshowlib.linux import ip_neighbor
+import io
 
 
 @mock.patch('netshowlib.linux.ip_neighbor.common.exec_command')
 def test_cacheinfo(mock_arp_exec):
     values = {
         '/sbin/ip -4 neighbor show':
-        str.encode(open('tests/test_netshowlib/arp_ipv4.txt').read()),
+        io.open('tests/test_netshowlib/arp_ipv4.txt').read(),
         '/sbin/ip -6 neighbor show':
-        str.encode(open('tests/test_netshowlib/arp_ipv6.txt').read())
+        io.open('tests/test_netshowlib/arp_ipv6.txt').read()
     }
 
     mock_arp_exec.side_effect = mod_args_generator(values)

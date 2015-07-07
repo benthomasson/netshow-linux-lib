@@ -24,9 +24,9 @@ class TestLinuxIpAddress(object):
 
     @mock.patch('netshowlib.linux.ip_address.parse_ip_cache')
     def test_cacheinfo(self, mock_parse):
-        mock_parse.return_value = "hash of ips"
+        mock_parse.return_value = u"hash of ips"
         result = ip_address_mod.cacheinfo()
-        assert_equals(result, "hash of ips")
+        assert_equals(result, u"hash of ips")
 
     @mock.patch('netshowlib.linux.ip_address.cacheinfo')
     def test_run_ip_address(self, mock_ip_cache):

@@ -56,7 +56,7 @@ def cacheinfo():
         return {}
     # stringIO in python3 returns byte string, to be python2.x compatible
     # with common.exec_command decode byte string to regular string
-    _fileio = io.StringIO(ipaddr_output.decode('utf-8'))
+    _fileio = io.StringIO(ipaddr_output)
 
     return parse_ip_cache(_fileio)
 
