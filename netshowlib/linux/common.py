@@ -160,7 +160,7 @@ def exec_commandl(cmdl, cmdenv=None):
     execute a command
     """
     cmd_returncode = 0
-    cmdout = ''
+    cmdout = u''
     try:
         _ch = subprocess.Popen(cmdl,
                                stdout=subprocess.PIPE,
@@ -175,7 +175,7 @@ def exec_commandl(cmdl, cmdenv=None):
     if cmd_returncode != 0:
         raise ExecCommandException('failed to execute cmd \'%s\''
                                    % ' '.join(cmdl) + '(' + cmdout.strip('\n ') + ')')
-    return cmdout
+    return cmdout.decode('utf-8')
 
 
 # copied from [ifupdown2](http://github.com/cumulusnetworks/ifupdown2) project
