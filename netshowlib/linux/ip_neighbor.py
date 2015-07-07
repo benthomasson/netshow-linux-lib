@@ -4,11 +4,7 @@ IP neighbor relationships in IPv4 are handled by Address Resolution Protocol
 In IPv6 this process is just known as IP neighbor discovery.
 
 """
-
-try:
-    from StringIO import StringIO
-except ImportError:
-    from io import StringIO
+import io
 import netshowlib.linux.common as common
 
 
@@ -22,8 +18,8 @@ def cacheinfo():
         try:
             _table = common.exec_command("/sbin/ip -%s neighbor show" % (_iptype))
             parse_info(table=_table.decode('utf-8'),
-                        iptype="ipv%s" % (_iptype),
-                        ip_neigh_dict=ip_dict)
+                       iptype="ipv%s" % (_iptype),
+                       ip_neigh_dict=ip_dict)
         except common.ExecCommandException:
             continue
     return ip_dict
@@ -37,7 +33,7 @@ def parse_info(table, iptype, ip_neigh_dict):
     :params iptype: can be ``ipv4`` or ``ipv6``
     :params ip_neigh_dict: dict to update neighbor table
     """
-    fileio = StringIO(table)
+    fileio = io.StringIO(table)
     for line in fileio:
         if len(line.strip()) <= 0:
             continue

@@ -14,7 +14,7 @@ import netshowlib.linux.common as common
 import mock
 from mock import MagicMock
 from asserts import assert_equals, mock_open_str, mod_args_generator
-
+import io
 
 class TestLinuxBondMember(object):
     def setup(self):
@@ -43,21 +43,21 @@ class TestLinuxBondMember(object):
         values = {'carrier': '1',
                   'bonding/mode': '802.3ad 4'}
         mock_read_from_sys.side_effect = mod_args_generator(values)
-        bondingfile = open('tests/test_netshowlib/proc_net_bonding_agg_id_match.txt')
-        with mock.patch(mock_open_str()) as mock_open:
+        bondingfile = io.open('tests/test_netshowlib/proc_net_bonding_agg_id_match.txt')
+        with mock.patch('io.open') as mock_open:
             mock_open.return_value = bondingfile
             assert_equals(self.iface.bondstate, 1)
 
         # if lacp is set and agg_id is different
-        bondingfile = open('tests/test_netshowlib/proc_net_bonding_agg_id_no_match.txt')
-        with mock.patch(mock_open_str()) as mock_open:
+        bondingfile = io.open('tests/test_netshowlib/proc_net_bonding_agg_id_no_match.txt')
+        with mock.patch('io.open') as mock_open:
             mock_open.return_value = bondingfile
             assert_equals(self.iface.bondstate, 0)
 
     def test_link_failures(self):
-        bondingfile = open('tests/test_netshowlib/proc_net_bonding_agg_id_match.txt')
-        with mock.patch(mock_open_str()) as mock_open:
-            mock_open.return_value = bondingfile
+        bondfile = io.open('tests/test_netshowlib/proc_net_bonding_agg_id_match.txt')
+        with mock.patch('io.open') as mock_open:
+            mock_open.return_value = bondfile
             assert_equals(self.iface.linkfailures, 12)
 
 
@@ -282,7 +282,7 @@ class TestLinuxBond(object):
         assert_equals(self.iface.lacp, None)
 
     def test_getting_system_mac(self):
-        bondingfile = open('tests/test_netshowlib/proc_net_bonding.txt')
-        with mock.patch(mock_open_str()) as mock_open:
+        bondingfile = io.open('tests/test_netshowlib/proc_net_bonding.txt')
+        with mock.patch('io.open') as mock_open:
             mock_open.return_value = bondingfile
             assert_equals(self.iface.system_mac, '00:02:00:22:11:33')
