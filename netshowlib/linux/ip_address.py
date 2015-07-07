@@ -5,11 +5,7 @@ This module is responsible for getting IP address (ipv4 and ipv6) information
 from a linux system. It currently has one provider, i.e information from the
 `ip addr show` output
 """
-
-try:
-    from StringIO import StringIO
-except ImportError:
-    from io import StringIO
+import io
 import netshowlib.linux.common as common
 import re
 
@@ -60,7 +56,7 @@ def cacheinfo():
         return {}
     # stringIO in python3 returns byte string, to be python2.x compatible
     # with common.exec_command decode byte string to regular string
-    _fileio = StringIO(ipaddr_output.decode('utf-8'))
+    _fileio = io.StringIO(ipaddr_output)
 
     return parse_ip_cache(_fileio)
 
