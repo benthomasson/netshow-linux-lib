@@ -6,10 +6,7 @@ System Overview:  Uptime, OS Distribution and CPU Architecture
 """
 from netshowlib.linux import common
 import platform
-try:
-    from StringIO import StringIO
-except ImportError:
-    from io import StringIO
+import io
 
 
 class SystemSummary(object):
@@ -49,11 +46,11 @@ class SystemSummary(object):
         DISTRIB_DESCRIPTION=2.5.3-c4e83ad-201506011818-build
         """
         try:
-            lsb_output = open(self.lsb_release_loc, 'r').read()
+            lsb_output = io.open(self.lsb_release_loc, 'r').read()
         except IOError:
             return
 
-        fileio = StringIO(lsb_output)
+        fileio = io.StringIO(lsb_output)
         for _line in fileio:
             _line = _line.strip()
             if _line.startswith('DISTRIB_ID'):

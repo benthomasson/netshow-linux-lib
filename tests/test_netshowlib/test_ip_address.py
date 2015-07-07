@@ -9,13 +9,8 @@
 import netshowlib.linux.ip_address as ip_address_mod
 import netshowlib.linux.cache as feature_cache
 from asserts import assert_equals
-from nose.tools import set_trace
 import mock
-
-try:
-    from StringIO import StringIO
-except ImportError:
-    from io import StringIO
+import io
 
 
 class TestLinuxIpAddress(object):
@@ -37,8 +32,8 @@ class TestLinuxIpAddress(object):
     def test_run_ip_address(self, mock_ip_cache):
         """ get ipv6 and ipv4 info """
         # using feature cache
-        _output = open('tests/test_netshowlib/ip_addr_show.txt').read()
-        output = StringIO(_output)
+        _output = io.open('tests/test_netshowlib/ip_addr_show.txt').read()
+        output = io.StringIO(_output)
         mock_ip_cache.return_value = ip_address_mod.parse_ip_cache(output)
         _feature_cache = feature_cache.Cache()
         _feature_cache.run()
@@ -54,8 +49,8 @@ class TestLinuxIpAddress(object):
 
     def test_parse_ip_cache(self):
         """ testing parsing ip cache info """
-        _output = open('tests/test_netshowlib/ip_addr_show.txt').read()
-        output = StringIO(_output)
+        _output = io.open('tests/test_netshowlib/ip_addr_show.txt').read()
+        output = io.StringIO(_output)
         result = ip_address_mod.parse_ip_cache(output)
         assert_equals(
             result,

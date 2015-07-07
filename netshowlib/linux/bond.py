@@ -5,10 +5,7 @@ import netshowlib.linux.iface as linux_iface
 import netshowlib.linux.bridge as linux_bridge
 import netshowlib.linux.lacp as lacp
 import re
-try:
-    from StringIO import StringIO
-except ImportError:
-    from io import StringIO
+import io
 
 
 class Bond(linux_iface.Iface):
@@ -63,10 +60,10 @@ class Bond(linux_iface.Iface):
         :param bondfile: path to /proc/net file for the bond
         """
         try:
-            result = open(bondfile).read()
+            result = io.open(bondfile).read()
         except (ValueError, IOError):
             return
-        fileio = StringIO(result)
+        fileio = io.StringIO(result)
         for line in fileio:
             if len(line.strip()) <= 0:
                 continue
@@ -271,6 +268,7 @@ class BondMember(linux_iface.Iface):
     # grabbing it from /sys/class/net is not super reliable
     # eventually everything can be grabbed from netlink, which will be done
     # in a future release.
+
     def _parse_proc_net_bonding(self):
         """
         parse /proc/net/bonding to get link failure and agg_id info
@@ -278,11 +276,11 @@ class BondMember(linux_iface.Iface):
         # open proc/net/bonding
         bondfile = "%s/%s" % (self.bondfileloc, self.master.name)
         try:
-            result = open(bondfile).read()
+            result = io.open(bondfile).read()
         except (ValueError, IOError):
             return
         bondslavename = None
-        fileio = StringIO(result)
+        fileio = io.StringIO(result)
         master_agg_id = None
         for line in fileio:
             if len(line.strip()) <= 0:
