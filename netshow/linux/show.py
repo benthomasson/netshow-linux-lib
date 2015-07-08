@@ -4,9 +4,16 @@
 Usage:
     netshow lldp [--json | -j ]
     netshow system [--json | -j ]
-    netshow [ access | bridges | bonds | bondmems | mgmt | l2 | l3 | trunks ] [all] [--mac | -m ] [--oneline | -1  | --json | -j]
     netshow interface [<iface>] [all] [--mac | -m ] [--oneline | -1 | --json | -j ]
-    netshow (--version | -v)
+    netshow access [all] [--mac | -m ] [--oneline | -1  | --json | -j]
+    netshow bridges [all] [--mac | -m ] [--oneline | -1  | --json | -j]
+    netshow bondmems [all] [--mac | -m ] [--oneline | -1  | --json | -j]
+    netshow mgmt [all] [--mac | -m ] [--oneline | -1  | --json | -j]
+    netshow l2 [all] [--mac | -m ] [--oneline | -1  | --json | -j]
+    netshow l3 [all] [--mac | -m ] [--oneline | -1  | --json | -j]
+    netshow trunks [all] [--mac | -m ] [--oneline | -1  | --json | -j]
+    netshow (--version | -V)
+
 
 Help:
     * default is to show intefaces only in the UP state.
@@ -19,9 +26,10 @@ Help:
     l3                        summary of ports with an IP.
     l2                        summary of access, trunk and bridge interfaces
     trunks                    summary of trunk interfaces
-    interface <interface>     list summary of a single interface
+    lldp                      physical device neighbor information
+    interface <iface>         list summary of a single interface
     system                    system information
-    lldp                 physical device neighbor information
+
 
 Options:
     all        show all ports include those are down or admin down
@@ -71,9 +79,6 @@ def run():
         elif _nd.get('lldp'):
             _shownei = ShowNeighbors(_nd)
             print(_shownei.run())
-        elif _nd.get('counters'):
-            _showcounters = ShowCounters(_nd)
-            print(_showcounters.run())
         elif _nd.get('--version') or _nd.get('-v'):
             print(print_version())
         else:

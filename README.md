@@ -1,47 +1,39 @@
-# netshow-linux-lib
+# netshow-linux
 
-# Linux netshow library
+Netshow-linux is a Provider for Netshow, a Network Abstraction Software. It is optimized to collect core networking data from Linux devices that contain many interfaces.
 
-Abstracts network related information such as L2 info, LLDP, Network services
-(ntp, dhcp, dhcrelay) into Iface Objects.
-This covers, physical ports, bonds and bridges only. Designed to
-work with a linux device that is configured as a switch, but can work on a
-server.
+Netshow-linux has 2 main modules.
 
-pynetlinux and python-netiface doesn't quite do what I want.
+### netshowlib
+This module contains other modules that are responsible for retrieving  network information from the Linux kernel and associated components. This information is abstracted in mainly into interface types, like bonds, bridges, bondmembers and so on.
 
-## Installation
+### netshow
 
-```
-pip install https://github.com/skamithi/linux-netshow-lib/archive/master.tar.gz
-```
-
-
-## Usage
-
-TODO: Write usage instructions
+Netshow modules are responsible for printing the network information collected from the ``netshowlib`` modules. For example, the ``print_iface`` netshow module takes interface information retrieved by ``netshowlib`` modules and abstracted in python objects and prints the information in a human readable form.
 
 ## Contributing
 
-1. Fork it!
-2. Create your feature branch: `git checkout -b my-new-feature`
-3. Create a [virtualenv](https://pypi.python.org/pypi/virtualenv/) instance.
-Please try and develop using the latest stable Python3. Example:
-```
-$ virtualenv ~/netshow_dev /usr/local/bin/python3
-```
-4. Run ``setup.py develop to install development dependencies in virtualenv
-   instance.
-5. Write some cool code and _relevant nose tests too_
-6. Commit your changes: `git commit -am 'Add some feature'`
-4. Push to the branch: `git push origin my-new-feature`
-5. Submit a pull request :D
+1. Fork it.
+2. Create your feature branch (`git checkout -b my-new-feature`).
+3. Commit your changes (`git commit -am 'Add some feature'`).
+4. Push to the branch (`git push origin my-new-feature`).
+5. Create new Pull Request.
 
+## License and Authors
+Author:: Cumulus Networks Inc.
 
-## Main Contributors
+Copyright:: 2015 Cumulus Networks Inc.
 
-Stanley Karunditu [@skamithi](http://github.com/skamithi)
+![Cumulus icon](http://cumulusnetworks.com/static/cumulus/img/logo_2014.png)
 
-## License
+### Cumulus Linux
 
-GPLv2
+Cumulus Linux is a software distribution that runs on top of industry standard
+networking hardware. It enables the latest Linux applications and automation
+tools on networking gear while delivering new levels of innovation and
+ﬂexibility to the data center.
+
+For further details please see: [cumulusnetworks.com](http://www.cumulusnetworks.com)
+
+This project is licensed under the GNU General Public License, Version 2.0
+
