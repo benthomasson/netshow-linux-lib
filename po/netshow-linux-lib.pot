@@ -1,0 +1,388 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#: ../netshow/linux/print_bridge.py:146
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-07-01 15:50+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../netshow/linux/common.py:12 ../netshow/linux/common.py:24
+msgid "bondmember key"
+msgstr ""
+
+#: ../netshow/linux/common.py:13 ../netshow/linux/print_bond.py:152
+msgid "P"
+msgstr ""
+
+#: ../netshow/linux/common.py:13
+msgid "in bond"
+msgstr ""
+
+#: ../netshow/linux/common.py:14 ../netshow/linux/print_bond.py:154
+msgid "N"
+msgstr ""
+
+#: ../netshow/linux/common.py:14
+msgid "not in bond"
+msgstr ""
+
+#: ../netshow/linux/common.py:25
+msgid "UP"
+msgstr ""
+
+#: ../netshow/linux/common.py:25
+msgid "carrier up, in bond"
+msgstr ""
+
+#: ../netshow/linux/common.py:26
+msgid "UN"
+msgstr ""
+
+#: ../netshow/linux/common.py:26
+msgid "carrier up, not in bond"
+msgstr ""
+
+#: ../netshow/linux/common.py:27
+msgid "DN"
+msgstr ""
+
+#: ../netshow/linux/common.py:27
+msgid "carrier down, not in bond"
+msgstr ""
+
+#: ../netshow/linux/print_bond.py:19
+msgid "bondmem"
+msgstr ""
+
+#: ../netshow/linux/print_bond.py:27
+msgid "master"
+msgstr ""
+
+#: ../netshow/linux/print_bond.py:39
+msgid "port_in_bond"
+msgstr ""
+
+#: ../netshow/linux/print_bond.py:41
+msgid "port_not_in_bond"
+msgstr ""
+
+#: ../netshow/linux/print_bond.py:48 ../netshow/linux/print_bond.py:188
+msgid "bond_details"
+msgstr ""
+
+#: ../netshow/linux/print_bond.py:52
+msgid "master_bond"
+msgstr ""
+
+#: ../netshow/linux/print_bond.py:53
+msgid "state_in_bond"
+msgstr ""
+
+#: ../netshow/linux/print_bond.py:54 ../netshow/linux/print_bond.py:204
+msgid "link_failures"
+msgstr ""
+
+#: ../netshow/linux/print_bond.py:55
+msgid "bond_members"
+msgstr ""
+
+#: ../netshow/linux/print_bond.py:56 ../netshow/linux/print_bond.py:190
+msgid "bond_mode"
+msgstr ""
+
+#: ../netshow/linux/print_bond.py:57 ../netshow/linux/print_bond.py:191
+msgid "load_balancing"
+msgstr ""
+
+#: ../netshow/linux/print_bond.py:58 ../netshow/linux/print_bond.py:192
+msgid "minimum_links"
+msgstr ""
+
+#: ../netshow/linux/print_bond.py:61 ../netshow/linux/print_bond.py:195
+msgid "lacp_sys_priority"
+msgstr ""
+
+#: ../netshow/linux/print_bond.py:62 ../netshow/linux/print_bond.py:196
+msgid "lacp_rate"
+msgstr ""
+
+#: ../netshow/linux/print_bond.py:87
+msgid "bond/l3"
+msgstr ""
+
+#: ../netshow/linux/print_bond.py:89
+msgid "bond/trunk"
+msgstr ""
+
+#: ../netshow/linux/print_bond.py:91
+msgid "bond/access"
+msgstr ""
+
+#: ../netshow/linux/print_bond.py:93
+msgid "bond"
+msgstr ""
+
+#: ../netshow/linux/print_bond.py:117
+msgid "layer3+4"
+msgstr ""
+
+#: ../netshow/linux/print_bond.py:119
+msgid "layer2+3"
+msgstr ""
+
+#: ../netshow/linux/print_bond.py:121
+msgid "layer2"
+msgstr ""
+
+#: ../netshow/linux/print_bond.py:123 ../netshow/linux/print_bond.py:142
+#: ../netshow/linux/print_bond.py:182
+msgid "unknown"
+msgstr ""
+
+#: ../netshow/linux/print_bond.py:132
+msgid "lacp"
+msgstr ""
+
+#: ../netshow/linux/print_bond.py:134
+msgid "broadcast"
+msgstr ""
+
+#: ../netshow/linux/print_bond.py:136
+msgid "balance-xor"
+msgstr ""
+
+#: ../netshow/linux/print_bond.py:138
+msgid "active-backup"
+msgstr ""
+
+#: ../netshow/linux/print_bond.py:140
+msgid "balance-rr"
+msgstr ""
+
+#: ../netshow/linux/print_bond.py:167
+msgid "bondmems"
+msgstr ""
+
+#: ../netshow/linux/print_bond.py:169 ../netshow/linux/print_bond.py:208
+msgid "no_bond_members_found"
+msgstr ""
+
+#: ../netshow/linux/print_bond.py:178
+msgid "fast_lacp"
+msgstr ""
+
+#: ../netshow/linux/print_bond.py:180
+msgid "slow_lacp"
+msgstr ""
+
+#: ../netshow/linux/print_bond.py:204
+msgid "port"
+msgstr ""
+
+#: ../netshow/linux/print_bond.py:204 ../netshow/linux/print_iface.py:130
+#: ../netshow/linux/show_interfaces.py:166
+#: ../netshow/linux/show_interfaces.py:169
+#: ../netshow/linux/show_neighbors.py:42
+msgid "speed"
+msgstr ""
+
+#: ../netshow/linux/print_bond.py:224 ../netshow/linux/print_iface.py:177
+msgid "lldp"
+msgstr ""
+
+#: ../netshow/linux/print_bond.py:244
+msgid "no_lldp_entries"
+msgstr ""
+
+#: ../netshow/linux/print_bridge.py:21
+msgid "trunk/l2"
+msgstr ""
+
+#: ../netshow/linux/print_bridge.py:22
+msgid "access/l2"
+msgstr ""
+
+#: ../netshow/linux/print_bridge.py:54
+msgid "bridge/l3"
+msgstr ""
+
+#: ../netshow/linux/print_bridge.py:55
+msgid "bridge/l2"
+msgstr ""
+
+#: ../netshow/linux/print_bridge.py:75 ../netshow/linux/print_bridge.py:100
+#: ../netshow/linux/print_iface.py:208 ../netshow/linux/print_iface.py:218
+msgid "untagged"
+msgstr ""
+
+#: ../netshow/linux/print_bridge.py:86 ../netshow/linux/print_iface.py:204
+msgid "tagged"
+msgstr ""
+
+#: ../netshow/linux/print_bridge.py:107
+msgid "802.1q_tag"
+msgstr ""
+
+#: ../netshow/linux/print_bridge.py:116
+msgid "stp"
+msgstr ""
+
+#: ../netshow/linux/print_bridge.py:119
+msgid "rootswitch"
+msgstr ""
+
+#: ../netshow/linux/print_bridge.py:123
+msgid "root"
+msgstr ""
+
+#: ../netshow/linux/print_bridge.py:125 ../netshow/linux/print_bridge.py:150
+msgid "root_priority"
+msgstr ""
+
+#: ../netshow/linux/print_bridge.py:127 ../netshow/linux/print_bridge.py:161
+msgid "disabled"
+msgstr ""
+
+#: ../netshow/linux/print_bridge.py:148 ../netshow/linux/print_bridge.py:161
+msgid "stp_mode"
+msgstr ""
+
+#: ../netshow/linux/print_bridge.py:148
+msgid "802.1d / per bridge instance"
+msgstr ""
+
+#: ../netshow/linux/print_bridge.py:149
+msgid "root_port"
+msgstr ""
+
+#: ../netshow/linux/print_bridge.py:151
+msgid "bridge_priority"
+msgstr ""
+
+#: ../netshow/linux/print_bridge.py:166
+#, python-format
+msgid "ports in %s state"
+msgstr ""
+
+#: ../netshow/linux/print_iface.py:69
+msgid "admdn"
+msgstr ""
+
+#: ../netshow/linux/print_iface.py:71
+msgid "dn"
+msgstr ""
+
+#: ../netshow/linux/print_iface.py:73
+msgid "up"
+msgstr ""
+
+#: ../netshow/linux/print_iface.py:82
+msgid "loopback"
+msgstr ""
+
+#: ../netshow/linux/print_iface.py:85
+msgid "subint/l3"
+msgstr ""
+
+#: ../netshow/linux/print_iface.py:87
+msgid "access/l3"
+msgstr ""
+
+#: ../netshow/linux/print_iface.py:89
+msgid "access"
+msgstr ""
+
+#: ../netshow/linux/print_iface.py:96
+msgid "n/a"
+msgstr ""
+
+#: ../netshow/linux/print_iface.py:116
+msgid "dhcp"
+msgstr ""
+
+#: ../netshow/linux/print_iface.py:129 ../netshow/linux/show_interfaces.py:166
+#: ../netshow/linux/show_interfaces.py:169
+msgid "name"
+msgstr ""
+
+#: ../netshow/linux/print_iface.py:129 ../netshow/linux/show_interfaces.py:166
+msgid "mac"
+msgstr ""
+
+#: ../netshow/linux/print_iface.py:130 ../netshow/linux/show_interfaces.py:167
+#: ../netshow/linux/show_interfaces.py:170
+msgid "mtu"
+msgstr ""
+
+#: ../netshow/linux/print_iface.py:130 ../netshow/linux/show_interfaces.py:167
+#: ../netshow/linux/show_interfaces.py:170
+#: ../netshow/linux/show_neighbors.py:42
+msgid "mode"
+msgstr ""
+
+#: ../netshow/linux/print_iface.py:158
+msgid "ip_details"
+msgstr ""
+
+#: ../netshow/linux/print_iface.py:163
+msgid "ip"
+msgstr ""
+
+#: ../netshow/linux/print_iface.py:165
+msgid "arp_entries"
+msgstr ""
+
+#: ../netshow/linux/print_iface.py:227
+msgid "U"
+msgstr ""
+
+#: ../netshow/linux/print_iface.py:229
+msgid "D"
+msgstr ""
+
+#: ../netshow/linux/print_iface.py:260
+#, python-format
+msgid "vlans in %s state"
+msgstr ""
+
+#: ../netshow/linux/show_interfaces.py:69
+msgid "interface_does_not_exist"
+msgstr ""
+
+#: ../netshow/linux/show_interfaces.py:167
+#: ../netshow/linux/show_interfaces.py:170
+#: ../netshow/linux/show_neighbors.py:43
+msgid "summary"
+msgstr ""
+
+#: ../netshow/linux/show_neighbors.py:42
+msgid "local"
+msgstr ""
+
+#: ../netshow/linux/show_neighbors.py:43
+msgid "remote"
+msgstr ""
+
+#: ../netshow/linux/show_neighbors.py:43
+msgid "sw/hostname"
+msgstr ""
+
+#: ../netshow/linux/show_system.py:38
+msgid "build"
+msgstr ""
+
+#: ../netshow/linux/show_system.py:39
+msgid "uptime"
+msgstr ""

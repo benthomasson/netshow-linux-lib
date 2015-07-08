@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<lldp label="LLDP neighbors">
+ <interface label="Interface" name="eth1" via="LLDP" rid="1" age="1 day, 07:05:58">
+  <chassis label="Chassis">
+   <id label="ChassisID" type="mac">00:01:00:00:02:00</id>
+   <name label="SysName">right</name>
+   <descr label="SysDescr">Cumulus Linux</descr>
+   <mgmt-ip label="MgmtIP">192.168.0.15</mgmt-ip>
+   <capability label="Capability" type="Bridge" enabled="on"/>
+   <capability label="Capability" type="Router" enabled="on"/>
+  </chassis>
+  <port label="Port">
+   <id label="PortID" type="ifname">swp1</id>
+   <descr label="PortDescr">swp1</descr>
+  </port>
+ </interface>
+ <interface label="Interface" name="eth1" via="LLDP" rid="1" age="1 day, 07:05:58">
+  <chassis label="Chassis">
+   <id label="ChassisID" type="mac">00:01:00:00:02:00</id>
+   <name label="SysName">right2</name>
+   <descr label="SysDescr">Cumulus Linux</descr>
+   <mgmt-ip label="MgmtIP">192.168.0.14</mgmt-ip>
+   <capability label="Capability" type="Bridge" enabled="on"/>
+   <capability label="Capability" type="Router" enabled="on"/>
+  </chassis>
+  <port label="Port">
+   <id label="PortID" type="ifname">swp10</id>
+   <descr label="PortDescr">swp10</descr>
+  </port>
+ </interface>
+
+ <interface label="Interface" name="eth2" via="LLDP" rid="1" age="1 day, 07:05:58">
+  <chassis label="Chassis">
+   <id label="ChassisID" type="mac">00:01:00:00:02:00</id>
+   <name label="SysName">right</name>
+   <descr label="SysDescr">Cumulus Linux</descr>
+   <mgmt-ip label="MgmtIP">192.168.0.15</mgmt-ip>
+   <capability label="Capability" type="Bridge" enabled="on"/>
+   <capability label="Capability" type="Router" enabled="on"/>
+  </chassis>
+  <port label="Port">
+   <id label="PortID" type="ifname">swp2</id>
+   <descr label="PortDescr">swp2</descr>
+  </port>
+ </interface>
+</lldp>
