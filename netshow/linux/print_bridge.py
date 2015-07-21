@@ -60,6 +60,7 @@ class PrintBridge(PrintIface):
         :return: summary information regarding the bridge
         """
         _info = []
+        _info.append(self.ip_info())
         _info.append(self.untagged_ifaces())
         _info.append(self.tagged_ifaces())
         _info.append(self.vlan_id_field())

@@ -7,7 +7,7 @@ import netshowlib.netshowlib as nn
 from netshowlib.linux import iface as linux_iface
 from netshowlib.linux import common
 from tabulate import tabulate
-from netshow.linux.common import _,bondmem_key_simple
+from netshow.linux.common import _, bondmem_key_simple
 import inflection
 
 def iface(name, cache=None):
@@ -105,20 +105,21 @@ class PrintIface(object):
             _str = str(int(_speed_value) // 1000) + 'G'
         return _str
 
+    def ip_info(self):
+        if self.iface.is_l3():
+            _str2 = ""
+            if self.iface.ip_addr_assign == 1:
+                _str2 = "(%s)" % _('dhcp')
+            _str = ', '.join(self.iface.ip_address.allentries) + _str2
+            return _str
+        return ''
+
     @property
     def summary(self):
         """
         :return: summary information regarding the interface
         """
-        if self.iface.is_l3():
-            _str2 = ""
-            if self.iface.ip_addr_assign == 1:
-                _str2 = "(%s)" % _('dhcp')
-
-            _str = ', '.join(self.iface.ip_address.allentries) + _str2
-            return [_str]
-
-        return ['']
+        return [self.ip_info()]
 
     def cli_header(self):
         """

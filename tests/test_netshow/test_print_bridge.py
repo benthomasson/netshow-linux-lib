@@ -19,7 +19,6 @@ import netshow.linux.print_bridge as print_bridge
 import netshowlib.linux.bridge as linux_bridge
 import mock
 from asserts import assert_equals, mod_args_generator
-from nose.tools import set_trace
 import re
 
 
@@ -36,8 +35,6 @@ class TestPrintBridgeMember(object):
         mock_details.return_value = 'bridgemem_details'
         mock_lldp.return_value = 'lldp'
         assert_equals(self.piface.cli_output(), 'cli_headerbridgemem_detailslldp')
-
-
 
     @mock.patch('netshow.linux.print_iface.linux_iface.Iface.is_trunk')
     def test_port_category(self, mock_is_trunk):
@@ -190,19 +187,28 @@ class TestPrintBridge(object):
     @mock.patch('netshow.linux.print_bridge.PrintBridge.untagged_ifaces')
     @mock.patch('netshow.linux.print_bridge.PrintBridge.tagged_ifaces')
     @mock.patch('netshow.linux.print_bridge.PrintBridge.vlan_id')
-    def test_summary(self, mock_vlan_id, mock_tagged, mock_untagged,
+    @mock.patch('netshow.linux.print_iface.linux_iface.Iface.is_l3')
+    def test_summary(self, mock_is_l3, mock_vlan_id, mock_tagged, mock_untagged,
                      mock_stp_summary):
-        manager = mock.MagicMock()
-        manager.attach_mock(mock_stp_summary, 'stp_summary')
-        manager.attach_mock(mock_vlan_id, 'vlan_id')
-        manager.attach_mock(mock_tagged, 'tagged_ifaces')
-        manager.attach_mock(mock_untagged, 'untagged_ifaces')
-        self.piface.summary
-        expected_calls = [mock.call.untagged_ifaces(),
-                          mock.call.tagged_ifaces(),
-                          mock.call.vlan_id(),
-                          mock.call.stp_summary()]
-        assert_equals(manager.method_calls, expected_calls)
+        mock_is_l3.return_value = True
+        self.piface.iface.ip_address.ipv4 = ['10.1.1.1/24']
+        mock_vlan_id.return_value = 'vlan_id'
+        mock_stp_summary.return_value = 'stp_summary'
+        mock_tagged.return_value = 'tagged_ifaces'
+        mock_untagged.return_value = 'untagged_ifaces'
+        _output = self.piface.summary
+        assert_equals(_output,
+                      ['10.1.1.1/24',
+                       'untagged_ifaces',
+                       'tagged_ifaces',
+                       '802.1q_tag: vlan_id', 'stp_summary']
+                      )
+        # no ip address
+        mock_is_l3.return_value = False
+        _output = self.piface.summary
+        assert_equals(_output, ['untagged_ifaces',
+                                'tagged_ifaces',
+                                '802.1q_tag: vlan_id', 'stp_summary'])
 
     @mock.patch('netshowlib.linux.common.read_file_oneline')
     @mock.patch('netshowlib.linux.bridge.os.listdir')
@@ -275,4 +281,3 @@ class TestPrintBridge(object):
                       ['root_priority:', '16384'])
         assert_equals(_outputtable[5].split(), ['bridge_priority:', '32768'])
         assert_equals(_outputtable[6].split(), ['802.1q_tag:', 'untagged'])
-
