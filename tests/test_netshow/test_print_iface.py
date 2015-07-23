@@ -118,10 +118,10 @@ class TestPrintIface(object):
         # is l3 but not dhcp
         mock_is_l3.return_value = True
         self.piface.iface.ip_address.ipv4 = ['10.1.1.1/24']
-        assert_equals(self.piface.summary, ['10.1.1.1/24'])
+        assert_equals(self.piface.summary, ['ip: 10.1.1.1/24'])
         # is l3 and is dhcp
         self.piface.iface._ip_addr_assign = 1
-        assert_equals(self.piface.summary, ['10.1.1.1/24(dhcp)'])
+        assert_equals(self.piface.summary, ['ip: 10.1.1.1/24(dhcp)'])
 
     @mock.patch('netshow.linux.print_iface.linux_iface.Iface.read_from_sys')
     def test_single_iface_cli_header(self, mock_read_from_sys):

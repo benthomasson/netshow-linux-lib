@@ -268,7 +268,7 @@ class TestPrintBond(object):
         self.piface.iface.is_access = mock_is_access
         self.piface.iface.ip_address.ipv4 = ['10.1.1.1/24']
         _output = self.piface.summary
-        assert_equals(_output, ['list of bondmembers', '10.1.1.1/24'])
+        assert_equals(_output, ['list of bondmembers', 'ip: 10.1.1.1/24'])
         # is not l3 but is a trunk
         mock_is_l3.return_value = False
         mock_is_trunk.return_value = True

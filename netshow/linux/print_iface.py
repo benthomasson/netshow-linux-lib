@@ -10,6 +10,7 @@ from tabulate import tabulate
 from netshow.linux.common import _, bondmem_key_simple
 import inflection
 
+
 def iface(name, cache=None):
     """
     :return: ``:class:PrintIface`` instance that matches \
@@ -110,7 +111,9 @@ class PrintIface(object):
             _str2 = ""
             if self.iface.ip_addr_assign == 1:
                 _str2 = "(%s)" % _('dhcp')
-            _str = ', '.join(self.iface.ip_address.allentries) + _str2
+
+            _str = _('ip') + ': ' + \
+                ', '.join(self.iface.ip_address.allentries) + _str2
             return _str
         return ''
 
@@ -140,7 +143,6 @@ class PrintIface(object):
             return bondmem_key_simple() + tabulate(_table, _header) + self.new_line()
         else:
             return tabulate(_table, _header) + self.new_line()
-
 
     def cli_output(self):
         """
@@ -264,5 +266,3 @@ class PrintIface(object):
                 _str += tabulate(_table, _header, numalign="left") + \
                     self.new_line()
         return _str
-
-

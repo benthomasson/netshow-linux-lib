@@ -198,7 +198,7 @@ class TestPrintBridge(object):
         mock_untagged.return_value = 'untagged_ifaces'
         _output = self.piface.summary
         assert_equals(_output,
-                      ['10.1.1.1/24',
+                      ['ip: 10.1.1.1/24',
                        'untagged_ifaces',
                        'tagged_ifaces',
                        '802.1q_tag: vlan_id', 'stp_summary']
