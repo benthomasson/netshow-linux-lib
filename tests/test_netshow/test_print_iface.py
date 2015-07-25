@@ -69,6 +69,10 @@ class TestPrintIface(object):
         values = {'carrier': '1', 'operstate': 'up'}
         mock_read_from_sys.side_effect = mod_args_generator(values)
         assert_equals(self.piface.linkstate, 'up')
+        # dormant
+        values = {'carrier': '1', 'operstate': 'dormant'}
+        mock_read_from_sys.side_effect = mod_args_generator(values)
+        assert_equals(self.piface.linkstate, 'drmnt')
 
     @mock.patch('netshow.linux.print_iface.linux_iface.Iface.is_loopback')
     @mock.patch('netshow.linux.print_iface.linux_iface.Iface.is_l3')
