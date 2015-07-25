@@ -273,7 +273,7 @@ class TestShowInterfaces(object):
         mock_bridgemem.return_value = False
         mock_trunk.return_value = False
         values = {'mtu': '1500',
-                  'carrier': '0',
+                  'carrier': '0', 'operstate': 'down',
                   'speed': '1000',
                   'ifalias': None}
         mock_read_from_sys.side_effect = mod_args_generator(values)
@@ -296,7 +296,7 @@ class TestShowInterfaces(object):
         mock_bridgemem.return_value = True
         mock_trunk.return_value = True
         values = {'mtu': '1500',
-                  'carrier': '0',
+                  'carrier': '0', 'operstate': 'down',
                   'speed': '1000',
                   'ifalias': 'some description',
                   'address': '11:22:33:44:55:66'}

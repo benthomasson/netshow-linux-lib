@@ -418,12 +418,16 @@ class Iface(object):
         """
         |  *"adminDown"* means carrier does not exist.
         |  *"Down"* means carrier exist but L2 protocols are down.
+        |  *"Dormant"* means that the port is UP but dormant.
 
-        :return:  0(adminDown), 1(Down), 2(Up)
+        :return:  0(adminDown), 1(Down), 2(Up), 3(Dormant)
         :rtype: int
         """
         _carrier = self.read_from_sys('carrier')
-        if _carrier:
+        _operstate = self.read_from_sys('operstate')
+        if _operstate and _operstate == 'dormant':
+            self._linkstate = 3
+        elif _carrier:
             self._linkstate = 1 if _carrier == '0' else 2
         else:
             self._linkstate = 0

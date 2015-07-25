@@ -57,16 +57,16 @@ class TestPrintIface(object):
     @mock.patch('netshow.linux.print_iface.linux_iface.Iface.read_from_sys')
     def test_linkstate(self, mock_read_from_sys):
         # admin down
-        values = {'carrier': None}
+        values = {'carrier': None, 'operstate': None}
         mock_read_from_sys.side_effect = mod_args_generator(values)
         assert_equals(self.piface.linkstate, 'admdn')
         # down
-        values = {'carrier': '0'}
+        values = {'carrier': '0', 'operstate': 'up'}
         mock_read_from_sys.side_effect = mod_args_generator(values)
         assert_equals(self.piface.linkstate, 'dn')
         # up
         self.piface.iface._linkstate = None  # reset linkstate setting
-        values = {'carrier': '1'}
+        values = {'carrier': '1', 'operstate': 'up'}
         mock_read_from_sys.side_effect = mod_args_generator(values)
         assert_equals(self.piface.linkstate, 'up')
 
@@ -125,7 +125,7 @@ class TestPrintIface(object):
 
     @mock.patch('netshow.linux.print_iface.linux_iface.Iface.read_from_sys')
     def test_single_iface_cli_header(self, mock_read_from_sys):
-        values = {'carrier': '1',
+        values = {'carrier': '1', 'operstate': 'up',
                   'address': '11:22:33:44:55:66',
                   'speed': '1000',
                   'mtu': '9000',
@@ -256,9 +256,9 @@ class TestPrintIface(object):
 
     @mock.patch('netshowlib.linux.iface.Iface.read_from_sys')
     def test_abbrev_linksummary(self, mock_read_from_sys):
-        values = {'carrier': '1'}
+        values = {'carrier': '1', 'operstate': 'up'}
         mock_read_from_sys.side_effect = mod_args_generator(values)
         assert_equals(self.piface.abbrev_linksummary(self.piface.iface), 'U')
-        values = {'carrier': '0'}
+        values = {'carrier': '0', 'operstate': 'down'}
         mock_read_from_sys.side_effect = mod_args_generator(values)
         assert_equals(self.piface.abbrev_linksummary(self.piface.iface), 'D')
