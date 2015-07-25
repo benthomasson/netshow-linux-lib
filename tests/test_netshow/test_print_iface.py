@@ -132,9 +132,9 @@ class TestPrintIface(object):
                   'ifalias': None}
         mock_read_from_sys.side_effect = mod_args_generator(values)
         _output = self.piface.cli_header()
-        assert_equals(_output.split('\n')[0].split(),
+        assert_equals(_output.split('\n')[3].split(),
                       ['name', 'mac', 'speed', 'mtu', 'mode'])
-        assert_equals(_output.split('\n')[2].split(),
+        assert_equals(_output.split('\n')[5].split(),
                       ['up', 'eth22', '11:22:33:44:55:66', '1G',
                        '9000', 'access'])
 
