@@ -152,17 +152,37 @@ class TestLinuxIface(object):
     def test_read_link_state(self, mock_read_oneline):
         """ test get link state """
         # port is admin down
-        mock_read_oneline.return_value = None
+        values = {
+            '/sys/class/net/eth1/carrier': None,
+            '/sys/class/net/eth1/operstate': 'down'
+        }
+        mock_read_oneline.side_effect = mod_args_generator(values)
         assert_equals(self.iface.linkstate, 0)
-        mock_read_oneline.assert_called_with('/sys/class/net/eth1/carrier')
         # port is down
-        mock_read_oneline.return_value = '0'
+        values = {
+            '/sys/class/net/eth1/carrier': '0',
+            '/sys/class/net/eth1/operstate': 'down'
+        }
+        mock_read_oneline.side_effect = mod_args_generator(values)
         assert_equals(self.iface.linkstate, 1)
         # clear link_state
         self.iface._linkstate = None
         # port is up
-        mock_read_oneline.return_value = '1'
+        values = {
+            '/sys/class/net/eth1/carrier': '1',
+            '/sys/class/net/eth1/operstate': 'up'
+        }
+        mock_read_oneline.side_effect = mod_args_generator(values)
+        self.iface._linkstate = None
         assert_equals(self.iface.linkstate, 2)
+        # port is dormant
+        values = {
+            '/sys/class/net/eth1/carrier': '1',
+            '/sys/class/net/eth1/operstate': 'dormant'
+        }
+        mock_read_oneline.side_effect = mod_args_generator(values)
+        self.iface._linkstate = None
+        assert_equals(self.iface.linkstate, 3)
 
     @mock.patch('netshowlib.linux.ip_address.cacheinfo')
     def test_read_ipaddr(self, mock_cache_info):

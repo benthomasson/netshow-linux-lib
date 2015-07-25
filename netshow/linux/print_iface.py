@@ -7,7 +7,7 @@ import netshowlib.netshowlib as nn
 from netshowlib.linux import iface as linux_iface
 from netshowlib.linux import common
 from tabulate import tabulate
-from netshow.linux.common import _, bondmem_key_simple
+from netshow.linux.common import _, bondmem_key_simple, linkstate_key
 import inflection
 
 
@@ -72,6 +72,8 @@ class PrintIface(object):
             return _('dn')
         elif _linkstate_value == 2:
             return _('up')
+        elif _linkstate_value == 3:
+            return _('drmnt')
 
     @property
     def port_category(self):
@@ -140,9 +142,11 @@ class PrintIface(object):
             self.iface.mtu,
             self.port_category]]
         if self.iface.is_bond():
-            return bondmem_key_simple() + tabulate(_table, _header) + self.new_line()
+            return linkstate_key() + bondmem_key_simple() + \
+                tabulate(_table, _header) + self.new_line()
         else:
-            return tabulate(_table, _header) + self.new_line()
+            return linkstate_key() + \
+                tabulate(_table, _header) + self.new_line()
 
     def cli_output(self):
         """
