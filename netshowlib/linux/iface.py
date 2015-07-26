@@ -363,6 +363,12 @@ class Iface(object):
         _path = self.sys_path(_attrlocation)
         if os.path.exists(_path):
             return self.read_from_sys(_attrlocation)
+        else:
+            for _name in self.get_sub_interfaces():
+                _iface = self.__class__(_name)
+                _subint_stp_state = _iface.stp_state()
+                if _subint_stp_state:
+                    return _subint_stp_state
         return None
 
 # Properties
