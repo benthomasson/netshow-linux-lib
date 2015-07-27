@@ -485,3 +485,35 @@ class Iface(object):
         leasesfile = '/var/lib/dhcp/dhclient.%s.leases' % (self.name)
         self.check_port_dhcp_assignment(leasesfile)
         return self._ip_addr_assign
+
+    @property
+    def vlan_list(self):
+        """
+        :return: list that first has the name of the
+        untagged vlan followed by a list \
+        of vlans the trunk supports
+        :return: empty list if no vlan list found.
+        """
+        _vlanlist = {}
+        if self.is_bridgemem() or self.is_bond():
+            for _bridge in self.bridge_masters.values():
+                _vlan_tag = _bridge.vlan_tag
+                if _vlan_tag:
+                    _vlanlist[_bridge.name] = _vlan_tag
+                else:
+                    _vlanlist[_bridge.name] = ['0']
+        return _vlanlist
+
+    @property
+    def native_vlan(self):
+        """
+        Get the name of the native vlan of the trunk port
+        """
+        # if vlan list is empty..which is should not be!
+        if not self.vlan_list:
+            return []
+        _vlanlist = self.vlan_list
+        return [_bridgename for _bridgename, _vlanid in _vlanlist.items()
+                if _vlanid[0] == '0']
+
+

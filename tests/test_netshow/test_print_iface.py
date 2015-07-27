@@ -255,7 +255,7 @@ class TestPrintIface(object):
         linux_bridge.BRIDGE_CACHE['br11'] = br11
         linux_bridge.BRIDGE_CACHE['br30'] = br30
         _output = self.piface.trunk_summary()
-        assert_equals(_output[0], 'tagged: 11,30')
+        assert_equals(_output[0], 'tagged: br11, br30')
         assert_equals(_output[1], 'untagged: br10')
 
     @mock.patch('netshowlib.linux.iface.Iface.read_from_sys')
