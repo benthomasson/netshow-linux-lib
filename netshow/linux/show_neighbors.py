@@ -59,4 +59,4 @@ class ShowNeighbors(object):
                                    _entry.get('adj_port'),
                                    _entry.get('adj_hostname')])
 
-        return tabulate(_table, _header) + legend(self.show_legend)
+        return tabulate(_table, _header) + '\n' + legend(self.show_legend)
