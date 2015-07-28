@@ -382,15 +382,15 @@ msgstr "Summary"
 
 #: ../netshow/linux/show_neighbors.py:45
 msgid "local"
-msgstr "Local"
+msgstr "Local Port"
 
 #: ../netshow/linux/show_neighbors.py:46
 msgid "remote"
-msgstr "Remote"
+msgstr "Remote Port"
 
 #: ../netshow/linux/show_neighbors.py:46
 msgid "sw/hostname"
-msgstr "Sw/Hostname"
+msgstr "Remote  Host"
 
 #: ../netshow/linux/show_system.py:38
 msgid "build"
