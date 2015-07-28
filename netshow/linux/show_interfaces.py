@@ -13,7 +13,7 @@ from netshowlib.linux import iface as linux_iface
 import netshow.linux.print_iface as print_iface
 import json
 from netshow.linux.netjson_encoder import NetEncoder
-from netshow.linux.common import _, bondmem_key_with_carrier
+from netshow.linux.common import _
 
 
 class ShowInterfaces(object):
@@ -187,7 +187,7 @@ class ShowInterfaces(object):
                 _table += self.cli_append_oneline(_piface)
             else:
                 _table += self.cli_append_multiline(_piface)
-        return bondmem_key_with_carrier() + tabulate(_table, _headers)
+        return tabulate(_table, _headers)
 
     def cli_append_oneline(self, piface):
         """

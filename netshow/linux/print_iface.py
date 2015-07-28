@@ -7,7 +7,7 @@ import netshowlib.netshowlib as nn
 from netshowlib.linux import iface as linux_iface
 from netshowlib.linux import common
 from tabulate import tabulate
-from netshow.linux.common import _, bondmem_key_simple, linkstate_key
+from netshow.linux.common import _
 import inflection
 
 
@@ -141,12 +141,7 @@ class PrintIface(object):
             self.speed,
             self.iface.mtu,
             self.port_category]]
-        if self.iface.is_bond():
-            return linkstate_key() + bondmem_key_simple() + \
-                tabulate(_table, _header) + self.new_line()
-        else:
-            return linkstate_key() + \
-                tabulate(_table, _header) + self.new_line()
+        return tabulate(_table, _header) + self.new_line()
 
     def cli_output(self):
         """
