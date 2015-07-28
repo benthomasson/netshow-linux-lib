@@ -48,7 +48,8 @@ class TestShowInterfaces(object):
             self.showint.show_l2 = False
             _output = self.showint.print_many_ifaces(),
             _otable = _output[0].split('\n')
-            assert_equals(len(_otable), 4)
+
+            assert_equals(len(_otable), 13)
 
         with mock.patch('netshowlib.linux.iface.Iface.linkstate',
                         new_callable=mock.PropertyMock) as mock_linkstate:
