@@ -11,11 +11,11 @@ def legend(show_legend=True):
     _table = []
     _table.append([_('legend') + ':', ''])
     _table.append([_('UP') + ':',
-                   _('carrier up, (in bond if bond member)')])
+                   _('carrier up')])
     _table.append([_('UN') + ':',
                    _('carrier up, bond member not in bond')])
     _table.append([_('DN') + ':',
-                   _('carrier down (not in bond if bond member)')])
+                   _('carrier down')])
     _table.append([_('ADMDN') + ':',
                    _('admin down use "ip link set <iface> up" to initialize')])
     _table.append([_('DRMNT') + ':',
