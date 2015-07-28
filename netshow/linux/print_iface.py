@@ -7,7 +7,7 @@ import netshowlib.netshowlib as nn
 from netshowlib.linux import iface as linux_iface
 from netshowlib.linux import common
 from tabulate import tabulate
-from netshow.linux.common import _, bondmem_key_simple, linkstate_key
+from netshow.linux.common import _
 import inflection
 
 
@@ -141,12 +141,7 @@ class PrintIface(object):
             self.speed,
             self.iface.mtu,
             self.port_category]]
-        if self.iface.is_bond():
-            return linkstate_key() + bondmem_key_simple() + \
-                tabulate(_table, _header) + self.new_line()
-        else:
-            return linkstate_key() + \
-                tabulate(_table, _header) + self.new_line()
+        return tabulate(_table, _header) + self.new_line()
 
     def cli_output(self):
         """
@@ -201,19 +196,18 @@ class PrintIface(object):
         _vlanlist = self.iface.vlan_list
         native_vlans = []
         tagged_vlans = []
-        for _str in _vlanlist:
-            if _str.isdigit():
-                tagged_vlans.append(_str)
+        for _bridgename, _vlanid in _vlanlist.items():
+            if int(_vlanid[0]) > 0:
+                tagged_vlans.append(_bridgename)
             else:
-                native_vlans.append(_str)
+                native_vlans.append(_bridgename)
         _strlist = []
         if tagged_vlans:
             _strlist.append(_('tagged') + ': ' +
-                            ','.join(common.create_range('', tagged_vlans)))
-
+                            ', '.join(sorted(common.create_range('', tagged_vlans))))
         if native_vlans:
             _strlist.append(_('untagged') + ': ' +
-                            ','.join(common.group_ports(native_vlans)))
+                            ', '.join(sorted(common.group_ports(native_vlans))))
 
         return _strlist
 

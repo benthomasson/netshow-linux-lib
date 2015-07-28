@@ -136,9 +136,9 @@ class TestPrintIface(object):
                   'ifalias': None}
         mock_read_from_sys.side_effect = mod_args_generator(values)
         _output = self.piface.cli_header()
-        assert_equals(_output.split('\n')[3].split(),
+        assert_equals(_output.split('\n')[0].split(),
                       ['name', 'mac', 'speed', 'mtu', 'mode'])
-        assert_equals(_output.split('\n')[5].split(),
+        assert_equals(_output.split('\n')[2].split(),
                       ['up', 'eth22', '11:22:33:44:55:66', '1G',
                        '9000', 'access'])
 
@@ -255,7 +255,7 @@ class TestPrintIface(object):
         linux_bridge.BRIDGE_CACHE['br11'] = br11
         linux_bridge.BRIDGE_CACHE['br30'] = br30
         _output = self.piface.trunk_summary()
-        assert_equals(_output[0], 'tagged: 11,30')
+        assert_equals(_output[0], 'tagged: br11, br30')
         assert_equals(_output[1], 'untagged: br10')
 
     @mock.patch('netshowlib.linux.iface.Iface.read_from_sys')

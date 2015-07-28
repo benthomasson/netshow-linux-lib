@@ -305,3 +305,34 @@ class TestLinuxIface(object):
         with mock.patch(mock_open_str()) as mock_open:
             mock_open.return_value = dhcpfile
             assert_equals(self.iface.ip_addr_assign, 1)
+
+    @mock.patch('netshowlib.linux.iface.Iface.get_sub_interfaces')
+    @mock.patch('netshowlib.linux.iface.os.path.exists')
+    @mock.patch('netshowlib.linux.iface.Iface.read_from_sys')
+    def test_stp_state(self, mock_read_from_sys, mock_exists, mock_subints):
+        # test if iface is in stp bridge
+        values = {
+            '/sys/class/net/eth1/brport/bridge/bridge/stp_state': True
+        }
+        values2 = {
+            'brport/bridge/bridge/stp_state': '2'
+        }
+        mock_exists.side_effect = mod_args_generator(values)
+        mock_read_from_sys.side_effect = mod_args_generator(values2)
+        _output = self.iface.stp_state()
+        assert_equals(_output, '2')
+        # test if subint is in stp bridge
+        # assumption here is that only one type of stp bridge is running. either its
+        # kernel or mstpd. even though in reality both I believe can coexist.
+        values = {
+            '/sys/class/net/eth1/brport/bridge/bridge/stp_state': False,
+            '/sys/class/net/eth1.100/brport/bridge/bridge/stp_state': True
+        }
+        values2 = {
+            'brport/bridge/bridge/stp_state': '2'
+        }
+        mock_exists.side_effect = mod_args_generator(values)
+        mock_read_from_sys.side_effect = mod_args_generator(values2)
+        mock_subints.return_value = ['eth1.100', 'eth1.101', 'eth1.110']
+        _output = self.iface.stp_state()
+        assert_equals(_output, '2')
