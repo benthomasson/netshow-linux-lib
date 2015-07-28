@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-07-28 16:30+0000\n"
+"POT-Creation-Date: 2015-07-28 17:02+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -27,7 +27,7 @@ msgid "UP"
 msgstr ""
 
 #: ../netshow/linux/common.py:14
-msgid "carrier up, (in bond if bond member)"
+msgid "carrier up"
 msgstr ""
 
 #: ../netshow/linux/common.py:15
@@ -43,7 +43,7 @@ msgid "DN"
 msgstr ""
 
 #: ../netshow/linux/common.py:18
-msgid "carrier down (not in bond if bond member)"
+msgid "carrier down"
 msgstr ""
 
 #: ../netshow/linux/common.py:19

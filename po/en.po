@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: netshow-linux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-07-28 16:30+0000\n"
+"POT-Creation-Date: 2015-07-28 17:02+0000\n"
 "PO-Revision-Date: \n"
 "Last-Translator: stanley karunditu <stanleyk@cumulusnetworks.com>\n"
 "Language-Team: Customer Engineering <ce-ceng@cumulusnetworks.com>\n"
@@ -22,8 +22,8 @@ msgid "UP"
 msgstr "UP"
 
 #: ../netshow/linux/common.py:14
-msgid "carrier up, (in bond if bond member)"
-msgstr "Carrier Up - (in bond if bond member)"
+msgid "carrier up"
+msgstr "Carrier up"
 
 #: ../netshow/linux/common.py:15
 msgid "UN"
@@ -38,8 +38,8 @@ msgid "DN"
 msgstr "DN"
 
 #: ../netshow/linux/common.py:18
-msgid "carrier down (not in bond if bond member)"
-msgstr "Carrier Down - (not in bond if bond member)"
+msgid "carrier down"
+msgstr "Carrier Down."
 
 #: ../netshow/linux/common.py:19
 msgid "ADMDN"
@@ -399,6 +399,12 @@ msgstr "Build"
 #: ../netshow/linux/show_system.py:39
 msgid "uptime"
 msgstr "Uptime"
+
+#~ msgid "carrier up, (in bond if bond member)"
+#~ msgstr "Carrier Up - (in bond if bond member)"
+
+#~ msgid "carrier down (not in bond if bond member)"
+#~ msgstr "Carrier Down - (not in bond if bond member)"
 
 #~ msgid "bondmember key"
 #~ msgstr "BondMember Key:"
