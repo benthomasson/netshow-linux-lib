@@ -120,8 +120,7 @@ class TestLinuxBond(object):
         linux_bridge.BRIDGE_CACHE['br11'] = br11
         linux_bridge.BRIDGE_CACHE['br30'] = br30
         vlanlist = self.iface.vlan_list
-        vlanlist = common.group_ports(vlanlist.keys())
-        assert_equals(vlanlist, ['br10-11', 'br30'])
+        assert_equals(vlanlist, {'br30': ['30'], 'br10': ['0'], 'br11': ['11']})
 
     @mock.patch('netshowlib.linux.bridge.os.listdir')
     @mock.patch('netshowlib.linux.common.read_file_oneline')
