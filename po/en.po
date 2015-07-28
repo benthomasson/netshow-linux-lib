@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: netshow-linux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-07-25 06:24+0000\n"
+"POT-Creation-Date: 2015-07-28 16:30+0000\n"
 "PO-Revision-Date: \n"
 "Last-Translator: stanley karunditu <stanleyk@cumulusnetworks.com>\n"
 "Language-Team: Customer Engineering <ce-ceng@cumulusnetworks.com>\n"
@@ -13,83 +13,49 @@ msgstr ""
 "X-Generator: Poedit 1.5.4\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 
-#: ../netshow/linux/common.py:12 ../netshow/linux/common.py:24
-msgid "bondmember key"
-msgstr "BondMember Key:"
-
-#: ../netshow/linux/common.py:13 ../netshow/linux/print_bond.py:152
-msgid "P"
-msgstr "P"
+#: ../netshow/linux/common.py:12
+msgid "legend"
+msgstr "Legend"
 
 #: ../netshow/linux/common.py:13
-msgid "in bond"
-msgstr "In Bond"
-
-#: ../netshow/linux/common.py:14 ../netshow/linux/print_bond.py:154
-msgid "N"
-msgstr "N"
-
-#: ../netshow/linux/common.py:14
-msgid "not in bond"
-msgstr "Not In Bond"
-
-#: ../netshow/linux/common.py:25
 msgid "UP"
 msgstr "UP"
 
-#: ../netshow/linux/common.py:25
-msgid "carrier up, in bond"
-msgstr "Carrier Up,In Bond"
+#: ../netshow/linux/common.py:14
+msgid "carrier up, (in bond if bond member)"
+msgstr "Carrier Up - (in bond if bond member)"
 
-#: ../netshow/linux/common.py:26
+#: ../netshow/linux/common.py:15
 msgid "UN"
 msgstr "UN"
 
-#: ../netshow/linux/common.py:26
-msgid "carrier up, not in bond"
-msgstr "Carrier Up,Not In Bond"
+#: ../netshow/linux/common.py:16
+msgid "carrier up, bond member not in bond"
+msgstr "Carrier Up - bond member not in bond"
 
-#: ../netshow/linux/common.py:27
+#: ../netshow/linux/common.py:17
 msgid "DN"
 msgstr "DN"
 
-#: ../netshow/linux/common.py:27
-msgid "carrier down, not in bond"
-msgstr "Carrier Down, Not In Bond"
+#: ../netshow/linux/common.py:18
+msgid "carrier down (not in bond if bond member)"
+msgstr "Carrier Down - (not in bond if bond member)"
 
-#: ../netshow/linux/common.py:37
-msgid "linkstate key"
-msgstr "Linkstate Key"
-
-# Translation file for netshow-linux-lib translations found in
-# netshow.linux modules.
-# Copyright (C) 2015 Cumulus Networks
-# This file is distributed under the same license as the netshow-linux-lib package.
-# Customer Engineering <ce-ceng@cumulusnetworks.com>, 2015.
-#
-#: ../netshow/linux/common.py:38 ../netshow/linux/print_iface.py:70
-msgid "admdn"
+#: ../netshow/linux/common.py:19
+msgid "ADMDN"
 msgstr "ADMDN"
 
-#: ../netshow/linux/common.py:38
-msgid "Admin Down"
-msgstr "AdminDown"
+#: ../netshow/linux/common.py:20
+msgid "admin down use \"ip link set <iface> up\" to initialize"
+msgstr "Admin Down. Use \"ip link set <iface> up \" to initialize"
 
-#: ../netshow/linux/common.py:39 ../netshow/linux/print_iface.py:72
-msgid "dn"
-msgstr "DN"
-
-#: ../netshow/linux/common.py:39
-msgid "Admin Up/Link Down"
-msgstr "AdminUp/LinkDown"
-
-#: ../netshow/linux/common.py:40 ../netshow/linux/print_iface.py:76
-msgid "drmnt"
+#: ../netshow/linux/common.py:21
+msgid "DRMNT"
 msgstr "DRMNT"
 
-#: ../netshow/linux/common.py:40
-msgid "Admin Up/Link Dormant"
-msgstr "AdminUp/LinkDormant"
+#: ../netshow/linux/common.py:22
+msgid "carrier up, link dormant"
+msgstr "Carrier Up - Link Dormant"
 
 #: ../netshow/linux/print_bond.py:19
 msgid "bondmem"
@@ -200,6 +166,14 @@ msgstr "Active-Backup"
 msgid "balance-rr"
 msgstr "Balance-RR"
 
+#: ../netshow/linux/print_bond.py:152
+msgid "P"
+msgstr "P"
+
+#: ../netshow/linux/print_bond.py:154
+msgid "N"
+msgstr "N"
+
 #: ../netshow/linux/print_bond.py:167
 msgid "bondmems"
 msgstr "Bond Members"
@@ -221,13 +195,13 @@ msgid "port"
 msgstr "Port"
 
 #: ../netshow/linux/print_bond.py:204 ../netshow/linux/print_iface.py:136
-#: ../netshow/linux/show_interfaces.py:166
 #: ../netshow/linux/show_interfaces.py:169
-#: ../netshow/linux/show_neighbors.py:42
+#: ../netshow/linux/show_interfaces.py:172
+#: ../netshow/linux/show_neighbors.py:45
 msgid "speed"
 msgstr "Speed"
 
-#: ../netshow/linux/print_bond.py:224 ../netshow/linux/print_iface.py:184
+#: ../netshow/linux/print_bond.py:224 ../netshow/linux/print_iface.py:179
 msgid "lldp"
 msgstr "LLDP"
 
@@ -252,11 +226,11 @@ msgid "bridge/l2"
 msgstr "Bridge/L2"
 
 #: ../netshow/linux/print_bridge.py:76 ../netshow/linux/print_bridge.py:101
-#: ../netshow/linux/print_iface.py:215 ../netshow/linux/print_iface.py:225
+#: ../netshow/linux/print_iface.py:209 ../netshow/linux/print_iface.py:219
 msgid "untagged"
 msgstr "Untagged"
 
-#: ../netshow/linux/print_bridge.py:87 ../netshow/linux/print_iface.py:211
+#: ../netshow/linux/print_bridge.py:87 ../netshow/linux/print_iface.py:206
 msgid "tagged"
 msgstr "Tagged"
 
@@ -305,9 +279,27 @@ msgstr "Bridge Priority"
 msgid "ports in %s state"
 msgstr "Ports in %s State"
 
+# Translation file for netshow-linux-lib translations found in
+# netshow.linux modules.
+# Copyright (C) 2015 Cumulus Networks
+# This file is distributed under the same license as the netshow-linux-lib package.
+# Customer Engineering <ce-ceng@cumulusnetworks.com>, 2015.
+#
+#: ../netshow/linux/print_iface.py:70
+msgid "admdn"
+msgstr "ADMDN"
+
+#: ../netshow/linux/print_iface.py:72
+msgid "dn"
+msgstr "DN"
+
 #: ../netshow/linux/print_iface.py:74
 msgid "up"
 msgstr "UP"
+
+#: ../netshow/linux/print_iface.py:76
+msgid "drmnt"
+msgstr "DRMNT"
 
 #: ../netshow/linux/print_iface.py:85
 msgid "loopback"
@@ -333,70 +325,70 @@ msgstr "N/A"
 msgid "dhcp"
 msgstr "DHCP"
 
-#: ../netshow/linux/print_iface.py:117 ../netshow/linux/print_iface.py:170
+#: ../netshow/linux/print_iface.py:117 ../netshow/linux/print_iface.py:165
 msgid "ip"
 msgstr "IP"
 
-#: ../netshow/linux/print_iface.py:135 ../netshow/linux/show_interfaces.py:166
-#: ../netshow/linux/show_interfaces.py:169
+#: ../netshow/linux/print_iface.py:135 ../netshow/linux/show_interfaces.py:169
+#: ../netshow/linux/show_interfaces.py:172
 msgid "name"
 msgstr "Name"
 
-#: ../netshow/linux/print_iface.py:135 ../netshow/linux/show_interfaces.py:166
+#: ../netshow/linux/print_iface.py:135 ../netshow/linux/show_interfaces.py:169
 msgid "mac"
 msgstr "Mac"
 
-#: ../netshow/linux/print_iface.py:136 ../netshow/linux/show_interfaces.py:167
-#: ../netshow/linux/show_interfaces.py:170
+#: ../netshow/linux/print_iface.py:136 ../netshow/linux/show_interfaces.py:170
+#: ../netshow/linux/show_interfaces.py:173
 msgid "mtu"
 msgstr "MTU"
 
-#: ../netshow/linux/print_iface.py:136 ../netshow/linux/show_interfaces.py:167
-#: ../netshow/linux/show_interfaces.py:170
-#: ../netshow/linux/show_neighbors.py:42
+#: ../netshow/linux/print_iface.py:136 ../netshow/linux/show_interfaces.py:170
+#: ../netshow/linux/show_interfaces.py:173
+#: ../netshow/linux/show_neighbors.py:45
 msgid "mode"
 msgstr "Mode"
 
-#: ../netshow/linux/print_iface.py:165
+#: ../netshow/linux/print_iface.py:160
 msgid "ip_details"
 msgstr "IP Details"
 
-#: ../netshow/linux/print_iface.py:172
+#: ../netshow/linux/print_iface.py:167
 msgid "arp_entries"
 msgstr "IP Neighbor(ARP) Entries"
 
-#: ../netshow/linux/print_iface.py:234
+#: ../netshow/linux/print_iface.py:228
 msgid "U"
 msgstr "U"
 
-#: ../netshow/linux/print_iface.py:236
+#: ../netshow/linux/print_iface.py:230
 msgid "D"
 msgstr "D"
 
-#: ../netshow/linux/print_iface.py:267
+#: ../netshow/linux/print_iface.py:261
 #, python-format
 msgid "vlans in %s state"
 msgstr "Vlans in %s State"
 
-#: ../netshow/linux/show_interfaces.py:69
+#: ../netshow/linux/show_interfaces.py:72
 msgid "interface_does_not_exist"
 msgstr "Interface Does Not Exist"
 
-#: ../netshow/linux/show_interfaces.py:167
 #: ../netshow/linux/show_interfaces.py:170
-#: ../netshow/linux/show_neighbors.py:43
+#: ../netshow/linux/show_interfaces.py:173
+#: ../netshow/linux/show_neighbors.py:46
 msgid "summary"
 msgstr "Summary"
 
-#: ../netshow/linux/show_neighbors.py:42
+#: ../netshow/linux/show_neighbors.py:45
 msgid "local"
 msgstr "Local"
 
-#: ../netshow/linux/show_neighbors.py:43
+#: ../netshow/linux/show_neighbors.py:46
 msgid "remote"
 msgstr "Remote"
 
-#: ../netshow/linux/show_neighbors.py:43
+#: ../netshow/linux/show_neighbors.py:46
 msgid "sw/hostname"
 msgstr "Sw/Hostname"
 
@@ -407,6 +399,27 @@ msgstr "Build"
 #: ../netshow/linux/show_system.py:39
 msgid "uptime"
 msgstr "Uptime"
+
+#~ msgid "bondmember key"
+#~ msgstr "BondMember Key:"
+
+#~ msgid "in bond"
+#~ msgstr "In Bond"
+
+#~ msgid "not in bond"
+#~ msgstr "Not In Bond"
+
+#~ msgid "linkstate key"
+#~ msgstr "Linkstate Key"
+
+#~ msgid "Admin Down"
+#~ msgstr "AdminDown"
+
+#~ msgid "Admin Up/Link Down"
+#~ msgstr "AdminUp/LinkDown"
+
+#~ msgid "Admin Up/Link Dormant"
+#~ msgstr "AdminUp/LinkDormant"
 
 #~ msgid "stp_disabled"
 #~ msgstr "STP Disabled"
