@@ -57,7 +57,7 @@ class TestShowInterfaces(object):
             self.showint._ifacelist = {'all': OrderedDict()}
             _output = self.showint.print_many_ifaces(),
             _otable = _output[0].split('\n')
-            assert_equals(len(_otable), 2)
+            assert_equals(len(_otable), 11)
 
 
 
