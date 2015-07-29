@@ -216,7 +216,7 @@ class PrintIface(object):
         if portlist:
             portlist = sorted(common.group_ports(portlist))
             portlist = [portlist[_x:_x+shorten_to]
-                        for _x in xrange(0, len(portlist), shorten_to)]
+                        for _x in range(0, len(portlist), shorten_to)]
             for _arrlist in portlist:
                 joined_arrlist = ', '.join(_arrlist)
                 _strlist.append(_title + ': ' + joined_arrlist)
