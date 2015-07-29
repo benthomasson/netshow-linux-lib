@@ -194,22 +194,32 @@ class PrintIface(object):
         :return: summary info for a trunk port
         """
         _vlanlist = self.iface.vlan_list
-        native_vlans = []
-        tagged_vlans = []
+        native_bridges = []
+        tagged_bridges = []
         for _bridgename, _vlanid in _vlanlist.items():
             if int(_vlanid[0]) > 0:
-                tagged_vlans.append(_bridgename)
+                tagged_bridges.append(_bridgename)
             else:
-                native_vlans.append(_bridgename)
+                native_bridges.append(_bridgename)
         _strlist = []
-        if tagged_vlans:
-            _strlist.append(_('tagged') + ': ' +
-                            ', '.join(sorted(common.create_range('', tagged_vlans))))
-        if native_vlans:
-            _strlist.append(_('untagged') + ': ' +
-                            ', '.join(sorted(common.group_ports(native_vlans))))
+        self.print_portlist_in_chunks(tagged_bridges, _('tagged'), _strlist)
+        self.print_portlist_in_chunks(native_bridges, _('untagged'), _strlist)
 
         return _strlist
+
+    def print_portlist_in_chunks(self, portlist, _title, _strlist, shorten_to=5):
+        """
+        take a long  array of bridge names and break it up into smaller groups of
+        arrays based on shorten_to variable
+        Reference: http://stackoverflow.com/questions/312443/how-do-you-split-a-list-into-evenly-sized-chunks-in-python
+        """
+        if portlist:
+            portlist = sorted(common.group_ports(portlist))
+            portlist = [portlist[_x:_x+shorten_to]
+                        for _x in xrange(0, len(portlist), shorten_to)]
+            for _arrlist in portlist:
+                joined_arrlist = ', '.join(_arrlist)
+                _strlist.append(_title + ': ' + joined_arrlist)
 
     def access_summary(self):
         """

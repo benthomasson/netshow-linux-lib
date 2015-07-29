@@ -164,24 +164,24 @@ class TestPrintBridge(object):
         # if list of tagged ports exists
         bridgemems = ['bond0.100', 'bond1.100', 'eth9.100', 'eth10.100']
         mock_listdirs.return_value = bridgemems
-        assert_equals(self.piface.tagged_ifaces().split(),
-                      ['tagged:', 'bond0-1,eth9-10'])
+        assert_equals(self.piface.tagged_ifaces(),
+                      ['tagged: bond0-1, eth9-10'])
         # if list of tagged ports does not exist
         bridgemems = ['bond0', 'bond1', 'eth9', 'eth10']
         mock_listdirs.return_value = bridgemems
-        assert_equals(self.piface.tagged_ifaces(), '')
+        assert_equals(self.piface.tagged_ifaces(), [])
 
     @mock.patch('netshowlib.linux.bridge.os.listdir')
     def test_untagged_ifaces(self, mock_listdirs):
         # list of untagged ports exists
         bridgemems = ['bond0', 'bond1', 'eth9', 'eth10']
         mock_listdirs.return_value = bridgemems
-        assert_equals(self.piface.untagged_ifaces().split(),
-                      ['untagged:', 'bond0-1,eth9-10'])
+        assert_equals(self.piface.untagged_ifaces(),
+                      ['untagged: bond0-1, eth9-10'])
         # list has no untagged ports
         bridgemems = ['bond0.100', 'bond1.100']
         mock_listdirs.return_value = bridgemems
-        assert_equals(self.piface.untagged_ifaces(), '')
+        assert_equals(self.piface.untagged_ifaces(), [])
 
     @mock.patch('netshow.linux.print_bridge.PrintBridge.stp_summary')
     @mock.patch('netshow.linux.print_bridge.PrintBridge.untagged_ifaces')
@@ -194,8 +194,8 @@ class TestPrintBridge(object):
         self.piface.iface.ip_address.ipv4 = ['10.1.1.1/24']
         mock_vlan_id.return_value = 'vlan_id'
         mock_stp_summary.return_value = 'stp_summary'
-        mock_tagged.return_value = 'tagged_ifaces'
-        mock_untagged.return_value = 'untagged_ifaces'
+        mock_tagged.return_value = ['tagged_ifaces']
+        mock_untagged.return_value = ['untagged_ifaces']
         _output = self.piface.summary
         assert_equals(_output,
                       ['ip: 10.1.1.1/24',
