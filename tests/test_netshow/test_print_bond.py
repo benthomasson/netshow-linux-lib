@@ -19,7 +19,6 @@ import netshow.linux.print_bond as print_bond
 import netshowlib.linux.bond as linux_bond
 import mock
 from asserts import assert_equals, mod_args_generator
-from nose.tools import set_trace
 import re
 
 
@@ -35,7 +34,8 @@ class TestPrintBondMember(object):
     @mock.patch('netshowlib.linux.common.read_file_oneline')
     @mock.patch('netshowlib.linux.iface.Iface.read_from_sys')
     def test_summary(self, mock_read_from_sys, mock_file_oneline):
-        values1 = {'carrier': '1',
+        values1 = {'carrier': '1', 'operstate': 'up',
+                   'operstate': 'up',
                    'bonding/mode': 'something 2'}
         values2 = {}
         mock_read_from_sys.side_effect = mod_args_generator(values1)
@@ -47,7 +47,7 @@ class TestPrintBondMember(object):
     @mock.patch('netshowlib.linux.iface.Iface.read_from_sys')
     def test_bondmem_details(self, mock_read_from_sys, mock_file_oneline,
                              mock_lldp):
-        values1 = {'carrier': '1',
+        values1 = {'carrier': '1', 'operstate': 'up',
                    'bonding/mode': '802.3ad 4',
                    'bonding/slaves': 'eth22 eth23',
                    'bonding/xmit_hash_policy': 'layer3+4 1',
@@ -118,7 +118,8 @@ class TestPrintBond(object):
                           mock_lldp):
         values1 = {'bonding/slaves': 'eth20 eth30',
                    'bonding/mode': 'something 2',
-                   'carrier': '1'}
+                   'operstate': 'up',
+                   'carrier': '1', 'operstate': 'up'}
         values2 = {}
         values = [{'adj_port': 'eth2',
                    'adj_hostname': 'switch1'},
@@ -138,7 +139,7 @@ class TestPrintBond(object):
     @mock.patch('netshowlib.linux.iface.Iface.read_from_sys')
     def test_bondmem_details(self, mock_read_from_sys, mock_file_oneline):
         values1 = {'bonding/slaves': 'eth20 eth30',
-                   'carrier': '1',
+                   'carrier': '1', 'operstate': 'up',
                    'bonding/mode': 'something 2',
                    'speed': '1000',
                    'ifalias': None}
@@ -229,6 +230,7 @@ class TestPrintBond(object):
         # ports up and in bond
         values = {'bonding/slaves': 'eth22 eth24',
                   'carrier': '1',
+                  'operstate': 'up',
                   'bonding/mode': 'active-backup 2'}
         values2 = {}
         mock_read_from_sys.side_effect = mod_args_generator(values)
@@ -238,6 +240,7 @@ class TestPrintBond(object):
         # ports up but not in bond
         values = {'bonding/slaves': 'eth22 eth24',
                   'carrier': '0',
+                  'operstate': 'up',
                   'bonding/mode': '802.3ad 4'}
         values2 = {}
         mock_read_from_sys.side_effect = mod_args_generator(values)
@@ -268,7 +271,7 @@ class TestPrintBond(object):
         self.piface.iface.is_access = mock_is_access
         self.piface.iface.ip_address.ipv4 = ['10.1.1.1/24']
         _output = self.piface.summary
-        assert_equals(_output, ['list of bondmembers', '10.1.1.1/24'])
+        assert_equals(_output, ['list of bondmembers', 'ip: 10.1.1.1/24'])
         # is not l3 but is a trunk
         mock_is_l3.return_value = False
         mock_is_trunk.return_value = True
