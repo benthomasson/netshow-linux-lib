@@ -5,26 +5,19 @@ from tabulate import tabulate
 _ = i18n_app('netshow-linux-lib')
 
 
-def bondmem_key_simple():
-    """
-    explains what the P and N stand for next to bond members
-    """
-    bond_key = _('bondmember key') + ':'
-    in_bond = "(%s)-%s" % (_('P'), _('in bond'))
-    not_in_bond = "(%s)-%s" % (_('N'), _('not in bond'))
-    _table = [in_bond, not_in_bond]
-    _table_entry = ','.join(_table)
-    return '\n' + tabulate([[bond_key, _table_entry]], tablefmt='plain') + '\n\n'
-
-
-def bondmem_key_with_carrier():
-    """
-    explains what the UP and UN and DN stand for next to bond members
-    """
-    bond_key = _('bondmember key') + ':'
-    in_bond = "(%s)-%s" % (_('UP'), _('carrier up, in bond'))
-    not_in_bond = "(%s)-%s" % (_('UN'), _('carrier up, not in bond'))
-    down_not_in_bond = "(%s)-%s" % (_('DN'), _('carrier down, not in bond'))
-    _table = [in_bond, not_in_bond, down_not_in_bond]
-    _table_entry = ','.join(_table)
-    return '\n' + tabulate([[bond_key, _table_entry]], tablefmt='plain') + '\n\n'
+def legend(show_legend=True):
+    if not show_legend:
+        return ''
+    _table = []
+    _table.append([_('legend') + ':', ''])
+    _table.append([_('UP') + ':',
+                   _('carrier up')])
+    _table.append([_('UN') + ':',
+                   _('carrier up, bond member not in bond')])
+    _table.append([_('DN') + ':',
+                   _('carrier down')])
+    _table.append([_('ADMDN') + ':',
+                   _('admin down use "ip link set <iface> up" to initialize')])
+    _table.append([_('DRMNT') + ':',
+                   _('carrier up, link dormant')])
+    return '\n' + tabulate(_table) + '\n'

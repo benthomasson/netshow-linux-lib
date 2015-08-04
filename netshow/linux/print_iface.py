@@ -7,8 +7,9 @@ import netshowlib.netshowlib as nn
 from netshowlib.linux import iface as linux_iface
 from netshowlib.linux import common
 from tabulate import tabulate
-from netshow.linux.common import _,bondmem_key_simple
+from netshow.linux.common import _
 import inflection
+
 
 def iface(name, cache=None):
     """
@@ -71,6 +72,8 @@ class PrintIface(object):
             return _('dn')
         elif _linkstate_value == 2:
             return _('up')
+        elif _linkstate_value == 3:
+            return _('drmnt')
 
     @property
     def port_category(self):
@@ -105,20 +108,23 @@ class PrintIface(object):
             _str = str(int(_speed_value) // 1000) + 'G'
         return _str
 
-    @property
-    def summary(self):
-        """
-        :return: summary information regarding the interface
-        """
+    def ip_info(self):
         if self.iface.is_l3():
             _str2 = ""
             if self.iface.ip_addr_assign == 1:
                 _str2 = "(%s)" % _('dhcp')
 
-            _str = ', '.join(self.iface.ip_address.allentries) + _str2
-            return [_str]
+            _str = _('ip') + ': ' + \
+                ', '.join(self.iface.ip_address.allentries) + _str2
+            return _str
+        return ''
 
-        return ['']
+    @property
+    def summary(self):
+        """
+        :return: summary information regarding the interface
+        """
+        return [self.ip_info()]
 
     def cli_header(self):
         """
@@ -135,11 +141,7 @@ class PrintIface(object):
             self.speed,
             self.iface.mtu,
             self.port_category]]
-        if self.iface.is_bond():
-            return bondmem_key_simple() + tabulate(_table, _header) + self.new_line()
-        else:
-            return tabulate(_table, _header) + self.new_line()
-
+        return tabulate(_table, _header) + self.new_line()
 
     def cli_output(self):
         """
@@ -192,23 +194,32 @@ class PrintIface(object):
         :return: summary info for a trunk port
         """
         _vlanlist = self.iface.vlan_list
-        native_vlans = []
-        tagged_vlans = []
-        for _str in _vlanlist:
-            if _str.isdigit():
-                tagged_vlans.append(_str)
+        native_bridges = []
+        tagged_bridges = []
+        for _bridgename, _vlanid in _vlanlist.items():
+            if int(_vlanid[0]) > 0:
+                tagged_bridges.append(_bridgename)
             else:
-                native_vlans.append(_str)
+                native_bridges.append(_bridgename)
         _strlist = []
-        if tagged_vlans:
-            _strlist.append(_('tagged') + ': ' +
-                            ','.join(common.create_range('', tagged_vlans)))
-
-        if native_vlans:
-            _strlist.append(_('untagged') + ': ' +
-                            ','.join(common.group_ports(native_vlans)))
+        self.print_portlist_in_chunks(tagged_bridges, _('tagged'), _strlist)
+        self.print_portlist_in_chunks(native_bridges, _('untagged'), _strlist)
 
         return _strlist
+
+    def print_portlist_in_chunks(self, portlist, _title, _strlist, shorten_to=5):
+        """
+        take a long  array of bridge names and break it up into smaller groups of
+        arrays based on shorten_to variable
+        Reference: http://stackoverflow.com/questions/312443/how-do-you-split-a-list-into-evenly-sized-chunks-in-python
+        """
+        if portlist:
+            portlist = sorted(common.group_ports(portlist))
+            portlist = [portlist[_x:_x+shorten_to]
+                        for _x in range(0, len(portlist), shorten_to)]
+            for _arrlist in portlist:
+                joined_arrlist = ', '.join(_arrlist)
+                _strlist.append(_title + ': ' + joined_arrlist)
 
     def access_summary(self):
         """
@@ -263,5 +274,3 @@ class PrintIface(object):
                 _str += tabulate(_table, _header, numalign="left") + \
                     self.new_line()
         return _str
-
-

@@ -8,6 +8,7 @@ from tabulate import tabulate
 from netshow.linux.common import _
 import inflection
 
+
 class PrintBridgeMember(PrintIface):
     """
     Print and Analysis Class for Linux bridge member interfaces
@@ -60,8 +61,12 @@ class PrintBridge(PrintIface):
         :return: summary information regarding the bridge
         """
         _info = []
-        _info.append(self.untagged_ifaces())
-        _info.append(self.tagged_ifaces())
+        _info.append(self.ip_info())
+        for _entry in self.untagged_ifaces():
+            _info.append(_entry)
+
+        for _entry in self.tagged_ifaces():
+            _info.append(_entry)
         _info.append(self.vlan_id_field())
         _info.append(self.stp_summary())
         return [x for x in _info if x]
@@ -72,10 +77,10 @@ class PrintBridge(PrintIface):
         """
         _untagmems = self.iface.untagged_members.keys()
         if _untagmems:
-            _str = "%s:" % (_('untagged'))
-            _str += ' ' + ','.join(common.group_ports(_untagmems))
+            _str = []
+            self.print_portlist_in_chunks(_untagmems, _('untagged'), _str)
             return _str
-        return ''
+        return []
 
     def tagged_ifaces(self):
         """
@@ -83,10 +88,10 @@ class PrintBridge(PrintIface):
         """
         _tagmems = self.iface.tagged_members.keys()
         if _tagmems:
-            _str = "%s:" % (_('tagged'))
-            _str += ' ' + ','.join(common.group_ports(_tagmems))
+            _str = []
+            self.print_portlist_in_chunks(_tagmems, _('tagged'), _str)
             return _str
-        return ''
+        return []
 
     def vlan_id(self):
         """

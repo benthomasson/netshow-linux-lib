@@ -13,8 +13,9 @@ import netshowlib.linux.bridge as linux_bridge
 import netshowlib.linux.common as common
 import mock
 from mock import MagicMock
-from asserts import assert_equals, mock_open_str, mod_args_generator
+from asserts import assert_equals, mod_args_generator
 import io
+
 
 class TestLinuxBondMember(object):
     def setup(self):
@@ -26,7 +27,7 @@ class TestLinuxBondMember(object):
 
     @mock.patch('netshowlib.linux.iface.Iface.read_from_sys')
     def test_bondstate(self, mock_read_from_sys):
-        values = {'carrier': '0',
+        values = {'carrier': '0', 'operstate': 'down',
                   'bonding/mode': 'active-backup 2'}
         mock_read_from_sys.side_effect = mod_args_generator(values)
         # mock_read_from_sys.return_value = 'active-backup 2'
@@ -34,13 +35,13 @@ class TestLinuxBondMember(object):
         assert_equals(self.iface.bondstate, 0)
 
         # if lacp is not set and linkstate is up
-        values = {'carrier': '1',
+        values = {'carrier': '1', 'operstate': 'up',
                   'bonding/mode': 'active-backup 2'}
         mock_read_from_sys.side_effect = mod_args_generator(values)
         assert_equals(self.iface.bondstate, 1)
 
         # if lacp is set and agg_id is same
-        values = {'carrier': '1',
+        values = {'carrier': '1', 'operstate': 'up',
                   'bonding/mode': '802.3ad 4'}
         mock_read_from_sys.side_effect = mod_args_generator(values)
         bondingfile = io.open('tests/test_netshowlib/proc_net_bonding_agg_id_match.txt')
@@ -119,16 +120,7 @@ class TestLinuxBond(object):
         linux_bridge.BRIDGE_CACHE['br11'] = br11
         linux_bridge.BRIDGE_CACHE['br30'] = br30
         vlanlist = self.iface.vlan_list
-        native_vlans = []
-        tagged_vlans = []
-        for _str in vlanlist:
-            if _str.isdigit():
-                tagged_vlans.append(_str)
-            else:
-                native_vlans.append(_str)
-        vlanlist = common.group_ports(native_vlans) + \
-            common.create_range('', tagged_vlans)
-        assert_equals(vlanlist, ['br10', '11', '30'])
+        assert_equals(vlanlist, {'br30': ['30'], 'br10': ['0'], 'br11': ['11']})
 
     @mock.patch('netshowlib.linux.bridge.os.listdir')
     @mock.patch('netshowlib.linux.common.read_file_oneline')

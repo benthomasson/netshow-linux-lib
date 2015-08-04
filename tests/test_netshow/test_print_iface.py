@@ -57,18 +57,22 @@ class TestPrintIface(object):
     @mock.patch('netshow.linux.print_iface.linux_iface.Iface.read_from_sys')
     def test_linkstate(self, mock_read_from_sys):
         # admin down
-        values = {'carrier': None}
+        values = {'carrier': None, 'operstate': None}
         mock_read_from_sys.side_effect = mod_args_generator(values)
         assert_equals(self.piface.linkstate, 'admdn')
         # down
-        values = {'carrier': '0'}
+        values = {'carrier': '0', 'operstate': 'up'}
         mock_read_from_sys.side_effect = mod_args_generator(values)
         assert_equals(self.piface.linkstate, 'dn')
         # up
         self.piface.iface._linkstate = None  # reset linkstate setting
-        values = {'carrier': '1'}
+        values = {'carrier': '1', 'operstate': 'up'}
         mock_read_from_sys.side_effect = mod_args_generator(values)
         assert_equals(self.piface.linkstate, 'up')
+        # dormant
+        values = {'carrier': '1', 'operstate': 'dormant'}
+        mock_read_from_sys.side_effect = mod_args_generator(values)
+        assert_equals(self.piface.linkstate, 'drmnt')
 
     @mock.patch('netshow.linux.print_iface.linux_iface.Iface.is_loopback')
     @mock.patch('netshow.linux.print_iface.linux_iface.Iface.is_l3')
@@ -118,14 +122,14 @@ class TestPrintIface(object):
         # is l3 but not dhcp
         mock_is_l3.return_value = True
         self.piface.iface.ip_address.ipv4 = ['10.1.1.1/24']
-        assert_equals(self.piface.summary, ['10.1.1.1/24'])
+        assert_equals(self.piface.summary, ['ip: 10.1.1.1/24'])
         # is l3 and is dhcp
         self.piface.iface._ip_addr_assign = 1
-        assert_equals(self.piface.summary, ['10.1.1.1/24(dhcp)'])
+        assert_equals(self.piface.summary, ['ip: 10.1.1.1/24(dhcp)'])
 
     @mock.patch('netshow.linux.print_iface.linux_iface.Iface.read_from_sys')
     def test_single_iface_cli_header(self, mock_read_from_sys):
-        values = {'carrier': '1',
+        values = {'carrier': '1', 'operstate': 'up',
                   'address': '11:22:33:44:55:66',
                   'speed': '1000',
                   'mtu': '9000',
@@ -251,14 +255,14 @@ class TestPrintIface(object):
         linux_bridge.BRIDGE_CACHE['br11'] = br11
         linux_bridge.BRIDGE_CACHE['br30'] = br30
         _output = self.piface.trunk_summary()
-        assert_equals(_output[0], 'tagged: 11,30')
+        assert_equals(_output[0], 'tagged: br11, br30')
         assert_equals(_output[1], 'untagged: br10')
 
     @mock.patch('netshowlib.linux.iface.Iface.read_from_sys')
     def test_abbrev_linksummary(self, mock_read_from_sys):
-        values = {'carrier': '1'}
+        values = {'carrier': '1', 'operstate': 'up'}
         mock_read_from_sys.side_effect = mod_args_generator(values)
         assert_equals(self.piface.abbrev_linksummary(self.piface.iface), 'U')
-        values = {'carrier': '0'}
+        values = {'carrier': '0', 'operstate': 'down'}
         mock_read_from_sys.side_effect = mod_args_generator(values)
         assert_equals(self.piface.abbrev_linksummary(self.piface.iface), 'D')
