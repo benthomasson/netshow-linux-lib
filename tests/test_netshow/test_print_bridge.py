@@ -199,16 +199,17 @@ class TestPrintBridge(object):
         _output = self.piface.summary
         assert_equals(_output,
                       ['ip: 10.1.1.1/24',
+                       '802.1q_tag: vlan_id', 'stp_summary',
                        'untagged_ifaces',
                        'tagged_ifaces',
-                       '802.1q_tag: vlan_id', 'stp_summary']
+                       ]
                       )
         # no ip address
         mock_is_l3.return_value = False
         _output = self.piface.summary
-        assert_equals(_output, ['untagged_ifaces',
-                                'tagged_ifaces',
-                                '802.1q_tag: vlan_id', 'stp_summary'])
+        assert_equals(_output, ['802.1q_tag: vlan_id',
+                                'stp_summary', 'untagged_ifaces',
+                                'tagged_ifaces'])
 
     @mock.patch('netshowlib.linux.common.read_file_oneline')
     @mock.patch('netshowlib.linux.bridge.os.listdir')

@@ -62,14 +62,14 @@ class PrintBridge(PrintIface):
         """
         _info = []
         _info.append(self.ip_info())
+        _info.append(self.vlan_id_field())
+        _info.append(self.stp_summary())
         for _entry in self.untagged_ifaces():
             _info.append(_entry)
 
         for _entry in self.tagged_ifaces():
             _info.append(_entry)
-        _info.append(self.vlan_id_field())
-        _info.append(self.stp_summary())
-        return [x for x in _info if x]
+            return [x for x in _info if x]
 
     def untagged_ifaces(self):
         """
