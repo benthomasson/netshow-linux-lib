@@ -27,6 +27,19 @@ class TestPrintIface(object):
         iface = linux_iface.Iface('eth22')
         self.piface = print_iface.PrintIface(iface)
 
+    def test_print_portlist_in_chunks(self):
+        portlist = ['eth1.20', 'eth2.20', 'eth3.20', 'eth4.20',
+                    'eth13.50', 'eth17.50', 'eth20.50', 'eth21.50',
+                    'eth30', 'eth40', 'eth44', 'eth55', 'eth60',
+                    'eth70', 'eth80', 'eth90', 'eth100']
+        title = 'untagged members'
+        strlist = []
+        self.piface.print_portlist_in_chunks(portlist, title, strlist)
+        assert_equals(strlist,  ['untagged members: eth1-4.20, eth100, eth13.50, eth17.50',
+                                 '    eth20-21.50, eth30, eth40, eth44',
+                                 '    eth55, eth60, eth70, eth80',
+                                 '    eth90'])
+
     @mock.patch('netshowlib.linux.iface.Iface.read_from_sys')
     def test_name_with_alias(self, mock_read_from_sys):
         values = {'ifalias': 'meme'}

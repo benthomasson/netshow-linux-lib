@@ -78,7 +78,7 @@ class PrintBridge(PrintIface):
         _untagmems = self.iface.untagged_members.keys()
         if _untagmems:
             _str = []
-            self.print_portlist_in_chunks(_untagmems, _('untagged'), _str)
+            self.print_portlist_in_chunks(_untagmems, _('untagged_members'), _str)
             return _str
         return []
 
@@ -89,7 +89,7 @@ class PrintBridge(PrintIface):
         _tagmems = self.iface.tagged_members.keys()
         if _tagmems:
             _str = []
-            self.print_portlist_in_chunks(_tagmems, _('tagged'), _str)
+            self.print_portlist_in_chunks(_tagmems, _('tagged_members'), _str)
             return _str
         return []
 

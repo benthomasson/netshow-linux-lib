@@ -201,13 +201,13 @@ class PrintIface(object):
                 tagged_bridges.append(_bridgename)
             else:
                 native_bridges.append(_bridgename)
-        _strlist = []
+        _strlist = [_('bridge_membership') + ':']
         self.print_portlist_in_chunks(tagged_bridges, _('tagged'), _strlist)
         self.print_portlist_in_chunks(native_bridges, _('untagged'), _strlist)
 
         return _strlist
 
-    def print_portlist_in_chunks(self, portlist, _title, _strlist, shorten_to=5):
+    def print_portlist_in_chunks(self, portlist, _title, _strlist, shorten_to=4):
         """
         take a long  array of bridge names and break it up into smaller groups of
         arrays based on shorten_to variable
@@ -217,9 +217,12 @@ class PrintIface(object):
             portlist = sorted(common.group_ports(portlist))
             portlist = [portlist[_x:_x+shorten_to]
                         for _x in range(0, len(portlist), shorten_to)]
-            for _arrlist in portlist:
+            for _idx, _arrlist in enumerate(portlist):
                 joined_arrlist = ', '.join(_arrlist)
-                _strlist.append(_title + ': ' + joined_arrlist)
+                if _idx == 0:
+                    _strlist.append(_title + ': ' + joined_arrlist)
+                else:
+                    _strlist.append('    ' + joined_arrlist)
 
     def access_summary(self):
         """

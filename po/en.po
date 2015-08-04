@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: netshow-linux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-07-28 17:02+0000\n"
+"POT-Creation-Date: 2015-08-04 18:19+0000\n"
 "PO-Revision-Date: \n"
 "Last-Translator: stanley karunditu <stanleyk@cumulusnetworks.com>\n"
 "Language-Team: Customer Engineering <ce-ceng@cumulusnetworks.com>\n"
@@ -209,72 +209,76 @@ msgstr "LLDP"
 msgid "no_lldp_entries"
 msgstr "No LLDP Entries"
 
-#: ../netshow/linux/print_bridge.py:21
+#: ../netshow/linux/print_bridge.py:22
 msgid "trunk/l2"
 msgstr "Trunk/L2"
 
-#: ../netshow/linux/print_bridge.py:22
+#: ../netshow/linux/print_bridge.py:23
 msgid "access/l2"
-msgstr "Access/L2"
+msgstr "Physical/L2"
 
-#: ../netshow/linux/print_bridge.py:54
+#: ../netshow/linux/print_bridge.py:55
 msgid "bridge/l3"
 msgstr "Bridge/L3"
 
-#: ../netshow/linux/print_bridge.py:55
+#: ../netshow/linux/print_bridge.py:56
 msgid "bridge/l2"
 msgstr "Bridge/L2"
 
-#: ../netshow/linux/print_bridge.py:76 ../netshow/linux/print_bridge.py:101
-#: ../netshow/linux/print_iface.py:209 ../netshow/linux/print_iface.py:219
+#: ../netshow/linux/print_bridge.py:81
+msgid "untagged_members"
+msgstr "Untagged Members"
+
+#: ../netshow/linux/print_bridge.py:92
+msgid "tagged_members"
+msgstr "Tagged Members"
+
+#: ../netshow/linux/print_bridge.py:105 ../netshow/linux/print_iface.py:206
+#: ../netshow/linux/print_iface.py:232
 msgid "untagged"
 msgstr "Untagged"
 
-#: ../netshow/linux/print_bridge.py:87 ../netshow/linux/print_iface.py:206
-msgid "tagged"
-msgstr "Tagged"
-
-#: ../netshow/linux/print_bridge.py:108
+#: ../netshow/linux/print_bridge.py:112
 msgid "802.1q_tag"
 msgstr "802.1q Tag"
 
-#: ../netshow/linux/print_bridge.py:117
+#: ../netshow/linux/print_bridge.py:121
 msgid "stp"
 msgstr "STP"
 
-#: ../netshow/linux/print_bridge.py:120
+#: ../netshow/linux/print_bridge.py:124
 msgid "rootswitch"
 msgstr "RootSwitch"
 
-#: ../netshow/linux/print_bridge.py:124
+#: ../netshow/linux/print_bridge.py:128
 msgid "root"
 msgstr "Root"
 
-#: ../netshow/linux/print_bridge.py:126 ../netshow/linux/print_bridge.py:151
+#: ../netshow/linux/print_bridge.py:130 ../netshow/linux/print_bridge.py:155
 msgid "root_priority"
 msgstr "Root Priority"
 
-#: ../netshow/linux/print_bridge.py:128 ../netshow/linux/print_bridge.py:162
+#: ../netshow/linux/print_bridge.py:132 ../netshow/linux/print_bridge.py:166
 msgid "disabled"
 msgstr "Disabled"
 
-#: ../netshow/linux/print_bridge.py:149 ../netshow/linux/print_bridge.py:162
+#: ../netshow/linux/print_bridge.py:153 ../netshow/linux/print_bridge.py:166
 msgid "stp_mode"
 msgstr "STP Mode"
 
-#: ../netshow/linux/print_bridge.py:149
+#: ../netshow/linux/print_bridge.py:153
 msgid "802.1d / per bridge instance"
 msgstr "802.1d / per bridge instance"
 
-#: ../netshow/linux/print_bridge.py:150
+#: ../netshow/linux/print_bridge.py:154
 msgid "root_port"
 msgstr "Root Port"
 
-#: ../netshow/linux/print_bridge.py:152
+#: ../netshow/linux/print_bridge.py:156
 msgid "bridge_priority"
 msgstr "Bridge Priority"
 
-#: ../netshow/linux/print_bridge.py:167
+#: ../netshow/linux/print_bridge.py:171
 #, python-format
 msgid "ports in %s state"
 msgstr "Ports in %s State"
@@ -311,7 +315,7 @@ msgstr "SubInt/L3"
 
 #: ../netshow/linux/print_iface.py:90
 msgid "access/l3"
-msgstr "Access/L3"
+msgstr "PHy"
 
 #: ../netshow/linux/print_iface.py:92
 msgid "access"
@@ -357,15 +361,23 @@ msgstr "IP Details"
 msgid "arp_entries"
 msgstr "IP Neighbor(ARP) Entries"
 
-#: ../netshow/linux/print_iface.py:228
+#: ../netshow/linux/print_iface.py:204
+msgid "bridge_membership"
+msgstr "Bridge Membership"
+
+#: ../netshow/linux/print_iface.py:205
+msgid "tagged"
+msgstr "Tagged"
+
+#: ../netshow/linux/print_iface.py:241
 msgid "U"
 msgstr "U"
 
-#: ../netshow/linux/print_iface.py:230
+#: ../netshow/linux/print_iface.py:243
 msgid "D"
 msgstr "D"
 
-#: ../netshow/linux/print_iface.py:261
+#: ../netshow/linux/print_iface.py:274
 #, python-format
 msgid "vlans in %s state"
 msgstr "Vlans in %s State"
