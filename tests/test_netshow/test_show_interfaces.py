@@ -49,7 +49,7 @@ class TestShowInterfaces(object):
             _output = self.showint.print_many_ifaces(),
             _otable = _output[0].split('\n')
 
-            assert_equals(len(_otable), 13)
+            assert_equals(len(_otable), 7)
 
         with mock.patch('netshowlib.linux.iface.Iface.linkstate',
                         new_callable=mock.PropertyMock) as mock_linkstate:
@@ -57,7 +57,7 @@ class TestShowInterfaces(object):
             self.showint._ifacelist = {'all': OrderedDict()}
             _output = self.showint.print_many_ifaces(),
             _otable = _output[0].split('\n')
-            assert_equals(len(_otable), 11)
+            assert_equals(len(_otable), 5)
 
 
 
@@ -280,9 +280,9 @@ class TestShowInterfaces(object):
         mock_read_from_sys.side_effect = mod_args_generator(values)
         self.showint.show_up = False
         _table = self.showint.print_cli_many_ifaces('all')
-        assert_equals(re.split(r'\s+', _table.split('\n')[0]),
+        assert_equals(re.split(r'\s+', _table.split('\n')[3]),
                       ['', 'name', 'speed', 'mtu', 'mode', 'summary'])
-        assert_equals(re.split(r'\s+', _table.split('\n')[2]),
+        assert_equals(re.split(r'\s+', _table.split('\n')[5]),
                       ['dn', 'eth10', '1G', '1500', 'access'])
 
     @mock.patch('netshow.linux.print_iface.linux_iface.Iface.exists')
