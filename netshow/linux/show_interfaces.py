@@ -13,7 +13,7 @@ from netshowlib.linux import iface as linux_iface
 import netshow.linux.print_iface as print_iface
 import json
 from netshow.linux.netjson_encoder import NetEncoder
-from netshow.linux.common import _, legend
+from netshow.linux.common import _, legend_wrapped_cli_output
 
 
 class ShowInterfaces(object):
@@ -24,9 +24,9 @@ class ShowInterfaces(object):
         self._ifacelist = {}
         self.show_mac = cl.get('--mac') or cl.get('-m')
         self.use_json = cl.get('--json') or cl.get('-j')
-        self.show_legend = True
-        if cl.get('--hl') or cl.get('--hide-legend'):
-            self.show_legend = False
+        self.show_legend = False
+        if cl.get('-l') or cl.get('--legend'):
+            self.show_legend = True
         self.show_all = True
         self.show_mgmt = cl.get('mgmt')
         self.show_bridge = cl.get('bridges')
@@ -75,7 +75,7 @@ class ShowInterfaces(object):
             return json.dumps(_printiface,
                               cls=NetEncoder, indent=4)
         else:
-            return _printiface.cli_output() + legend(self.show_legend)
+            return _printiface.cli_output(self.show_legend)
 
     def _initialize_ifacelist(self):
         """
@@ -190,7 +190,7 @@ class ShowInterfaces(object):
                 _table += self.cli_append_oneline(_piface)
             else:
                 _table += self.cli_append_multiline(_piface)
-        return tabulate(_table, _headers) + legend(self.show_legend)
+        return legend_wrapped_cli_output(tabulate(_table, _headers), self.show_legend)
 
     def cli_append_oneline(self, piface):
         """

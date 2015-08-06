@@ -20,7 +20,7 @@ import netshowlib.linux.iface as linux_iface
 import netshowlib.linux.bridge as linux_bridge
 import mock
 from asserts import assert_equals, mod_args_generator
-
+from nose.tools import assert_not_equal
 
 class TestPrintIface(object):
     def setup(self):
@@ -43,16 +43,19 @@ class TestPrintIface(object):
     @mock.patch('netshow.linux.print_iface.PrintIface.cli_header')
     @mock.patch('netshow.linux.print_iface.PrintIface.ip_details')
     @mock.patch('netshow.linux.print_iface.PrintIface.lldp_details')
-    def test_cli_output(self, mock_lldp, mock_ip_details, mock_cli_header):
-        manager = mock.MagicMock()
-        manager.attach_mock(mock_lldp, 'lldp_details')
-        manager.attach_mock(mock_ip_details, 'ip_details')
-        manager.attach_mock(mock_cli_header, 'cli_header')
-        self.piface.cli_output()
-        expected_calls = [mock.call.cli_header(),
-                          mock.call.ip_details(),
-                          mock.call.lldp_details()]
-        assert_equals(manager.method_calls, expected_calls)
+    @mock.patch('netshow.linux.print_iface.one_line_legend')
+    @mock.patch('netshow.linux.print_iface.full_legend')
+    def test_cli_output(self, mock_full_legend,
+                        mock_one_legend, mock_lldp, mock_ip_details, mock_cli_header):
+        mock_lldp.return_value = 'lldp_output\n'
+        mock_ip_details.return_value = 'ip details\n'
+        mock_cli_header.return_value = 'cli header\n'
+        mock_one_legend.return_value = 'one legend\n'
+        mock_full_legend.return_value = 'full legend\n'
+        _output = self.piface.cli_output()
+        assert_equals(_output.split('\n'),
+                      ['one legend', 'cli header', 'ip details',
+                       'lldp_output', 'full legend', ''])
 
     @mock.patch('netshow.linux.print_iface.linux_iface.Iface.read_from_sys')
     def test_linkstate(self, mock_read_from_sys):

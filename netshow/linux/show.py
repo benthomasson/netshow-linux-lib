@@ -2,17 +2,17 @@
 # pylint: disable=C0325
 """
 Usage:
-    netshow lldp [--json | -j ]
+    netshow lldp [--json | -j | -l ]
     netshow system [--json | -j ]
-    netshow interface [<iface>] [all] [--mac | -m ] [--oneline | -1 | --json | -j ]
-    netshow access [all] [--mac | -m ] [--oneline | -1  | --json | -j]
-    netshow bridges [all] [--mac | -m ] [--oneline | -1  | --json | -j]
-    netshow bonds [all] [--mac | -m ] [--oneline | -1  | --json | -j]
-    netshow bondmems [all] [--mac | -m ] [--oneline | -1  | --json | -j]
-    netshow mgmt [all] [--mac | -m ] [--oneline | -1  | --json | -j]
-    netshow l2 [all] [--mac | -m ] [--oneline | -1  | --json | -j]
-    netshow l3 [all] [--mac | -m ] [--oneline | -1  | --json | -j]
-    netshow trunks [all] [--mac | -m ] [--oneline | -1  | --json | -j]
+    netshow interface [<iface>] [all] [--mac | -m ] [--oneline | -1 | --json | -j | -l | --legend ]
+    netshow access [all] [--mac | -m ] [--oneline | -1  | --json | -j | -l | --legend ]
+    netshow bridges [all] [--mac | -m ] [--oneline | -1  | --json | -j | -l | --legend ]
+    netshow bonds [all] [--mac | -m ] [--oneline | -1  | --json | -j | -l | --legend ]
+    netshow bondmems [all] [--mac | -m ] [--oneline | -1  | --json | -j | -l | --legend ]
+    netshow mgmt [all] [--mac | -m ] [--oneline | -1  | --json | -j | -l | --legend ]
+    netshow l2 [all] [--mac | -m ] [--oneline | -1  | --json | -j | -l | --legend ]
+    netshow l3 [all] [--mac | -m ] [--oneline | -1  | --json | -j | -l | --legend ]
+    netshow trunks [all] [--mac | -m ] [--oneline | -1  | --json | -j | -l | --legend ]
     netshow (--version | -V)
 
 
@@ -39,6 +39,8 @@ Options:
     --oneline  output each entry on one line
     -1         alias for --oneline
     --json     print output in json
+    -l         alias for --legend
+    --legend   print legend key explaining abbreviations
 """
 import sys
 from network_docopt import NetworkDocopt
