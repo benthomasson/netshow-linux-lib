@@ -2,8 +2,8 @@
 # pylint: disable=C0325
 """
 Usage:
-    netshow lldp [--json | -j | -l ]
     netshow system [--json | -j ]
+    netshow lldp [--json | -j | -l | --legend]
     netshow interface [<iface>] [all] [--mac | -m ] [--oneline | -1 | --json | -j | -l | --legend ]
     netshow access [all] [--mac | -m ] [--oneline | -1  | --json | -j | -l | --legend ]
     netshow bridges [all] [--mac | -m ] [--oneline | -1  | --json | -j | -l | --legend ]
