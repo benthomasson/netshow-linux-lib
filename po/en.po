@@ -60,8 +60,7 @@ msgstr "Carrier Up - Link Dormant"
 #: ../netshow/linux/common.py:33
 msgid "Legend: for abbrev example use -l opt in netshow cmd"
 msgstr ""
-"Legend: For abbrev explanations, append rerun \"netshow\" cmd with the  \"--"
-"legend\" option"
+"To view the legend,  rerun \"netshow\" cmd with the  \"--legend\" option"
 
 #: ../netshow/linux/print_bond.py:19
 msgid "bondmem"
