@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: netshow-linux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-08-06 00:43+0000\n"
+"POT-Creation-Date: 2015-08-07 20:16+0000\n"
 "PO-Revision-Date: \n"
 "Last-Translator: stanley karunditu <stanleyk@cumulusnetworks.com>\n"
 "Language-Team: Customer Engineering <ce-ceng@cumulusnetworks.com>\n"
@@ -230,7 +230,6 @@ msgstr "Bridge/L3"
 msgid "bridge/l2"
 msgstr "Bridge/L2"
 
-<<<<<<< HEAD
 #: ../netshow/linux/print_bridge.py:81
 msgid "untagged_members"
 msgstr "Untagged Members"
@@ -239,22 +238,11 @@ msgstr "Untagged Members"
 msgid "tagged_members"
 msgstr "Tagged Members"
 
-#: ../netshow/linux/print_bridge.py:105 ../netshow/linux/print_iface.py:206
-#: ../netshow/linux/print_iface.py:232
+#: ../netshow/linux/print_bridge.py:105 ../netshow/linux/print_iface.py:210
+#: ../netshow/linux/print_iface.py:236
 msgid "untagged"
 msgstr "Untagged"
 
-=======
-#: ../netshow/linux/print_bridge.py:81 ../netshow/linux/print_bridge.py:105
-#: ../netshow/linux/print_iface.py:210 ../netshow/linux/print_iface.py:233
-msgid "untagged"
-msgstr "Untagged"
-
-#: ../netshow/linux/print_bridge.py:92 ../netshow/linux/print_iface.py:209
-msgid "tagged"
-msgstr "Tagged"
-
->>>>>>> devel
 #: ../netshow/linux/print_bridge.py:112
 msgid "802.1q_tag"
 msgstr "802.1q Tag"
@@ -378,35 +366,23 @@ msgstr "IP Details"
 msgid "arp_entries"
 msgstr "IP Neighbor(ARP) Entries"
 
-<<<<<<< HEAD
-#: ../netshow/linux/print_iface.py:204
+#: ../netshow/linux/print_iface.py:208
 msgid "bridge_membership"
 msgstr "Bridge Membership"
 
-#: ../netshow/linux/print_iface.py:205
+#: ../netshow/linux/print_iface.py:209
 msgid "tagged"
 msgstr "Tagged"
 
-#: ../netshow/linux/print_iface.py:241
+#: ../netshow/linux/print_iface.py:245
 msgid "U"
 msgstr "U"
 
-#: ../netshow/linux/print_iface.py:243
+#: ../netshow/linux/print_iface.py:247
 msgid "D"
 msgstr "D"
 
-#: ../netshow/linux/print_iface.py:274
-=======
-#: ../netshow/linux/print_iface.py:242
-msgid "U"
-msgstr "U"
-
-#: ../netshow/linux/print_iface.py:244
-msgid "D"
-msgstr "D"
-
-#: ../netshow/linux/print_iface.py:275
->>>>>>> devel
+#: ../netshow/linux/print_iface.py:278
 #, python-format
 msgid "vlans in %s state"
 msgstr "Vlans in %s State"
