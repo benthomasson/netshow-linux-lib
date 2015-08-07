@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-08-07 20:16+0000\n"
+"POT-Creation-Date: 2015-08-07 20:30+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -321,7 +321,7 @@ msgid "access/l3"
 msgstr ""
 
 #: ../netshow/linux/print_iface.py:92
-msgid "access"
+msgid "unknown_int_type"
 msgstr ""
 
 #: ../netshow/linux/print_iface.py:99

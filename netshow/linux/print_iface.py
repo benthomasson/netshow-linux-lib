@@ -89,7 +89,7 @@ class PrintIface(object):
             else:
                 return _('access/l3')
 
-        return _('access')
+        return _('unknown_int_type')
 
     @property
     def speed(self):
