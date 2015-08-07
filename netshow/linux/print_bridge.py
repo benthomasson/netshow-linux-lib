@@ -69,7 +69,7 @@ class PrintBridge(PrintIface):
 
         for _entry in self.tagged_ifaces():
             _info.append(_entry)
-            return [x for x in _info if x]
+        return [x for x in _info if x]
 
     def untagged_ifaces(self):
         """
