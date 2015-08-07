@@ -220,7 +220,7 @@ msgstr "Trunk/L2"
 
 #: ../netshow/linux/print_bridge.py:23
 msgid "access/l2"
-msgstr "Physical/L2"
+msgstr "Access/L2"
 
 #: ../netshow/linux/print_bridge.py:55
 msgid "bridge/l3"
@@ -320,7 +320,7 @@ msgstr "SubInt/L3"
 
 #: ../netshow/linux/print_iface.py:90
 msgid "access/l3"
-msgstr "PHy"
+msgstr "Physical/L3"
 
 #: ../netshow/linux/print_iface.py:92
 msgid "access"
