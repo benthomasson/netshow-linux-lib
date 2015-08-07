@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-08-07 20:30+0000\n"
+"POT-Creation-Date: 2015-08-07 21:16+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -242,8 +242,8 @@ msgstr ""
 msgid "tagged_members"
 msgstr ""
 
-#: ../netshow/linux/print_bridge.py:105 ../netshow/linux/print_iface.py:210
-#: ../netshow/linux/print_iface.py:236
+#: ../netshow/linux/print_bridge.py:105 ../netshow/linux/print_iface.py:211
+#: ../netshow/linux/print_iface.py:237
 msgid "untagged"
 msgstr ""
 
@@ -364,23 +364,23 @@ msgstr ""
 msgid "arp_entries"
 msgstr ""
 
-#: ../netshow/linux/print_iface.py:208
+#: ../netshow/linux/print_iface.py:209
 msgid "bridge_membership"
 msgstr ""
 
-#: ../netshow/linux/print_iface.py:209
+#: ../netshow/linux/print_iface.py:210
 msgid "tagged"
 msgstr ""
 
-#: ../netshow/linux/print_iface.py:245
+#: ../netshow/linux/print_iface.py:246
 msgid "U"
 msgstr ""
 
-#: ../netshow/linux/print_iface.py:247
+#: ../netshow/linux/print_iface.py:248
 msgid "D"
 msgstr ""
 
-#: ../netshow/linux/print_iface.py:278
+#: ../netshow/linux/print_iface.py:279
 #, python-format
 msgid "vlans in %s state"
 msgstr ""

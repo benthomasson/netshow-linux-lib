@@ -106,7 +106,7 @@ class TestPrintIface(object):
         assert_equals(self.piface.port_category, 'subint/l3')
         # if l3 is not true
         mock_is_l3.return_value = False
-        assert_equals(self.piface.port_category, 'access')
+        assert_equals(self.piface.port_category, 'unknown_int_type')
         # is loopback and of cause l3
         mock_is_l3.return_value = True
         mock_is_loopback.return_value = True
@@ -156,7 +156,7 @@ class TestPrintIface(object):
                       ['name', 'mac', 'speed', 'mtu', 'mode'])
         assert_equals(_output.split('\n')[2].split(),
                       ['up', 'eth22', '11:22:33:44:55:66', '1G',
-                       '9000', 'access'])
+                       '9000', 'unknown_int_type'])
 
     @mock.patch('netshow.linux.print_iface.linux_iface.Iface.is_l3')
     def test_ip_details(self, mock_is_l3):
@@ -271,8 +271,8 @@ class TestPrintIface(object):
         linux_bridge.BRIDGE_CACHE['br11'] = br11
         linux_bridge.BRIDGE_CACHE['br30'] = br30
         _output = self.piface.trunk_summary()
-        assert_equals(_output[0], 'tagged: br11, br30')
-        assert_equals(_output[1], 'untagged: br10')
+        assert_equals(_output[1], 'tagged: br11(11), br30(30)')
+        assert_equals(_output[2], 'untagged: br10')
 
     @mock.patch('netshowlib.linux.iface.Iface.read_from_sys')
     def test_abbrev_linksummary(self, mock_read_from_sys):

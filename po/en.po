@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: netshow-linux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-08-07 20:30+0000\n"
+"POT-Creation-Date: 2015-08-07 20:16+0000\n"
 "PO-Revision-Date: \n"
 "Last-Translator: stanley karunditu <stanleyk@cumulusnetworks.com>\n"
 "Language-Team: Customer Engineering <ce-ceng@cumulusnetworks.com>\n"
@@ -323,8 +323,8 @@ msgid "access/l3"
 msgstr "Physical/L3"
 
 #: ../netshow/linux/print_iface.py:92
-msgid "unknown_int_type"
-msgstr "Uncategorized"
+msgid "access"
+msgstr "Access"
 
 #: ../netshow/linux/print_iface.py:99
 msgid "n/a"
@@ -416,9 +416,6 @@ msgstr "Build"
 #: ../netshow/linux/show_system.py:39
 msgid "uptime"
 msgstr "Uptime"
-
-#~ msgid "access"
-#~ msgstr "Access"
 
 #~ msgid "carrier up, (in bond if bond member)"
 #~ msgstr "Carrier Up - (in bond if bond member)"

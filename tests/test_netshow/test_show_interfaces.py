@@ -283,7 +283,7 @@ class TestShowInterfaces(object):
         assert_equals(re.split(r'\s+', _table.split('\n')[3]),
                       ['', 'name', 'speed', 'mtu', 'mode', 'summary'])
         assert_equals(re.split(r'\s+', _table.split('\n')[5]),
-                      ['dn', 'eth10', '1G', '1500', 'access'])
+                      ['dn', 'eth10', '1G', '1500', 'unknown_int_type'])
 
     @mock.patch('netshow.linux.print_iface.linux_iface.Iface.exists')
     @mock.patch('netshow.linux.show_interfaces.print_iface.linux_iface.Iface.read_from_sys')

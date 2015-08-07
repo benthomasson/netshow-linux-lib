@@ -202,7 +202,8 @@ class PrintIface(object):
         tagged_bridges = []
         for _bridgename, _vlanid in _vlanlist.items():
             if int(_vlanid[0]) > 0:
-                tagged_bridges.append('%s(%s)' % (_bridgename, _vlanid))
+                _vlan_tags = ','.join(_vlanid)
+                tagged_bridges.append('%s(%s)' % (_bridgename, _vlan_tags))
             else:
                 native_bridges.append(_bridgename)
         _strlist = [_('bridge_membership') + ':']
