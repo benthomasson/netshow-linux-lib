@@ -19,9 +19,9 @@ class ShowNeighbors(object):
         self.ifacelist = OrderedDict()
         self.cache = linux_cache
         self.print_iface = print_iface
-        self.show_legend = True
+        self.show_legend = False
         if cl.get('-l') or cl.get('--legend'):
-            self.show_legend = False
+            self.show_legend = True
 
     def run(self):
         """
