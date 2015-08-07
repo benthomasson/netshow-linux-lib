@@ -7,7 +7,7 @@ import netshowlib.linux.cache as linux_cache
 from collections import OrderedDict
 import json
 from tabulate import tabulate
-from netshow.linux.common import _, legend
+from netshow.linux.common import _, legend_wrapped_cli_output
 
 
 class ShowNeighbors(object):
@@ -20,7 +20,7 @@ class ShowNeighbors(object):
         self.cache = linux_cache
         self.print_iface = print_iface
         self.show_legend = True
-        if cl.get('--hl') or cl.get('--hide-legend'):
+        if cl.get('-l') or cl.get('--legend'):
             self.show_legend = False
 
     def run(self):
@@ -59,4 +59,4 @@ class ShowNeighbors(object):
                                    _entry.get('adj_port'),
                                    _entry.get('adj_hostname')])
 
-        return tabulate(_table, _header) + '\n' + legend(self.show_legend)
+        return legend_wrapped_cli_output(tabulate(_table, _header), self.show_legend)

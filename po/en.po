@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: netshow-linux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-08-04 18:19+0000\n"
+"POT-Creation-Date: 2015-08-06 00:43+0000\n"
 "PO-Revision-Date: \n"
 "Last-Translator: stanley karunditu <stanleyk@cumulusnetworks.com>\n"
 "Language-Team: Customer Engineering <ce-ceng@cumulusnetworks.com>\n"
@@ -13,49 +13,54 @@ msgstr ""
 "X-Generator: Poedit 1.5.4\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 
-#: ../netshow/linux/common.py:12
+#: ../netshow/linux/common.py:13
 msgid "legend"
 msgstr "Legend"
 
-#: ../netshow/linux/common.py:13
+#: ../netshow/linux/common.py:14
 msgid "UP"
 msgstr "UP"
 
-#: ../netshow/linux/common.py:14
+#: ../netshow/linux/common.py:15
 msgid "carrier up"
 msgstr "Carrier up"
 
-#: ../netshow/linux/common.py:15
+#: ../netshow/linux/common.py:16
 msgid "UN"
 msgstr "UN"
 
-#: ../netshow/linux/common.py:16
+#: ../netshow/linux/common.py:17
 msgid "carrier up, bond member not in bond"
 msgstr "Carrier Up - bond member not in bond"
 
-#: ../netshow/linux/common.py:17
+#: ../netshow/linux/common.py:18
 msgid "DN"
 msgstr "DN"
 
-#: ../netshow/linux/common.py:18
+#: ../netshow/linux/common.py:19
 msgid "carrier down"
 msgstr "Carrier Down."
 
-#: ../netshow/linux/common.py:19
+#: ../netshow/linux/common.py:20
 msgid "ADMDN"
 msgstr "ADMDN"
 
-#: ../netshow/linux/common.py:20
+#: ../netshow/linux/common.py:21
 msgid "admin down use \"ip link set <iface> up\" to initialize"
 msgstr "Admin Down. Use \"ip link set <iface> up \" to initialize"
 
-#: ../netshow/linux/common.py:21
+#: ../netshow/linux/common.py:22
 msgid "DRMNT"
 msgstr "DRMNT"
 
-#: ../netshow/linux/common.py:22
+#: ../netshow/linux/common.py:23
 msgid "carrier up, link dormant"
 msgstr "Carrier Up - Link Dormant"
+
+#: ../netshow/linux/common.py:33
+msgid "Legend: for abbrev example use -l opt in netshow cmd"
+msgstr ""
+"To view the legend,  rerun \"netshow\" cmd with the  \"--legend\" option"
 
 #: ../netshow/linux/print_bond.py:19
 msgid "bondmem"
@@ -201,7 +206,7 @@ msgstr "Port"
 msgid "speed"
 msgstr "Speed"
 
-#: ../netshow/linux/print_bond.py:224 ../netshow/linux/print_iface.py:179
+#: ../netshow/linux/print_bond.py:224 ../netshow/linux/print_iface.py:183
 msgid "lldp"
 msgstr "LLDP"
 
@@ -225,6 +230,7 @@ msgstr "Bridge/L3"
 msgid "bridge/l2"
 msgstr "Bridge/L2"
 
+<<<<<<< HEAD
 #: ../netshow/linux/print_bridge.py:81
 msgid "untagged_members"
 msgstr "Untagged Members"
@@ -238,6 +244,17 @@ msgstr "Tagged Members"
 msgid "untagged"
 msgstr "Untagged"
 
+=======
+#: ../netshow/linux/print_bridge.py:81 ../netshow/linux/print_bridge.py:105
+#: ../netshow/linux/print_iface.py:210 ../netshow/linux/print_iface.py:233
+msgid "untagged"
+msgstr "Untagged"
+
+#: ../netshow/linux/print_bridge.py:92 ../netshow/linux/print_iface.py:209
+msgid "tagged"
+msgstr "Tagged"
+
+>>>>>>> devel
 #: ../netshow/linux/print_bridge.py:112
 msgid "802.1q_tag"
 msgstr "802.1q Tag"
@@ -329,7 +346,7 @@ msgstr "N/A"
 msgid "dhcp"
 msgstr "DHCP"
 
-#: ../netshow/linux/print_iface.py:117 ../netshow/linux/print_iface.py:165
+#: ../netshow/linux/print_iface.py:117 ../netshow/linux/print_iface.py:169
 msgid "ip"
 msgstr "IP"
 
@@ -353,14 +370,15 @@ msgstr "MTU"
 msgid "mode"
 msgstr "Mode"
 
-#: ../netshow/linux/print_iface.py:160
+#: ../netshow/linux/print_iface.py:164
 msgid "ip_details"
 msgstr "IP Details"
 
-#: ../netshow/linux/print_iface.py:167
+#: ../netshow/linux/print_iface.py:171
 msgid "arp_entries"
 msgstr "IP Neighbor(ARP) Entries"
 
+<<<<<<< HEAD
 #: ../netshow/linux/print_iface.py:204
 msgid "bridge_membership"
 msgstr "Bridge Membership"
@@ -378,6 +396,17 @@ msgid "D"
 msgstr "D"
 
 #: ../netshow/linux/print_iface.py:274
+=======
+#: ../netshow/linux/print_iface.py:242
+msgid "U"
+msgstr "U"
+
+#: ../netshow/linux/print_iface.py:244
+msgid "D"
+msgstr "D"
+
+#: ../netshow/linux/print_iface.py:275
+>>>>>>> devel
 #, python-format
 msgid "vlans in %s state"
 msgstr "Vlans in %s State"
