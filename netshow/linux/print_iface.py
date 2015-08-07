@@ -7,7 +7,7 @@ import netshowlib.netshowlib as nn
 from netshowlib.linux import iface as linux_iface
 from netshowlib.linux import common
 from tabulate import tabulate
-from netshow.linux.common import _
+from netshow.linux.common import _, one_line_legend, full_legend
 import inflection
 
 
@@ -143,14 +143,18 @@ class PrintIface(object):
             self.port_category]]
         return tabulate(_table, _header) + self.new_line()
 
-    def cli_output(self):
+    def cli_output(self, show_legend=False):
         """
+        :params: show_legend. if set to to true, will show legend, otherwise will show just one line. message
+        telling user to run "netshow" with -l option
         Each PrintIface child should define their own  of this function
         :return: output for 'netshow interface <ifacename>'
         """
-        _str = self.cli_header()
+        _str =  one_line_legend(show_legend)
+        _str += self.cli_header()
         _str += self.ip_details()
         _str += self.lldp_details()
+        _str += full_legend(show_legend)
         return _str
 
     def ip_details(self):
