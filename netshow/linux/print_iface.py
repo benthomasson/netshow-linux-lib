@@ -258,11 +258,10 @@ class PrintIface(object):
         for _bridge in bridgelist:
             _vlantag = _bridge.vlan_tag
             if _vlantag:
-                _tagged_vlans += _vlantag
+                _tagged_vlans.append("%s(%s)" % (_bridge.name, ','.join(_vlantag)))
             else:
                 _native_vlans.append(_bridge.name)
-        _vlanlist = common.group_ports(_native_vlans) +  \
-            common.create_range('', _tagged_vlans)
+        _vlanlist = sorted(_native_vlans + _tagged_vlans)
         return [', '.join(_vlanlist)]
 
     def bridgemem_details(self):

@@ -126,11 +126,11 @@ class TestPrintBridgeMember(object):
         assert_equals(_outputtable[0], 'vlans in Root state')
         assert_equals(_outputtable[2], 'br10')
         assert_equals(_outputtable[4], 'vlans in Forwarding state')
-        assert_equals(_outputtable[6], 'br10, 40')
+        assert_equals(_outputtable[6], 'br10, br40(40)')
         assert_equals(_outputtable[8], 'vlans in Blocking state')
-        assert_equals(_outputtable[10], '11')
+        assert_equals(_outputtable[10], 'br11(11)')
         assert_equals(_outputtable[12], 'vlans in Stp Disabled state')
-        assert_equals(_outputtable[14], '30')
+        assert_equals(_outputtable[14], 'br30(30)')
 
 
 class TestPrintBridge(object):
