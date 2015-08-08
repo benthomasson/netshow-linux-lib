@@ -89,7 +89,7 @@ class PrintIface(object):
             else:
                 return _('access/l3')
 
-        return _('access')
+        return _('unknown_int_type')
 
     @property
     def speed(self):
@@ -202,16 +202,17 @@ class PrintIface(object):
         tagged_bridges = []
         for _bridgename, _vlanid in _vlanlist.items():
             if int(_vlanid[0]) > 0:
-                tagged_bridges.append(_bridgename)
+                _vlan_tags = ','.join(_vlanid)
+                tagged_bridges.append('%s(%s)' % (_bridgename, _vlan_tags))
             else:
                 native_bridges.append(_bridgename)
-        _strlist = []
+        _strlist = [_('bridge_membership') + ':']
         self.print_portlist_in_chunks(tagged_bridges, _('tagged'), _strlist)
         self.print_portlist_in_chunks(native_bridges, _('untagged'), _strlist)
 
         return _strlist
 
-    def print_portlist_in_chunks(self, portlist, _title, _strlist, shorten_to=5):
+    def print_portlist_in_chunks(self, portlist, _title, _strlist, shorten_to=4):
         """
         take a long  array of bridge names and break it up into smaller groups of
         arrays based on shorten_to variable
@@ -221,9 +222,12 @@ class PrintIface(object):
             portlist = sorted(common.group_ports(portlist))
             portlist = [portlist[_x:_x+shorten_to]
                         for _x in range(0, len(portlist), shorten_to)]
-            for _arrlist in portlist:
+            for _idx, _arrlist in enumerate(portlist):
                 joined_arrlist = ', '.join(_arrlist)
-                _strlist.append(_title + ': ' + joined_arrlist)
+                if _idx == 0:
+                    _strlist.append(_title + ': ' + joined_arrlist)
+                else:
+                    _strlist.append('    ' + joined_arrlist)
 
     def access_summary(self):
         """
@@ -254,11 +258,10 @@ class PrintIface(object):
         for _bridge in bridgelist:
             _vlantag = _bridge.vlan_tag
             if _vlantag:
-                _tagged_vlans += _vlantag
+                _tagged_vlans.append("%s(%s)" % (_bridge.name, ','.join(_vlantag)))
             else:
                 _native_vlans.append(_bridge.name)
-        _vlanlist = common.group_ports(_native_vlans) +  \
-            common.create_range('', _tagged_vlans)
+        _vlanlist = sorted(_native_vlans + _tagged_vlans)
         return [', '.join(_vlanlist)]
 
     def bridgemem_details(self):

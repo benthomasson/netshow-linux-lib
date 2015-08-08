@@ -62,13 +62,13 @@ class PrintBridge(PrintIface):
         """
         _info = []
         _info.append(self.ip_info())
+        _info.append(self.vlan_id_field())
+        _info.append(self.stp_summary())
         for _entry in self.untagged_ifaces():
             _info.append(_entry)
 
         for _entry in self.tagged_ifaces():
             _info.append(_entry)
-        _info.append(self.vlan_id_field())
-        _info.append(self.stp_summary())
         return [x for x in _info if x]
 
     def untagged_ifaces(self):
@@ -78,7 +78,7 @@ class PrintBridge(PrintIface):
         _untagmems = self.iface.untagged_members.keys()
         if _untagmems:
             _str = []
-            self.print_portlist_in_chunks(_untagmems, _('untagged'), _str)
+            self.print_portlist_in_chunks(_untagmems, _('untagged_members'), _str)
             return _str
         return []
 
@@ -89,7 +89,7 @@ class PrintBridge(PrintIface):
         _tagmems = self.iface.tagged_members.keys()
         if _tagmems:
             _str = []
-            self.print_portlist_in_chunks(_tagmems, _('tagged'), _str)
+            self.print_portlist_in_chunks(_tagmems, _('tagged_members'), _str)
             return _str
         return []
 
