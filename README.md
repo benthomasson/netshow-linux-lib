@@ -1,13 +1,13 @@
 # netshow-linux
 
-Netshow-linux is a Provider for Netshow, a Network Abstraction Software. It is optimized to collect core networking data from Linux devices that contain many interfaces.
+Netshow-linux is a Provider for [Netshow](http://github.com/CumulusNetworks/netshow-core), a Network Abstraction Software. It is optimized to collect core networking data from Linux devices that contain many interfaces.
 
 Netshow-linux has 2 main modules.
 
-### netshowlib
-This module contains other modules that are responsible for retrieving  network information from the Linux kernel and associated components. This information is abstracted in mainly into interface types, like bonds, bridges, bondmembers and so on.
+## netshowlib
+This module contains other modules that are responsible for retrieving  network information from the Linux kernel and associated components. This information is abstracted in mainly into interface types, like bonds, bridges, bond members and so on.
 
-### netshow
+## netshow
 
 Netshow modules are responsible for printing the network information collected from the ``netshowlib`` modules. For example, the ``print_iface`` netshow module takes interface information retrieved by ``netshowlib`` modules and abstracted in python objects and prints the information in a human readable form.
 
