@@ -27,7 +27,7 @@ class Cache(object):
         if features:
             _featurelist = features
 
-        for _feature, _provider in _featurelist.iteritems():
+        for _feature, _provider in _featurelist.items():
             _feature_mod = nnlib.import_module("netshowlib.%s.%s" % (_provider,
                                                                      _feature))
             self.__dict__[_feature] = _feature_mod.cacheinfo()
