@@ -1,5 +1,7 @@
 # pylint: disable=c0111
-from _gitversion import get_version
+# if installing this package from git, make sure to include 'gitversion'
+# in requirements.txt
+from gitversion import rewritable_git_version
 import os
 try:
     import ez_setup
@@ -9,8 +11,13 @@ except ImportError:
 from distutils.command.build import build
 from setuptools import setup, find_packages
 import io
+
+
 def read_contents(fname='README'):
-    return io.open(os.path.join(os.path.dirname(__file__), fname), encoding="utf-8").read()
+    """read contents of readme into setup.py long_description field
+    """
+    return io.open(os.path.join(os.path.dirname(__file__),
+                                fname), encoding="utf-8").read()
 
 
 class BuildWithI18n(build):
@@ -21,7 +28,7 @@ class BuildWithI18n(build):
 
 setup(
     name='netshow-linux-lib',
-    version=get_version(),
+    version=rewritable_git_version(__file__),
     url="http://github.com/CumulusNetworks/netshow-linux-lib",
     description="Netshow Provider for Linux Operating Systems",
     author='Cumulus Networks',
