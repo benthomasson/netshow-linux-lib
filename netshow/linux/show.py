@@ -9,7 +9,6 @@ Usage:
     netshow bridges [all] [--mac | -m ] [--oneline | -1  | --json | -j | -l | --legend ]
     netshow bonds [all] [--mac | -m ] [--oneline | -1  | --json | -j | -l | --legend ]
     netshow bondmems [all] [--mac | -m ] [--oneline | -1  | --json | -j | -l | --legend ]
-    netshow mgmt [all] [--mac | -m ] [--oneline | -1  | --json | -j | -l | --legend ]
     netshow l2 [all] [--mac | -m ] [--oneline | -1  | --json | -j | -l | --legend ]
     netshow l3 [all] [--mac | -m ] [--oneline | -1  | --json | -j | -l | --legend ]
     netshow trunks [all] [--mac | -m ] [--oneline | -1  | --json | -j | -l | --legend ]
@@ -23,7 +22,6 @@ Help:
     bonds                     summary of bonds
     bondmems                  summary of bond members
     bridges                   summary of ports with bridge members
-    mgmt                      summary of mgmt ports
     l3                        summary of ports with an IP.
     l2                        summary of access, trunk and bridge interfaces
     trunks                    summary of trunk interfaces

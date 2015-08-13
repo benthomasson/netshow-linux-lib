@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: netshow-linux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-08-06 00:43+0000\n"
+"POT-Creation-Date: 2015-08-07 20:16+0000\n"
 "PO-Revision-Date: \n"
 "Last-Translator: stanley karunditu <stanleyk@cumulusnetworks.com>\n"
 "Language-Team: Customer Engineering <ce-ceng@cumulusnetworks.com>\n"
@@ -230,14 +230,18 @@ msgstr "Bridge/L3"
 msgid "bridge/l2"
 msgstr "Bridge/L2"
 
-#: ../netshow/linux/print_bridge.py:81 ../netshow/linux/print_bridge.py:105
-#: ../netshow/linux/print_iface.py:210 ../netshow/linux/print_iface.py:233
+#: ../netshow/linux/print_bridge.py:81
+msgid "untagged_members"
+msgstr "Untagged Members"
+
+#: ../netshow/linux/print_bridge.py:92
+msgid "tagged_members"
+msgstr "Tagged Members"
+
+#: ../netshow/linux/print_bridge.py:105 ../netshow/linux/print_iface.py:210
+#: ../netshow/linux/print_iface.py:236
 msgid "untagged"
 msgstr "Untagged"
-
-#: ../netshow/linux/print_bridge.py:92 ../netshow/linux/print_iface.py:209
-msgid "tagged"
-msgstr "Tagged"
 
 #: ../netshow/linux/print_bridge.py:112
 msgid "802.1q_tag"
@@ -316,7 +320,7 @@ msgstr "SubInt/L3"
 
 #: ../netshow/linux/print_iface.py:90
 msgid "access/l3"
-msgstr "Access/L3"
+msgstr "Physical/L3"
 
 #: ../netshow/linux/print_iface.py:92
 msgid "access"
@@ -362,15 +366,23 @@ msgstr "IP Details"
 msgid "arp_entries"
 msgstr "IP Neighbor(ARP) Entries"
 
-#: ../netshow/linux/print_iface.py:242
+#: ../netshow/linux/print_iface.py:208
+msgid "bridge_membership"
+msgstr "Bridge Membership"
+
+#: ../netshow/linux/print_iface.py:209
+msgid "tagged"
+msgstr "Tagged"
+
+#: ../netshow/linux/print_iface.py:245
 msgid "U"
 msgstr "U"
 
-#: ../netshow/linux/print_iface.py:244
+#: ../netshow/linux/print_iface.py:247
 msgid "D"
 msgstr "D"
 
-#: ../netshow/linux/print_iface.py:275
+#: ../netshow/linux/print_iface.py:278
 #, python-format
 msgid "vlans in %s state"
 msgstr "Vlans in %s State"
