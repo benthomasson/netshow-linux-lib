@@ -3,7 +3,7 @@ Print and Analysis Module for Linux bond interfaces
 """
 
 from netshow.linux.print_iface import PrintIface
-from netshow.linux.common import _
+from netshow.linux.common import _, one_line_legend, full_legend
 from tabulate import tabulate
 
 
@@ -61,16 +61,18 @@ class PrintBondMember(PrintIface):
             _table.append([_('lacp_sys_priority') + ':', _master.lacp.sys_priority])
             _table.append([_('lacp_rate') + ':', _printbond.lacp_rate()])
 
-        return tabulate(_table, _header)
+        return tabulate(_table, _header) + self.new_line()
 
-    def cli_output(self):
+    def cli_output(self, show_legend=False):
         """
         cli output of the linux bond member interface
         :return: output for 'netshow interface <ifacename>'
         """
-        _str = self.cli_header() + self.new_line()
-        _str += self.bondmem_details() + self.new_line()
-        _str += self.lldp_details() + self.new_line()
+        _str = one_line_legend(show_legend)
+        _str += self.cli_header()
+        _str += self.bondmem_details()
+        _str += self.lldp_details()
+        _str += full_legend(show_legend)
         return _str
 
 

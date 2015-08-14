@@ -3,9 +3,8 @@
 Print and Analysis Module for Linux bridge interfaces
 """
 from netshow.linux.print_iface import PrintIface
-from netshowlib.linux import common
 from tabulate import tabulate
-from netshow.linux.common import _
+from netshow.linux.common import _, one_line_legend, full_legend
 import inflection
 
 
@@ -31,14 +30,15 @@ class PrintBridgeMember(PrintIface):
             return self.trunk_summary()
         return self.access_summary()
 
-    def cli_output(self):
+    def cli_output(self, show_legend=False):
         """
         :return: output for 'netshow interface <ifacename> for a bridge interface'
         """
-        _str = self.cli_header()
+        _str = one_line_legend(show_legend)
+        _str += self.cli_header()
         _str += self.bridgemem_details()
         _str += self.lldp_details()
-
+        _str += full_legend(show_legend)
         return _str
 
 
@@ -148,23 +148,29 @@ class PrintBridge(PrintIface):
         """
         :return: stp details for the bridge interface
         """
-        _header = [_(''), '']
+        _header = [_('bridge_details'), '']
         _table = []
         _table.append([_('stp_mode') + ':', _('802.1d / per bridge instance')])
         _table.append([_('root_port') + ':', ', '.join(self.root_port())])
         _table.append([_('root_priority') + ':', self.iface.stp.root_priority])
         _table.append([_('bridge_priority') + ':', self.iface.stp.bridge_priority])
-        _table.append(self.vlan_id_field().split())
-        return tabulate(_table, _header)
+        _table.append(self.vlan_id_field().split(':'))
+        return tabulate(_table, _header) + self.new_line()
 
     def no_stp_details(self):
         """
         :return: details when stp is not enabled
         """
-        _header = ['', '']
+        _header = [_('bridge_details'), '']
         _table = []
+        memberlist = self.iface.members.keys()
+        _table2 = []
+        self.print_portlist_in_chunks(memberlist, '', _table2)
+        _table.append([_('bridge_members') + ':',  _table2[0]])
+        for i in range(1, len(_table2)):
+            _table.append(['', _table2[i]])
         _table.append([_('stp_mode') + ':', _('disabled')])
-        _table.append(self.vlan_id_field().split())
+        _table.append(self.vlan_id_field().split(':'))
         return tabulate(_table, _header) + self.new_line()
 
     def ports_of_some_kind_of_state(self, statename):
@@ -174,22 +180,26 @@ class PrintBridge(PrintIface):
         _portlist = [_x.name for _x in
                      self.iface.stp.member_state.get(statename)]
         if _portlist:
-            _table.append([', '.join(common.group_ports(_portlist))])
-            return tabulate(_table, _header)
+            _table2 = []
+            self.print_portlist_in_chunks(_portlist, '', _table2)
+            for i in _table2:
+                _table.append([i])
+            return tabulate(_table, _header) + self.new_line()
         return ''
 
-    def cli_output(self):
+    def cli_output(self, show_legend=False):
         """
         :return: output for 'netshow interface <ifacename> for a bridge interface'
         """
-        _str = self.cli_header() + self.new_line()
-        _str += self.ip_details() + self.new_line()
+        _str = one_line_legend(show_legend)
+        _str += self.cli_header()
+        _str += self.ip_details()
         if self.iface.stp:
-            _str += self.stp_details() + self.new_line()
+            _str += self.stp_details()
             for _state in ['forwarding', 'blocking']:
-                _str += self.ports_of_some_kind_of_state(_state) + \
-                    self.new_line()
+                _str += self.ports_of_some_kind_of_state(_state)
         else:
-            _str += self.no_stp_details() + self.new_line()
+            _str += self.no_stp_details()
+        _str += full_legend(show_legend)
 
         return _str
