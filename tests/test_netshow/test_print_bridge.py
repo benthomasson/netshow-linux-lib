@@ -190,7 +190,7 @@ class TestPrintBridge(object):
         bridgemems = ['bond0.100', 'bond1.100', 'eth9.100', 'eth10.100']
         mock_listdirs.return_value = bridgemems
         assert_equals(self.piface.tagged_ifaces(),
-                      ['tagged_members: bond0-1, eth9-10'])
+                      ['tagged_members: bond0-1.100, eth9-10.100'])
         # if list of tagged ports does not exist
         bridgemems = ['bond0', 'bond1', 'eth9', 'eth10']
         mock_listdirs.return_value = bridgemems
