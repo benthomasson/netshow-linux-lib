@@ -197,9 +197,10 @@ class TestKernelStpBridge(object):
 
         mock_os_path.side_effect = mod_args_generator(values)
         mock_oneline.side_effect = mod_args_generator(values2)
-        eth1 = self.stp.bridge.members.get('eth1')
-        eth2 = self.stp.bridge.members.get('eth2')
-        assert_equals(self.stp.member_state, {
+        eth1 = self.stp.bridge.members.get('eth1.1')
+        eth2 = self.stp.bridge.members.get('eth2.1')
+        _output = self.stp.member_state
+        assert_equals(_output, {
             'disabled': [eth2],
             'blocking': [],
             'forwarding': [eth1],
@@ -237,8 +238,8 @@ class TestKernelStpBridge(object):
 
         mock_os_path.side_effect = mod_args_generator(values)
         mock_oneline.side_effect = mod_args_generator(values2)
-        eth1 = self.stp.bridge.members.get('eth1')
-        eth2 = self.stp.bridge.members.get('eth2')
+        eth1 = self.stp.bridge.members.get('eth1.1')
+        eth2 = self.stp.bridge.members.get('eth2.1')
         eth3 = self.stp.bridge.members.get('eth3')
         assert_equals(self.stp.member_state, {
             'disabled': [eth2],
@@ -353,7 +354,7 @@ class TestLinuxBridgeMember(object):
         values4 = {
             '/sys/class/net/br30/brif': ['eth1.30'],
             '/sys/class/net/br11/brif': ['eth1.11'],
-            '/sys/class/net/br10/brif': []
+            '/sys/class/net/br10/brif': ['eth1']
         }
 
         mock_os_listdir.side_effect = mod_args_generator(values4)
@@ -458,7 +459,7 @@ class TestLinuxBridge(object):
         bridgemems = ['eth7', 'eth8', 'eth9.100', 'eth10.100']
         mock_listdirs.return_value = bridgemems
         assert_equals(sorted(list(self.iface.tagged_members.keys())),
-                      sorted(['eth9', 'eth10']))
+                      sorted(['eth9.100', 'eth10.100']))
 
     @mock.patch('netshowlib.linux.bridge.os.listdir')
     def test_untagged_bridge_members(self, mock_listdirs):
