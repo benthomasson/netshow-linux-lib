@@ -27,14 +27,20 @@ class TestPrintBridgeMember(object):
         iface = linux_bridge.BridgeMember('eth22')
         self.piface = print_bridge.PrintBridgeMember(iface)
 
+    @mock.patch('netshow.linux.print_bridge.one_line_legend')
+    @mock.patch('netshow.linux.print_bridge.full_legend')
     @mock.patch('netshow.linux.print_bridge.PrintBridgeMember.cli_header')
     @mock.patch('netshow.linux.print_bridge.PrintBridgeMember.bridgemem_details')
     @mock.patch('netshow.linux.print_bridge.PrintBridgeMember.lldp_details')
-    def test_cli_output(self, mock_lldp, mock_details, mock_cli_header):
+    def test_cli_output(self, mock_lldp, mock_details, mock_cli_header,
+                        mock_full_legend, mock_one_line_legend):
         mock_cli_header.return_value = 'cli_header'
         mock_details.return_value = 'bridgemem_details'
         mock_lldp.return_value = 'lldp'
-        assert_equals(self.piface.cli_output(), 'cli_headerbridgemem_detailslldp')
+        mock_full_legend.return_value = 'full_legend'
+        mock_one_line_legend.return_value = 'one_line_legend'
+        assert_equals(self.piface.cli_output(),
+                      'one_line_legendcli_headerbridgemem_detailslldpfull_legend')
 
     @mock.patch('netshow.linux.print_iface.linux_iface.Iface.is_trunk')
     def test_port_category(self, mock_is_trunk):
@@ -138,6 +144,25 @@ class TestPrintBridge(object):
         iface = linux_bridge.Bridge('br0')
         self.piface = print_bridge.PrintBridge(iface)
 
+    @mock.patch('netshow.linux.print_bridge.PrintBridge.stp_details')
+    @mock.patch('netshow.linux.print_bridge.PrintBridge.no_stp_details')
+    @mock.patch('netshow.linux.print_bridge.PrintBridge.cli_header')
+    @mock.patch('netshow.linux.print_bridge.full_legend')
+    @mock.patch('netshow.linux.print_bridge.one_line_legend')
+    def test_cli_output(self, mock_one_line_legend,
+                        mock_full_legend,
+                        mock_cli_header,
+                        mock_no_stp_details,
+                        mock_stp_details):
+
+        mock_stp_details.return_value = 'stp_details'
+        mock_one_line_legend.return_value = 'one_line_legend'
+        mock_full_legend.return_value = 'full_legend'
+        mock_cli_header.return_value = 'cli_header'
+        mock_no_stp_details.return_value = 'no_stp_details'
+        assert_equals(self.piface.cli_output(),
+                      'one_line_legendcli_headerstp_detailsfull_legend')
+
     @mock.patch('netshow.linux.print_iface.linux_iface.Iface.is_l3')
     def test_port_category(self, mock_is_l3):
         # if l3
@@ -165,7 +190,7 @@ class TestPrintBridge(object):
         bridgemems = ['bond0.100', 'bond1.100', 'eth9.100', 'eth10.100']
         mock_listdirs.return_value = bridgemems
         assert_equals(self.piface.tagged_ifaces(),
-                      ['tagged_members: bond0-1, eth9-10'])
+                      ['tagged_members: bond0-1.100, eth9-10.100'])
         # if list of tagged ports does not exist
         bridgemems = ['bond0', 'bond1', 'eth9', 'eth10']
         mock_listdirs.return_value = bridgemems
@@ -281,4 +306,4 @@ class TestPrintBridge(object):
         assert_equals(_outputtable[4].split(),
                       ['root_priority:', '16384'])
         assert_equals(_outputtable[5].split(), ['bridge_priority:', '32768'])
-        assert_equals(_outputtable[6].split(), ['802.1q_tag:', 'untagged'])
+        assert_equals(_outputtable[6].split(), ['802.1q_tag', 'untagged'])

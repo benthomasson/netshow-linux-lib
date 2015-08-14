@@ -116,8 +116,7 @@ class KernelStpBridge(object):
         self._initialize_state()
         # go through tagged members first
         for _ifacename, _iface in self.bridge.tagged_members.items():
-            subifacename = "%s.%s" % (_ifacename, self.bridge.vlan_tag[0])
-            subiface = _iface.__class__(subifacename)
+            subiface = _iface.__class__(_ifacename)
             update_stp_state(self._member_state, _iface, subiface)
 
         for _ifacename, _iface in self.bridge.untagged_members.items():
@@ -307,10 +306,10 @@ class Bridge(linux_iface.Iface):
             bdgmem = bridgemem(membername_arr[0],
                                cache=self._cache)
             if len(membername_arr) == 2:
-                self._tagged_members[membername_arr[0]] = bdgmem
+                self._tagged_members[_name] = bdgmem
             else:
-                self._untagged_members[membername_arr[0]] = bdgmem
-            self._members[membername_arr[0]] = bdgmem
+                self._untagged_members[_name] = bdgmem
+            self._members[_name] = bdgmem
 
     # ---------------------------
     @property

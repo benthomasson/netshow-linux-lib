@@ -63,7 +63,7 @@ class TestPrintBondMember(object):
         mock_file_oneline.side_effect = mod_args_generator(values2)
         _output = self.piface.bondmem_details()
         _outputtable = _output.split('\n')
-        assert_equals(len(_outputtable), 11)
+        assert_equals(len(_outputtable), 13)
         assert_equals(_outputtable[0].split(r'\s{3,}'), ['bond_details'])
         assert_equals(re.split(r'\s{3,}', _outputtable[2]), ['master_bond:', 'bond0'])
         assert_equals(re.split(r'\s{3,}', _outputtable[3]), ['state_in_bond:',
@@ -80,15 +80,20 @@ class TestPrintBondMember(object):
                       ['lacp_sys_priority:', '65535'])
         assert_equals(re.split(r'\s{3,}', _outputtable[10]), ['lacp_rate:', 'slow_lacp'])
 
+    @mock.patch('netshow.linux.print_bond.one_line_legend')
+    @mock.patch('netshow.linux.print_bond.full_legend')
     @mock.patch('netshow.linux.print_bond.PrintBondMember.lldp_details')
     @mock.patch('netshow.linux.print_bond.PrintBondMember.bondmem_details')
     @mock.patch('netshow.linux.print_bond.PrintBondMember.cli_header')
-    def test_cli_output(self, mock_cli_header, mock_bondmem_details, mock_lldp):
+    def test_cli_output(self, mock_cli_header, mock_bondmem_details,
+                        mock_lldp, mock_full_legend, mock_one_line_legend):
+        mock_full_legend.return_value = 'full_legend'
+        mock_one_line_legend.return_value = 'one_line_legend'
         mock_cli_header.return_value = 'cli_output'
         mock_bondmem_details.return_value = 'bondmem_details'
         mock_lldp.return_value = 'lldp_output'
         assert_equals(self.piface.cli_output(),
-                      'cli_output\n\nbondmem_details\n\nlldp_output\n\n')
+                      'one_line_legendcli_outputbondmem_detailslldp_outputfull_legend')
 
 
 class TestPrintBond(object):

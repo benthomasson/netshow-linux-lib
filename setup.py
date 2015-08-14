@@ -49,6 +49,7 @@ setup(
         'inflection'
     ],
     classifiers=[
+        'License :: OSI Approved :: GNU General Public License v2 (GPLv2)',
         'Development Status :: 4 - Beta',
         'Topic :: System :: Networking',
         'Intended Audience :: Developers',

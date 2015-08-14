@@ -150,7 +150,7 @@ class PrintIface(object):
         Each PrintIface child should define their own  of this function
         :return: output for 'netshow interface <ifacename>'
         """
-        _str =  one_line_legend(show_legend)
+        _str = one_line_legend(show_legend)
         _str += self.cli_header()
         _str += self.ip_details()
         _str += self.lldp_details()
@@ -224,7 +224,7 @@ class PrintIface(object):
                         for _x in range(0, len(portlist), shorten_to)]
             for _idx, _arrlist in enumerate(portlist):
                 joined_arrlist = ', '.join(_arrlist)
-                if _idx == 0:
+                if _idx == 0 and _title:
                     _strlist.append(_title + ': ' + joined_arrlist)
                 else:
                     _strlist.append('    ' + joined_arrlist)

@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: netshow-linux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-08-07 20:16+0000\n"
+"POT-Creation-Date: 2015-08-14 04:57+0000\n"
 "PO-Revision-Date: \n"
 "Last-Translator: stanley karunditu <stanleyk@cumulusnetworks.com>\n"
 "Language-Team: Customer Engineering <ce-ceng@cumulusnetworks.com>\n"
@@ -78,7 +78,7 @@ msgstr "Part Of Bond"
 msgid "port_not_in_bond"
 msgstr "Not In Bond"
 
-#: ../netshow/linux/print_bond.py:48 ../netshow/linux/print_bond.py:188
+#: ../netshow/linux/print_bond.py:48 ../netshow/linux/print_bond.py:190
 msgid "bond_details"
 msgstr "Bond Details"
 
@@ -90,7 +90,7 @@ msgstr "Master Bond"
 msgid "state_in_bond"
 msgstr "State In Bond"
 
-#: ../netshow/linux/print_bond.py:54 ../netshow/linux/print_bond.py:204
+#: ../netshow/linux/print_bond.py:54 ../netshow/linux/print_bond.py:206
 msgid "link_failures"
 msgstr "Link Failures"
 
@@ -98,127 +98,127 @@ msgstr "Link Failures"
 msgid "bond_members"
 msgstr "Bond Members"
 
-#: ../netshow/linux/print_bond.py:56 ../netshow/linux/print_bond.py:190
+#: ../netshow/linux/print_bond.py:56 ../netshow/linux/print_bond.py:192
 msgid "bond_mode"
 msgstr "Bond Mode"
 
-#: ../netshow/linux/print_bond.py:57 ../netshow/linux/print_bond.py:191
+#: ../netshow/linux/print_bond.py:57 ../netshow/linux/print_bond.py:193
 msgid "load_balancing"
 msgstr "Load Balancing"
 
-#: ../netshow/linux/print_bond.py:58 ../netshow/linux/print_bond.py:192
+#: ../netshow/linux/print_bond.py:58 ../netshow/linux/print_bond.py:194
 msgid "minimum_links"
 msgstr "Minimum Links"
 
-#: ../netshow/linux/print_bond.py:61 ../netshow/linux/print_bond.py:195
+#: ../netshow/linux/print_bond.py:61 ../netshow/linux/print_bond.py:197
 msgid "lacp_sys_priority"
 msgstr "LACP Sys Priority"
 
-#: ../netshow/linux/print_bond.py:62 ../netshow/linux/print_bond.py:196
+#: ../netshow/linux/print_bond.py:62 ../netshow/linux/print_bond.py:198
 msgid "lacp_rate"
 msgstr "LACP Rate"
 
-#: ../netshow/linux/print_bond.py:87
+#: ../netshow/linux/print_bond.py:89
 msgid "bond/l3"
 msgstr "Bond/L3"
 
-#: ../netshow/linux/print_bond.py:89
+#: ../netshow/linux/print_bond.py:91
 msgid "bond/trunk"
 msgstr "Bond/Trunk"
 
-#: ../netshow/linux/print_bond.py:91
+#: ../netshow/linux/print_bond.py:93
 msgid "bond/access"
 msgstr "Bond/Access"
 
-#: ../netshow/linux/print_bond.py:93
+#: ../netshow/linux/print_bond.py:95
 msgid "bond"
 msgstr "Bond"
 
-#: ../netshow/linux/print_bond.py:117
+#: ../netshow/linux/print_bond.py:119
 msgid "layer3+4"
 msgstr "Layer3+4"
 
-#: ../netshow/linux/print_bond.py:119
+#: ../netshow/linux/print_bond.py:121
 msgid "layer2+3"
 msgstr "Layer2+3"
 
-#: ../netshow/linux/print_bond.py:121
+#: ../netshow/linux/print_bond.py:123
 msgid "layer2"
 msgstr "Layer2"
 
-#: ../netshow/linux/print_bond.py:123 ../netshow/linux/print_bond.py:142
-#: ../netshow/linux/print_bond.py:182
+#: ../netshow/linux/print_bond.py:125 ../netshow/linux/print_bond.py:144
+#: ../netshow/linux/print_bond.py:184
 msgid "unknown"
 msgstr "Unknown"
 
-#: ../netshow/linux/print_bond.py:132
+#: ../netshow/linux/print_bond.py:134
 msgid "lacp"
 msgstr "LACP"
 
-#: ../netshow/linux/print_bond.py:134
+#: ../netshow/linux/print_bond.py:136
 msgid "broadcast"
 msgstr "Broadcast"
 
-#: ../netshow/linux/print_bond.py:136
+#: ../netshow/linux/print_bond.py:138
 msgid "balance-xor"
 msgstr "Balance-XOR"
 
-#: ../netshow/linux/print_bond.py:138
+#: ../netshow/linux/print_bond.py:140
 msgid "active-backup"
 msgstr "Active-Backup"
 
-#: ../netshow/linux/print_bond.py:140
+#: ../netshow/linux/print_bond.py:142
 msgid "balance-rr"
 msgstr "Balance-RR"
 
-#: ../netshow/linux/print_bond.py:152
+#: ../netshow/linux/print_bond.py:154
 msgid "P"
 msgstr "P"
 
-#: ../netshow/linux/print_bond.py:154
+#: ../netshow/linux/print_bond.py:156
 msgid "N"
 msgstr "N"
 
-#: ../netshow/linux/print_bond.py:167
+#: ../netshow/linux/print_bond.py:169
 msgid "bondmems"
 msgstr "Bond Members"
 
-#: ../netshow/linux/print_bond.py:169 ../netshow/linux/print_bond.py:208
+#: ../netshow/linux/print_bond.py:171 ../netshow/linux/print_bond.py:210
 msgid "no_bond_members_found"
 msgstr "Has No Bond Members"
 
-#: ../netshow/linux/print_bond.py:178
+#: ../netshow/linux/print_bond.py:180
 msgid "fast_lacp"
 msgstr "Fast Timeout"
 
-#: ../netshow/linux/print_bond.py:180
+#: ../netshow/linux/print_bond.py:182
 msgid "slow_lacp"
 msgstr "Slow Timeout"
 
-#: ../netshow/linux/print_bond.py:204
+#: ../netshow/linux/print_bond.py:206
 msgid "port"
 msgstr "Port"
 
-#: ../netshow/linux/print_bond.py:204 ../netshow/linux/print_iface.py:136
+#: ../netshow/linux/print_bond.py:206 ../netshow/linux/print_iface.py:136
 #: ../netshow/linux/show_interfaces.py:169
 #: ../netshow/linux/show_interfaces.py:172
 #: ../netshow/linux/show_neighbors.py:45
 msgid "speed"
 msgstr "Speed"
 
-#: ../netshow/linux/print_bond.py:224 ../netshow/linux/print_iface.py:183
+#: ../netshow/linux/print_bond.py:226 ../netshow/linux/print_iface.py:183
 msgid "lldp"
 msgstr "LLDP"
 
-#: ../netshow/linux/print_bond.py:244
+#: ../netshow/linux/print_bond.py:246
 msgid "no_lldp_entries"
 msgstr "No LLDP Entries"
 
-#: ../netshow/linux/print_bridge.py:22
+#: ../netshow/linux/print_bridge.py:21
 msgid "trunk/l2"
 msgstr "Trunk/L2"
 
-#: ../netshow/linux/print_bridge.py:23
+#: ../netshow/linux/print_bridge.py:22
 msgid "access/l2"
 msgstr "Access/L2"
 
@@ -238,8 +238,8 @@ msgstr "Untagged Members"
 msgid "tagged_members"
 msgstr "Tagged Members"
 
-#: ../netshow/linux/print_bridge.py:105 ../netshow/linux/print_iface.py:210
-#: ../netshow/linux/print_iface.py:236
+#: ../netshow/linux/print_bridge.py:105 ../netshow/linux/print_iface.py:211
+#: ../netshow/linux/print_iface.py:237
 msgid "untagged"
 msgstr "Untagged"
 
@@ -263,11 +263,15 @@ msgstr "Root"
 msgid "root_priority"
 msgstr "Root Priority"
 
-#: ../netshow/linux/print_bridge.py:132 ../netshow/linux/print_bridge.py:166
+#: ../netshow/linux/print_bridge.py:132 ../netshow/linux/print_bridge.py:172
 msgid "disabled"
 msgstr "Disabled"
 
-#: ../netshow/linux/print_bridge.py:153 ../netshow/linux/print_bridge.py:166
+#: ../netshow/linux/print_bridge.py:151 ../netshow/linux/print_bridge.py:164
+msgid "bridge_details"
+msgstr "Bridge Details"
+
+#: ../netshow/linux/print_bridge.py:153 ../netshow/linux/print_bridge.py:172
 msgid "stp_mode"
 msgstr "STP Mode"
 
@@ -283,7 +287,11 @@ msgstr "Root Port"
 msgid "bridge_priority"
 msgstr "Bridge Priority"
 
-#: ../netshow/linux/print_bridge.py:171
+#: ../netshow/linux/print_bridge.py:169
+msgid "bridge_members"
+msgstr "Bridge Members"
+
+#: ../netshow/linux/print_bridge.py:177
 #, python-format
 msgid "ports in %s state"
 msgstr "Ports in %s State"
@@ -323,8 +331,9 @@ msgid "access/l3"
 msgstr "Physical/L3"
 
 #: ../netshow/linux/print_iface.py:92
-msgid "access"
-msgstr "Access"
+#, fuzzy
+msgid "unknown_int_type"
+msgstr "Unknown"
 
 #: ../netshow/linux/print_iface.py:99
 msgid "n/a"
@@ -366,19 +375,19 @@ msgstr "IP Details"
 msgid "arp_entries"
 msgstr "IP Neighbor(ARP) Entries"
 
-#: ../netshow/linux/print_iface.py:208
+#: ../netshow/linux/print_iface.py:209
 msgid "bridge_membership"
 msgstr "Bridge Membership"
 
-#: ../netshow/linux/print_iface.py:209
+#: ../netshow/linux/print_iface.py:210
 msgid "tagged"
 msgstr "Tagged"
 
-#: ../netshow/linux/print_iface.py:245
+#: ../netshow/linux/print_iface.py:246
 msgid "U"
 msgstr "U"
 
-#: ../netshow/linux/print_iface.py:247
+#: ../netshow/linux/print_iface.py:248
 msgid "D"
 msgstr "D"
 
@@ -416,6 +425,9 @@ msgstr "Build"
 #: ../netshow/linux/show_system.py:39
 msgid "uptime"
 msgstr "Uptime"
+
+#~ msgid "access"
+#~ msgstr "Access"
 
 #~ msgid "carrier up, (in bond if bond member)"
 #~ msgstr "Carrier Up - (in bond if bond member)"
