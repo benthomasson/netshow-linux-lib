@@ -151,7 +151,10 @@ class PrintBridge(PrintIface):
         _header = [_('bridge_details'), '']
         _table = []
         _table.append([_('stp_mode') + ':', _('802.1d / per bridge instance')])
-        _table.append([_('root_port') + ':', ', '.join(self.root_port())])
+        if self.iface.stp.is_root():
+            _table.append([_('root_port') + ':', _('rootswitch')])
+        else:
+            _table.append([_('root_port') + ':', ', '.join(self.root_port())])
         _table.append([_('root_priority') + ':', self.iface.stp.root_priority])
         _table.append([_('bridge_priority') + ':', self.iface.stp.bridge_priority])
         _table.append(self.vlan_id_field().split(':'))
