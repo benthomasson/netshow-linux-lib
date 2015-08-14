@@ -197,7 +197,6 @@ class TestKernelStpBridge(object):
 
         mock_os_path.side_effect = mod_args_generator(values)
         mock_oneline.side_effect = mod_args_generator(values2)
-        from nose.tools import set_trace; set_trace()
         eth1 = self.stp.bridge.members.get('eth1.1')
         eth2 = self.stp.bridge.members.get('eth2.1')
         _output = self.stp.member_state
