@@ -44,6 +44,7 @@ class Bond(linux_iface.Iface):
         self._system_mac = None
         self._stp = None
         self._bridge_masters = {}
+        self.bridge = linux_bridge
         self._cache = cache
         self.bondmem_class = BondMember
         self.lacp_class = lacp.Lacp
@@ -99,7 +100,7 @@ class Bond(linux_iface.Iface):
             if linux_bridge.BRIDGE_CACHE.get(bridgename):
                 bridgeiface = linux_bridge.BRIDGE_CACHE.get(bridgename)
             else:
-                bridgeiface = linux_bridge.Bridge(bridgename, cache=self._cache)
+                bridgeiface = self.bridge.Bridge(bridgename, cache=self._cache)
             self._bridge_masters[bridgeiface.name] = bridgeiface
 
         for subintname in self.get_sub_interfaces():
@@ -109,7 +110,7 @@ class Bond(linux_iface.Iface):
                 if linux_bridge.BRIDGE_CACHE.get(bridgename):
                     bridgeiface = linux_bridge.BRIDGE_CACHE.get(bridgename)
                 else:
-                    bridgeiface = linux_bridge.Bridge(bridgename, cache=self._cache)
+                    bridgeiface = self.bridge.Bridge(bridgename, cache=self._cache)
                 self._bridge_masters[bridgeiface.name] = bridgeiface
 
         return self._bridge_masters

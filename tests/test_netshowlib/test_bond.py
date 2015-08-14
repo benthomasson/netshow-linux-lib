@@ -106,7 +106,7 @@ class TestLinuxBond(object):
         values4 = {
             '/sys/class/net/br30/brif': ['bond0.30'],
             '/sys/class/net/br11/brif': ['bond0.11'],
-            '/sys/class/net/br10/brif': []
+            '/sys/class/net/br10/brif': ['bond0']
         }
 
         mock_os_listdir.side_effect = mod_args_generator(values4)
@@ -159,7 +159,7 @@ class TestLinuxBond(object):
         values4 = {
             '/sys/class/net/br30/brif': ['bond0.30'],
             '/sys/class/net/br11/brif': ['bond0.11'],
-            '/sys/class/net/br10/brif': []
+            '/sys/class/net/br10/brif': ['bond0']
         }
 
         mock_os_listdir.side_effect = mod_args_generator(values4)

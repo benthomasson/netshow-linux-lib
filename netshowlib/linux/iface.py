@@ -498,10 +498,10 @@ class Iface(object):
         if self.is_bridgemem() or self.is_bond():
             for _bridge in self.bridge_masters.values():
                 _vlan_tag = _bridge.vlan_tag
-                if _bridge.tagged_members.get(self.name):
-                    _vlanlist[_bridge.name] = _vlan_tag
-                else:
+                if _bridge.untagged_members.get(self.name):
                     _vlanlist[_bridge.name] = ['0']
+                else:
+                    _vlanlist[_bridge.name] = _vlan_tag
         return _vlanlist
 
     @property
@@ -514,4 +514,4 @@ class Iface(object):
             return []
         _vlanlist = self.vlan_list
         return [_bridgename for _bridgename, _vlanid in _vlanlist.items()
-                if int(_vlanid[0]) == 0]
+                if len(_vlanid) == 1 and int(_vlanid[0]) == 0]
