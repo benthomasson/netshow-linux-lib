@@ -75,7 +75,7 @@ class ShowInterfaces(object):
             return json.dumps(_printiface,
                               cls=NetEncoder, indent=4)
         else:
-            return _printiface.cli_output(self.show_legend)
+            return _printiface.cli_output(show_legend=self.show_legend)
 
     def _initialize_ifacelist(self):
         """
