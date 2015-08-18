@@ -28,7 +28,7 @@ information in a human readable form.
 Installation
 ------------
 
-Netshow is available on Pypi.python.org. Use the newish PIP version 7.0+ and run
+Netshow is available on Pypi.python.org. Use the newish PIP version like 7.0+ and run
 
 ::
     
