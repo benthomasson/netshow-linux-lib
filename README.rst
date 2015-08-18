@@ -25,6 +25,15 @@ collected from the ``netshowlib`` modules. For example, the
 ``netshowlib`` modules and abstracted in python objects and prints the
 information in a human readable form.
 
+Installation
+------------
+
+Netshow is available on Pypi.python.org. Use the newish PIP version 7.0+ and run
+
+::
+  pip install netshow-linux-lib
+
+
 Contributing
 ------------
 
