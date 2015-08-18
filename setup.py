@@ -1,7 +1,7 @@
 # pylint: disable=c0111
 # if installing this package from git, make sure to include 'gitversion'
 # in requirements.txt
-from gitversion import rewritable_git_version
+from version import __VERSION__
 import os
 try:
     import ez_setup
@@ -28,7 +28,7 @@ class BuildWithI18n(build):
 
 setup(
     name='netshow-linux-lib',
-    version=rewritable_git_version(__file__),
+    version=__VERSION__,
     url="http://github.com/CumulusNetworks/netshow-linux-lib",
     description="Netshow Provider for Linux Operating Systems",
     author='Cumulus Networks',
