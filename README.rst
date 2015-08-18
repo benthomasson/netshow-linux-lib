@@ -31,7 +31,8 @@ Installation
 Netshow is available on Pypi.python.org. Use the newish PIP version 7.0+ and run
 
 ::
-  pip install netshow-linux-lib
+    
+    pip install netshow-linux-lib
 
 
 Contributing
