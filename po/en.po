@@ -328,7 +328,7 @@ msgstr "SubInt/L3"
 
 #: ../netshow/linux/print_iface.py:90
 msgid "access/l3"
-msgstr "Physical/L3"
+msgstr "Interface/L3"
 
 #: ../netshow/linux/print_iface.py:92
 msgid "unknown_int_type"
