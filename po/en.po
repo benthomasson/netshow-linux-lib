@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: netshow-linux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-08-14 04:57+0000\n"
+"POT-Creation-Date: 2015-08-18 05:48+0000\n"
 "PO-Revision-Date: \n"
 "Last-Translator: stanley karunditu <stanleyk@cumulusnetworks.com>\n"
 "Language-Team: Customer Engineering <ce-ceng@cumulusnetworks.com>\n"
@@ -251,7 +251,7 @@ msgstr "802.1q Tag"
 msgid "stp"
 msgstr "STP"
 
-#: ../netshow/linux/print_bridge.py:124
+#: ../netshow/linux/print_bridge.py:124 ../netshow/linux/print_bridge.py:155
 msgid "rootswitch"
 msgstr "RootSwitch"
 
@@ -259,19 +259,19 @@ msgstr "RootSwitch"
 msgid "root"
 msgstr "Root"
 
-#: ../netshow/linux/print_bridge.py:130 ../netshow/linux/print_bridge.py:155
+#: ../netshow/linux/print_bridge.py:130 ../netshow/linux/print_bridge.py:158
 msgid "root_priority"
 msgstr "Root Priority"
 
-#: ../netshow/linux/print_bridge.py:132 ../netshow/linux/print_bridge.py:172
+#: ../netshow/linux/print_bridge.py:132 ../netshow/linux/print_bridge.py:175
 msgid "disabled"
 msgstr "Disabled"
 
-#: ../netshow/linux/print_bridge.py:151 ../netshow/linux/print_bridge.py:164
+#: ../netshow/linux/print_bridge.py:151 ../netshow/linux/print_bridge.py:167
 msgid "bridge_details"
 msgstr "Bridge Details"
 
-#: ../netshow/linux/print_bridge.py:153 ../netshow/linux/print_bridge.py:172
+#: ../netshow/linux/print_bridge.py:153 ../netshow/linux/print_bridge.py:175
 msgid "stp_mode"
 msgstr "STP Mode"
 
@@ -279,19 +279,19 @@ msgstr "STP Mode"
 msgid "802.1d / per bridge instance"
 msgstr "802.1d / per bridge instance"
 
-#: ../netshow/linux/print_bridge.py:154
+#: ../netshow/linux/print_bridge.py:155 ../netshow/linux/print_bridge.py:157
 msgid "root_port"
 msgstr "Root Port"
 
-#: ../netshow/linux/print_bridge.py:156
+#: ../netshow/linux/print_bridge.py:159
 msgid "bridge_priority"
 msgstr "Bridge Priority"
 
-#: ../netshow/linux/print_bridge.py:169
+#: ../netshow/linux/print_bridge.py:172
 msgid "bridge_members"
 msgstr "Bridge Members"
 
-#: ../netshow/linux/print_bridge.py:177
+#: ../netshow/linux/print_bridge.py:180
 #, python-format
 msgid "ports in %s state"
 msgstr "Ports in %s State"
@@ -328,12 +328,11 @@ msgstr "SubInt/L3"
 
 #: ../netshow/linux/print_iface.py:90
 msgid "access/l3"
-msgstr "Physical/L3"
+msgstr "Interface/L3"
 
 #: ../netshow/linux/print_iface.py:92
-#, fuzzy
 msgid "unknown_int_type"
-msgstr "Unknown"
+msgstr "IntTypeUnknown"
 
 #: ../netshow/linux/print_iface.py:99
 msgid "n/a"

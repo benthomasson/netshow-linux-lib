@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-08-14 04:57+0000\n"
+"POT-Creation-Date: 2015-08-29 22:32-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -254,7 +254,7 @@ msgstr ""
 msgid "stp"
 msgstr ""
 
-#: ../netshow/linux/print_bridge.py:124
+#: ../netshow/linux/print_bridge.py:124 ../netshow/linux/print_bridge.py:155
 msgid "rootswitch"
 msgstr ""
 
@@ -262,19 +262,19 @@ msgstr ""
 msgid "root"
 msgstr ""
 
-#: ../netshow/linux/print_bridge.py:130 ../netshow/linux/print_bridge.py:155
+#: ../netshow/linux/print_bridge.py:130 ../netshow/linux/print_bridge.py:158
 msgid "root_priority"
 msgstr ""
 
-#: ../netshow/linux/print_bridge.py:132 ../netshow/linux/print_bridge.py:172
+#: ../netshow/linux/print_bridge.py:132 ../netshow/linux/print_bridge.py:175
 msgid "disabled"
 msgstr ""
 
-#: ../netshow/linux/print_bridge.py:151 ../netshow/linux/print_bridge.py:164
+#: ../netshow/linux/print_bridge.py:151 ../netshow/linux/print_bridge.py:167
 msgid "bridge_details"
 msgstr ""
 
-#: ../netshow/linux/print_bridge.py:153 ../netshow/linux/print_bridge.py:172
+#: ../netshow/linux/print_bridge.py:153 ../netshow/linux/print_bridge.py:175
 msgid "stp_mode"
 msgstr ""
 
@@ -282,19 +282,19 @@ msgstr ""
 msgid "802.1d / per bridge instance"
 msgstr ""
 
-#: ../netshow/linux/print_bridge.py:154
+#: ../netshow/linux/print_bridge.py:155 ../netshow/linux/print_bridge.py:157
 msgid "root_port"
 msgstr ""
 
-#: ../netshow/linux/print_bridge.py:156
+#: ../netshow/linux/print_bridge.py:159
 msgid "bridge_priority"
 msgstr ""
 
-#: ../netshow/linux/print_bridge.py:169
+#: ../netshow/linux/print_bridge.py:172
 msgid "bridge_members"
 msgstr ""
 
-#: ../netshow/linux/print_bridge.py:177
+#: ../netshow/linux/print_bridge.py:180
 #, python-format
 msgid "ports in %s state"
 msgstr ""
