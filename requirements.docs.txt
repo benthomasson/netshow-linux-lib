@@ -1,0 +1,4 @@
+netshow-core-lib
+netshow-core
+sphinx-bootstrap-theme
+gitversion
