@@ -18,9 +18,7 @@ import os
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
-sys.path.insert(0, os.path.abspath('../../netshowlib'))
-sys.path.insert(0, os.path.abspath('../../netshow'))
-sys.path.insert(2, os.path.abspath('../..'))
+sys.path.insert(0, os.path.abspath('../..'))
 
 from version import __VERSION__
 # -- General configuration -----------------------------------------------------

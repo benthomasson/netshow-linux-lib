@@ -4,8 +4,7 @@ Cumulus Netshow Linux Provider
 .. toctree::
     :maxdepth: 2
 
-    api-netshow-lib.rst
-    api-netshow.rst
+    modules.rst
     license.rst
     credits.rst
 
