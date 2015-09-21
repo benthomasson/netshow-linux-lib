@@ -2,7 +2,6 @@ netshow-core-lib
 netshow-core
 sphinx-bootstrap-theme
 gitversion
-gitversion
 tox
 setuptools==15.0
 pip>=7.0.3
